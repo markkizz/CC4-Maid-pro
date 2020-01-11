@@ -22,7 +22,14 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   buildingType.associate = (models) => {
-    buildingType.belongsToMany(models.user, { as: 'served_maids', through: 'services', foreignKey: 'building_type_id' })
+    buildingType.belongsToMany(models.user, {
+      as: 'served_maids',
+      through: 'services',
+      foreignKey: {
+        name: 'building_type_id',
+        allowNull: false
+      }
+    });
   };
 
   return buildingType

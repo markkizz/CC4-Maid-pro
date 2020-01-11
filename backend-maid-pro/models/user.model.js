@@ -1,6 +1,9 @@
 const EMPLOYER = 'EMPLOYER';
 const MAID = 'MAID';
 
+const ACTIVE = 'ACTIVE';
+const BANNED = 'BANNED';
+
 module.exports = (sequelize, DataTypes) => {
 
   const user = sequelize.define('user', {
@@ -68,7 +71,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     status: {
-      type: DataTypes.STRING
+      type: DataTypes.ENUM(ACTIVE, BANNED)
     },
     bank_account_no: {
       type: DataTypes.STRING(10),
@@ -106,7 +109,32 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   user.associate = (models) => {
-    user.belongsToMany(models.building_type, { as: 'served_building_types', through: 'services', foreignKey: 'user_id' })
+    user.belongsToMany(models.building_type, {
+      as: 'served_building_types',
+      through: 'services',
+      foreignKey: {
+        name: 'user_id',
+        allowNull: false
+      }
+    });
+    user.belongsToMany(user, {
+      as: 'maid_bookings',
+      through: models.booking,
+      foreignKey: {
+        name: 'employer_id',
+        allowNull: false
+      },
+      otherKey: 'maid_id'
+    });
+    user.belongsToMany(user, {
+      as: 'maid_reviews',
+      through: models.review,
+      foreignKey: {
+        name: 'employer_id',
+        allowNull: false
+      },
+      otherKey: 'maid_id'
+    });
   };
 
   return user;
