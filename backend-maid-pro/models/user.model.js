@@ -1,0 +1,140 @@
+const EMPLOYER = 'EMPLOYER';
+const MAID = 'MAID';
+
+module.exports = (sequelize, DataTypes) => {
+
+  const user = sequelize.define('user', {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        is: ["^[a-z0-9]+$", 'i'],
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: 20
+      }
+    },
+    id_card_no: {
+      type: DataTypes.STRING(60),
+      allowNull: false,
+      validate: {
+        is: ['^\d{13}$', 'i']
+      }
+    },
+    first_name: {
+      type: DataTypes.STRING(60),
+      allowNull: false,
+      validate: {
+        is: ['^[a-zA-Z-]+$', 'i'],
+      }
+    },
+    last_name: {
+      type: DataTypes.STRING(60),
+      allowNull: false,
+      validate: {
+        is: ['^[a-zA-Z-]+$', 'i'],
+      }
+    },
+    type: {
+      type: DataTypes.ENUM(EMPLOYER, MAID),
+      allowNull: false,
+      validate: {
+        isIn: [[EMPLOYER, MAID]] //ADMIN is only change type in DBMS
+      }
+    },
+    phone_no: {
+      type: DataTypes.STRING(10),
+      allowNull: false,
+      validate: {
+        is: ['^\d{10}$', 'i']
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isEmail: true
+      }
+    },
+    profile_img: {
+      type: DataTypes.STRING(500)
+    },
+    address: {
+      type: DataTypes.STRING
+    },
+    status: {
+      type: DataTypes.STRING
+    },
+    bank_account_no: {
+      type: DataTypes.STRING(10),
+      validate: {
+        is: ['^\d{10}$', 'i']
+      }
+    },
+    bank_name: {
+      type: DataTypes.STRING
+    },
+    price_per_hour: {
+      type: DataTypes.INTEGER
+    },
+    holidays: {
+      type: DataTypes.STRING
+    },
+    about_maid: {
+      type: DataTypes.STRING(1500)
+    },
+  }, {
+    getterMethods: {
+      full_name() {
+        return `${this.first_name} ${this.last_name}`
+      }
+    },
+    setterMethods: {
+      full_name(value) {
+        if (value !== undefined || value !== null) {
+          const names = value.split(' ');
+          this.setDataValue('first_name', names.slice(0, -1).join(' ')); // names[0]
+          this.setDataValue('last_name', names.slice(-1).join(' '));     // names[1]
+        }
+      }
+    }
+  });
+
+  // user.associate = (models) => {
+  //   user.belongsToMany(models.course, {
+  //     through: models.enrollment,
+  //     as: 'course_enrolled',
+  //     foreignKey: {
+  //       name: 'student_id',
+  //       allowNull: false
+  //     }
+  //   });
+  //
+  //   user.belongsToMany(models.course, {
+  //     through: models.review,
+  //     as: 'course_reviewed',
+  //     foreignKey: {
+  //       name: 'student_id',
+  //       allowNull: false
+  //     }
+  //   });
+  //
+  //   user.belongsToMany(models.course, {
+  //     through: models.teaching,
+  //     as: 'course_taught',
+  //     foreignKey: {
+  //       name: 'teacher_id',
+  //       allowNull: false
+  //     }
+  //   });
+  //
+  //   user.belongsTo(models.bank_account, { foreignKey: 'bank_account_id' });
+  // };
+
+  return user;
+};

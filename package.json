@@ -1,0 +1,15 @@
+{
+  "name": "cc4-group-maid-pro",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^5.0.2"
+  },
+  "scripts": {
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:frontend": "cd frontend-maid-pro && npm start",
+    "start:backend": "cd backend-maid-pro && npm start"
+  }
+}
