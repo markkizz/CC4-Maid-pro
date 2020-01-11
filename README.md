@@ -3,8 +3,8 @@ Educated in Code Camp 4
 
 ## 📖 Description
 
-- Maid Pro is an web application for group cc4 learner
-- Maid Pro is an web application about Employer and Maid matcher
+- Maid Pro is a web application for group cc4 learner
+- Maid Pro is a web application about Employer and Maid matcher
 
 ## 💡 Getting Start
 
@@ -14,7 +14,7 @@ or YARN:
 ### ```  npm install && cd frontend-maid-pro && yarn && cd ../backend-maid-pro && yarn && cd .. ```
 
 
-## ✅ Available Scripts
+## ✔ Available Scripts
 
 In the project directory, you can run:
 
