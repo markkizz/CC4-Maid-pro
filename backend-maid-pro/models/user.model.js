@@ -105,36 +105,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  // user.associate = (models) => {
-  //   user.belongsToMany(models.course, {
-  //     through: models.enrollment,
-  //     as: 'course_enrolled',
-  //     foreignKey: {
-  //       name: 'student_id',
-  //       allowNull: false
-  //     }
-  //   });
-  //
-  //   user.belongsToMany(models.course, {
-  //     through: models.review,
-  //     as: 'course_reviewed',
-  //     foreignKey: {
-  //       name: 'student_id',
-  //       allowNull: false
-  //     }
-  //   });
-  //
-  //   user.belongsToMany(models.course, {
-  //     through: models.teaching,
-  //     as: 'course_taught',
-  //     foreignKey: {
-  //       name: 'teacher_id',
-  //       allowNull: false
-  //     }
-  //   });
-  //
-  //   user.belongsTo(models.bank_account, { foreignKey: 'bank_account_id' });
-  // };
+  user.associate = (models) => {
+    user.belongsToMany(models.building_type, { as: 'served_building_types', through: 'services', foreignKey: 'user_id' })
+  };
 
   return user;
 };

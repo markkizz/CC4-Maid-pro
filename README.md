@@ -31,14 +31,14 @@ Run only Frontend:
 ### `npm run start:frontend` or `yarn start:frontend`
 
 ## 🛠 Built with...
-### Frontend (frontend-maid-pro directory)
+### Frontend (📂 frontend-maid-pro)
 - [Create React App](https://facebook.github.io/create-react-app/docs/getting-started) - Project creator
 - [React](https://reactjs.org/) - Front-end framwork
 - [Redux](https://redux.js.org/) - A predictable state container for JavaScript apps
 - [styled-components](https://www.styled-components.com/) - A CSS framwork allows developer write actual CSS code to style React components
 - [Ant Design](https://ant.design/) - A design system base react components
 
-### Backend (backend-maid-pro directory)
+### Backend (📂 backend-maid-pro)
 - [NodeJS](https://nodejs.org/dist/latest-v12.x/docs/api) - Open source server environment for JavaScript
 - [Sequelize](https://sequelize.org/v5/index.html) - Object Relational Mapping library
 - [ExpressJS](https://reactjs.org/) - Server side framework
