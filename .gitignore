@@ -1,3 +1,6 @@
+# Sequelize configuration
+**/backend-maid-pro/config/config.json
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
