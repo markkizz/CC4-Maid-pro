@@ -19,14 +19,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: 20
+        // len: 20
       }
     },
     id_card_no: {
       type: DataTypes.STRING(60),
       allowNull: false,
       validate: {
-        is: ['^\d{13}$', 'i']
+        // is: ['^\d{13}$']
+        isInt: true,
+        len: [13, 13]
       }
     },
     first_name: {
@@ -54,7 +56,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(10),
       allowNull: false,
       validate: {
-        is: ['^\d{10}$', 'i']
+        isInt: true,
+        len: [10, 10]
       }
     },
     email: {
@@ -71,12 +74,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     status: {
-      type: DataTypes.ENUM(ACTIVE, BANNED)
+      type: DataTypes.ENUM(ACTIVE, BANNED),
+      allowNull: false
     },
     bank_account_no: {
       type: DataTypes.STRING(10),
       validate: {
-        is: ['^\d{10}$', 'i']
+        isInt: true,
+        len: [10, 10]
       }
     },
     bank_name: {
