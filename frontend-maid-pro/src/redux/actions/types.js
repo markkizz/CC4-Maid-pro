@@ -1,4 +1,4 @@
-export const user = {
+export const userTypes = {
   USER_LOGIN: "USER_LOGIN",
   USER_LOGOUT: "USER_LOGOUT"
 };

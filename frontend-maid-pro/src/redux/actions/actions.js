@@ -1,18 +1,18 @@
-import { user } from "./types";
+import { userTypes } from "./types";
 
 const TOKEN = "ACCESS_TOKEN";
 
-export const login = (userData, token) => {
+export const login = (user, token) => {
   localStorage.setItem(TOKEN, token);
   return {
-    type: user.USER_LOGIN,
-    ...userData
+    type: userTypes.USER_LOGIN,
+    ...user
   };
 };
 
 export const logout = () => {
   localStorage.removeItem(TOKEN);
   return {
-    type: user.USER_LOGOUT
+    type: userTypes.USER_LOGOUT
   };
 };

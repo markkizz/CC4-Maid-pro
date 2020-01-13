@@ -1,4 +1,4 @@
-import { user } from "../actions/types";
+import { userTypes } from "../actions/types";
 import jwtDecode from "jwt-decode";
 
 const initialState = () => {
@@ -14,11 +14,11 @@ const initialState = () => {
 
 function userReducer(currentUser = initialState(), action) {
   switch (action.type) {
-    case user.USER_LOGIN:
+    case userTypes.USER_LOGIN:
       return {
-        ...restAction
+        ...action.payload
       };
-    case user.USER_LOGOUT:
+    case userTypes.USER_LOGOUT:
       return {
         role: "guest"
       };
