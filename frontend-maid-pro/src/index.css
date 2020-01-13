@@ -13,6 +13,11 @@
   outline: none !important;
 }
 
+h3,
+p {
+  margin: 0 !important;
+}
+
 .text-muted {
   color: rgba(0, 0, 0, 0.4);
   font-style: italic;
