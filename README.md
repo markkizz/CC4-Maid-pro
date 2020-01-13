@@ -8,11 +8,22 @@ Educated in Code Camp 4
 
 ## 💡 Getting Start
 
+### Install Backend and Frontend Libraries:
 NPM:
 ### ```  npm install && cd frontend-maid-pro && npm install && cd ../backend-maid-pro && npm install && cd .. ```
 or YARN:
 ### ```  npm install && cd frontend-maid-pro && yarn && cd ../backend-maid-pro && yarn && cd .. ```
 
+### Provide database:
+```cd backend-maid-pro```
+NPM install sequelize-cli:
+### ```npm install -g sequelize-cli```  
+
+or YARN install sequelize-cli:
+### ```yarn global add sequelize-cli```
+
+And then Create Database:
+### ```sequelize db:create```
 
 ## ✔ Available Scripts
 
