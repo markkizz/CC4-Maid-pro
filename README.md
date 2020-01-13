@@ -15,15 +15,18 @@ or YARN:
 ### ```  npm install && cd frontend-maid-pro && yarn && cd ../backend-maid-pro && yarn && cd .. ```
 
 ### Provide database:
-```cd backend-maid-pro```
 NPM install sequelize-cli:
-### ```npm install -g sequelize-cli```  
+### ```cd backend-maid-pro && npm install -g sequelize-cli```  
 
 or YARN install sequelize-cli:
-### ```yarn global add sequelize-cli```
+### ```cd backend-maid-pro && yarn global add sequelize-cli```
 
 And then Create Database:
-### ```sequelize db:create```
+### ```cd backend-maid-pro && sequelize db:create```
+
+Change Password in Sequelize config
+1. Open ./backend-maid-pro/config/config.json
+2. Edit "password" in "development" to be your MySql's password
 
 ## ✔ Available Scripts
 
