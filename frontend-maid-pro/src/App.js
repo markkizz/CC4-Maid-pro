@@ -1,22 +1,9 @@
-<<<<<<< HEAD
-import React from "react";
+import React, { Component } from "react";
 import "./App.css";
-// import { Button } from "antd";
-
-function App() {
-  return (
-    <div className="App">{/* <Button type="primary">click</Button> */}</div>
-  );
+export class App extends Component {
+  render() {
+    return <div className="App"></div>;
+  }
 }
 
 export default App;
-=======
-import React from "react";
-import "./App.css";
-
-function App() {
-  return <div className="App"></div>;
-}
-
-export default App;
->>>>>>> mark_MaidCard
