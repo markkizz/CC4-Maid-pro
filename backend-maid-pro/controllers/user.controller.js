@@ -22,9 +22,8 @@ module.exports = (db) => {
     signIn: async (req, res, next) => {
       const { httpStatus, message, errorMessage } = await service.signIn(req, res, next);
       try {
-        if (error) {
-          console.error(error);
-          res.status(400).json({ errorMessage: errorMessage });
+        if (!errorMessage) {
+          res.status(httpStatus).json(message);
         } else {
           res.status(httpStatus).json({ errorMessage: errorMessage });
         }

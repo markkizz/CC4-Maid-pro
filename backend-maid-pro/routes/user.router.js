@@ -7,10 +7,4 @@ module.exports = (server, db) => {
 
   server.post('/users/sign-in', controller.signIn);
 
-  server.get('/users/:id', (req, res) => {
-    const result = req.query.type;
-    console.log(result, req.params.id)
-  });
-
-
 };
