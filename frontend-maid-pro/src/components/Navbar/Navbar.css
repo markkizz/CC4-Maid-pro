@@ -1,0 +1,14 @@
+.Navbar-Main {
+  background-color: #26485F;
+  padding: 0.7rem;
+}
+
+.Navbar-Icon {
+  font-size: 1.83rem;
+  color: white;
+}
+
+.Navbar-Border {
+  height: 0.5rem;
+  background-color: #A9DCFF;
+}
