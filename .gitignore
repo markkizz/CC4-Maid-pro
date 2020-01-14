@@ -260,3 +260,6 @@ sketch
 # Markdown Navigator plugin
 .idea/**/markdown-navigator.xml
 .idea/**/markdown-navigator/
+package-lock.json
+backend-maid-pro/package-lock.json
+frontend-maid-pro/package-lock.json
