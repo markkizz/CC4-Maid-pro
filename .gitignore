@@ -1,3 +1,6 @@
+# Sequelize configuration
+**/backend-maid-pro/config/config.json
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -257,3 +260,8 @@ sketch
 # Markdown Navigator plugin
 .idea/**/markdown-navigator.xml
 .idea/**/markdown-navigator/
+
+##
+package-lock.json
+backend-maid-pro/package-lock.json
+frontend-maid-pro/package-lock.json

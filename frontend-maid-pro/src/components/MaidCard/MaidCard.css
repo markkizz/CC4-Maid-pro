@@ -1,0 +1,22 @@
+.MaidCard-card {
+  width: 180px;
+  height: 280px;
+  border-radius: 10px;
+}
+
+.MaidCard-Row {
+  position: relative;
+  top: -5px;
+}
+
+.MaidCard-Rate {
+  font-size: 12px;
+}
+
+.MaidCard-p {
+  font-size: 12px;
+}
+
+.MaidCard-description {
+  width: 100%;
+}

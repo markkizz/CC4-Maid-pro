@@ -8,11 +8,25 @@ Educated in Code Camp 4
 
 ## 💡 Getting Start
 
+### Install Backend and Frontend Libraries:
 NPM:
 ### ```  npm install && cd frontend-maid-pro && npm install && cd ../backend-maid-pro && npm install && cd .. ```
 or YARN:
 ### ```  npm install && cd frontend-maid-pro && yarn && cd ../backend-maid-pro && yarn && cd .. ```
 
+### Provide database:
+NPM install sequelize-cli:
+### ```cd backend-maid-pro && npm install -g sequelize-cli && cd ..```  
+
+or YARN install sequelize-cli:
+### ```cd backend-maid-pro && yarn global add sequelize-cli && cd ..```
+
+And then Create Database:
+### ```cd backend-maid-pro && sequelize db:create && cd ..```
+
+Change Password in Sequelize config
+1. Open ./backend-maid-pro/config/config.json
+2. Edit "password" in "development" to be your MySql's password
 
 ## ✔ Available Scripts
 
