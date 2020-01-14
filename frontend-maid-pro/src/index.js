@@ -4,12 +4,15 @@ import "./index.css";
 import "antd/dist/antd.css";
 import App from "./App";
 import { Provider } from "react-redux";
-import * as serviceWorker from "./serviceWorker";
 import store from "./redux/store/store";
+import { BrowserRouter } from "react-router-dom";
+import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById("root")
 );
@@ -19,7 +22,9 @@ if (module.hot) {
     const NextApp = require("./App").default;
     ReactDOM.render(
       <Provider store={store}>
-        <NextApp />
+        <BrowserRouter>
+          <NextApp />
+        </BrowserRouter>
       </Provider>,
       document.getElementById("root")
     );
