@@ -1,17 +1,14 @@
 import { userTypes } from "../actions/types";
-// import jwtDecode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 const initialState = () => {
-  // const token = localStorage.getItem("ACCESS_TOKEN");
-  // if (token) {
-  //   return jwtDecode(token);
-  // } else {
-  //   return {
-  //     role: "guest"
-  //   };
-  // }
-  return  {
-    role: 'guest'
+  const token = localStorage.getItem("ACCESS_TOKEN");
+  if (token) {
+    return jwtDecode(token);
+  } else {
+    return {
+      role: "guest"
+    };
   }
 };
 
