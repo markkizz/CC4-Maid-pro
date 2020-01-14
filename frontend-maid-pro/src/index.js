@@ -14,4 +14,16 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
+if (module.hot) {
+  module.hot.accept("./App.js", () => {
+    const NextApp = require("./App").default;
+    ReactDOM.render(
+      <Provider store={store}>
+        <NextApp />
+      </Provider>,
+      document.getElementById("root")
+    );
+  });
+}
+
 serviceWorker.unregister();
