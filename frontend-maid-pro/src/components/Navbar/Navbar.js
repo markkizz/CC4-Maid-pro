@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './Navbar.css'
+import { Link } from 'react-router-dom'
 import {Row, Col, Icon, Drawer} from 'antd'
 import { AiFillHome } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
@@ -45,7 +46,9 @@ export default class Navbar extends Component {
                 onClose={this.onClose}
                 visible={this.state.visible}
               >
-                <p><AiFillHome />Home</p>
+                {/* <Link to="/"> */}
+                  <p><AiFillHome />Home</p>
+                {/* </Link> */}
                 <p><FaSearch />Search Maid</p>
                 <p><MdPayment />Payment</p>
                 <p><MdPerson />About Us</p>
