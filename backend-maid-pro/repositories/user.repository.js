@@ -6,7 +6,6 @@ module.exports = (db) => {
         username, password, firstName, lastName, email, type, phoneNo, profileImage, bankAccountNo,
         bankName, idCardNo, address, holidays = null, aboutMaid = null, pricePerHour = null
       } = user;
-      console.log(username, username)
 
       return db.user.create({
         username: username, password,
@@ -26,7 +25,7 @@ module.exports = (db) => {
     },
 
     findUserByUsername: (username) => {
-      return db.user.findOne({ where: { username } })
+      return db.user.findOne({ where: { username } });
     }
   }
 };

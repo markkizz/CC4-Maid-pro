@@ -9,10 +9,11 @@ const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const db = require('../../models');
+const userRepository = require('../../repositories/user.repository');
 
 let jwtOptions = {};
 jwtOptions.secretOrKey = 'c0d3c4m4';
-
+//
 passport.use('local-hashPassword', new LocalStrategy({ session: false }, (username, password, done) => {
   const salt = bcrypt.genSaltSync(BCRYPT_SALT_ROUNDS);
   const hashedPassword = bcrypt.hashSync(password, salt);
@@ -28,12 +29,12 @@ passport.use('local-comparePassword', new LocalStrategy(
   },
   async (username, password, done) => {
     try {
-      const user = await db.user.findOne({ where: { username } });
+      const user = await userRepository(db).findUserByUsername(username);
       if (user === null) return done(null, false, { message: 'Username or Password is incorrect' });
       bcrypt.compare(password, user.password, (err, response) => {
         if (err) {
           console.error(err);
-          done(err)
+          done(err);
         }
         if (!response) {
           return done(null, false, { message: 'Username or Password is incorrect' });
