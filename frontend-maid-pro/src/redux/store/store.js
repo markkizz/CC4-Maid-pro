@@ -27,7 +27,7 @@ const loadState = () => {
 
 const persistStore = loadState();
 
-const middlewares = [thunk];
+export const middlewares = [thunk];
 
 const store = createStore(
   reducers,
