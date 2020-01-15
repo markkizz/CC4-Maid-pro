@@ -27,9 +27,25 @@ module.exports = (db) => {
         } else {
           res.status(httpStatus).json({ errorMessage: errorMessage });
         }
-      } catch(ex) {
+      } catch (ex) {
         res.status(400).json({ errorMessage: ex.message });
       }
+    },
+
+    findMaids: async (req, res) => {
+      try {
+        const result = await service.findMaids(req.query.type)
+        const { httpStatus, message, errorMessage } = result
+        if (!errorMessage) {
+          res.status(httpStatus).json(message)
+        } else {
+          res.status(httpStatus).json({ errorMessage: errorMessage })
+        }
+      }
+      catch (err) {
+        res.status(400).json({ errorMessage: errorMessage })
+      }
     }
+    
   };
 };

@@ -1,7 +1,6 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const jwtOptions = require('../config/passport/passport');
-
 const userRepository = require('../repositories/user.repository');
 
 module.exports = (db) => {
@@ -72,6 +71,22 @@ module.exports = (db) => {
           resolve(result);
         })(req, res, next)
       });
+    },
+
+    findMaids: async (type) => {
+      try {
+        const result = await repository.findMaids(type);
+        if (result.length === 0) {
+          return { httpStatus: 204, message: result }
+        } else {
+          return { httpStatus: 200, message: result }
+        }
+      } catch (err) {
+        if (err.message.includes('ECONNREFUSED')) {
+          return { httpStatus: 500, errorMessage: 'Database server error' };
+        }
+        return { httpStatus: 400, errorMessage: err.message }
+      }
     }
 
   }
