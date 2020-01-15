@@ -1,16 +1,16 @@
 
 module.exports = (db) => {
   return {
-    booking: async (req, res) => {
+    createBooking: async (req, res) => {
       try {
         const result = await
           db.booking.create({
             work_at: req.body.work_at,
             work_hour: req.body.work_hour,
-            status: 'IN-PROGRESS',
+            status: 'WAIT_FOR_ACCEPTANCE',
             pay_slip_image: req.body.pay_slip_image,
-            employer_id: 1,
-            maid_id: 2
+            employer_id: req.body.employer_id,
+            maid_id: req.body.maid_id
           });
         if (result.length === 0) {
           res.status(204).json({ result })

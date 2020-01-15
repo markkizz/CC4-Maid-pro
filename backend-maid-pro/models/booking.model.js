@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     status: {
-      type:DataTypes.ENUM('IN-PROGRESS','APPROVE','CANCEL'),
+      type:DataTypes.ENUM('WAIT_FOR_ACCEPTANCE','ACCEPT','REJECT','CANCEL','FINISHED'),
       allowNull: false
     },
     pay_slip_image: {
