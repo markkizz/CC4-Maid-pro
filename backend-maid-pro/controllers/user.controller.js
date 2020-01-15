@@ -11,7 +11,6 @@ module.exports = (db) => {
         if (!errorMessage) {
           res.status(httpStatus).json(message);
         } else {
-          console.log('errorMessage', errorMessage);
           res.status(httpStatus).json({ errorMessage });
         }
       } catch (ex) {
@@ -42,10 +41,9 @@ module.exports = (db) => {
         } else {
           res.status(httpStatus).json({ errorMessage: errorMessage });
         }
-      } catch (ex) {
-        res.status(400).json({ errorMessage: ex.message });
+      } catch (err) {
+        res.status(400).json({ errorMessage: err.message });
       }
     }
-
   };
 };

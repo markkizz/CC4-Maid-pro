@@ -1,7 +1,6 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const jwtOptions = require('../config/passport/passport');
-
 const userRepository = require('../repositories/user.repository');
 
 module.exports = (db) => {
@@ -79,9 +78,10 @@ module.exports = (db) => {
     findMaids: async (type) => {
       try {
         const result = await repository.findMaids(type);
+
         let codecampResult = [];
         result.map(maid => {
-          let reviewsList = []
+          let reviewsList = [];
           for (let reviewer of maid.reviewed_maids) {
             reviewsList.push({
               rating: reviewer.review.rating
