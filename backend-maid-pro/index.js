@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const db = require('./models');
 const passport = require('passport');
+const expressFileUpload = require('express-fileupload')
 
 const userRouter = require('./routes/user.router');
 const bookingRouter = require('./routes/booking.router')
@@ -12,14 +13,16 @@ const reviewRouter = require('./routes/review.router')
 
 const PORT = 3333;
 
-// import passport config
-require('./config/passport/passport');
-
+server.use(expressFileUpload({
+  createParentPath: true
+}))
 server.use(passport.initialize({}));
 server.use(cors());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 
+// import passport config
+require('./config/passport/passport');
 
 db.sequelize.sync({ alter: true }).then(() => {
   userRouter(server, db);
