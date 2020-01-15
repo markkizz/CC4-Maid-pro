@@ -14,19 +14,34 @@ module.exports = (db) => {
 
           if (err) reject(err);
 
-          user = { ...user, password: hashedPassword };
+          user = {
+            ...user,
+            password: hashedPassword
+          };
           try {
             const result = await repository.signUp(user);
             if (!result) {
-              resolve({ httpStatus: 204, message: result });
+              resolve({
+                httpStatus: 204,
+                message: result
+              });
             } else {
-              resolve({ httpStatus: 200, message: result });
+              resolve({
+                httpStatus: 200,
+                message: result
+              });
             }
           } catch (ex) {
             if (ex.message.includes('ECONNREFUSED')) {
-              return { httpStatus: 500, errorMessage: 'Database server error' };
+              return {
+                httpStatus: 500,
+                errorMessage: 'Database server error'
+              };
             }
-            return { httpStatus: 400, errorMessage: ex };
+            return {
+              httpStatus: 400,
+              errorMessage: ex
+            };
           }
 
         })(req)
@@ -34,7 +49,11 @@ module.exports = (db) => {
     },
 
     signIn: (req, res, next) => {
-      const result = { httpStatus: 500, message: undefined, errorMessage: undefined };
+      const result = {
+        httpStatus: 500,
+        message: undefined,
+        errorMessage: undefined
+      };
       return new Promise((resolve, reject) => {
         passport.authenticate('local-comparePassword', {}, (err, user, info) => {
           if (err) {
@@ -55,10 +74,15 @@ module.exports = (db) => {
             }
             console.log(info.message);
           } else {
-            const token = jwt.sign(
-              { id: user.id, type: user.type, first_name: user.first_name, last_name: user.last_name },
-              jwtOptions.secretOrKey,
-              { expiresIn: 3600 }
+            const token = jwt.sign({
+                id: user.id,
+                type: user.type,
+                first_name: user.first_name,
+                last_name: user.last_name
+              },
+              jwtOptions.secretOrKey, {
+                expiresIn: 3600
+              }
             );
 
             result.httpStatus = 200;
@@ -71,6 +95,7 @@ module.exports = (db) => {
           resolve(result);
         })(req, res, next)
       });
+<<<<<<< Updated upstream
     },
 
     findMaids: async (type) => {
@@ -87,6 +112,16 @@ module.exports = (db) => {
         }
         return { httpStatus: 400, errorMessage: err.message }
       }
+=======
+    }, 
+
+    findMaids: function (type) {
+      return repository.findMaids(type);
+
+    },
+    findDescriptionMaid:function (id){
+      return repository.findDescriptionMaid(id);
+>>>>>>> Stashed changes
     }
 
   }
