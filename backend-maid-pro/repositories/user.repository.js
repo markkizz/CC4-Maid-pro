@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+const {Op} = require('sequelize');
 module.exports = (db) => {
   return {
 
@@ -35,6 +37,17 @@ module.exports = (db) => {
       return db.user.findAll({
         where: { type: type }
       });
+    },
+    searchMaids: (first_name) => {
+      return db.user.findAll({
+        where: { 
+          type: 'MAID',
+          first_name: {
+            [Op.like]:`%${first_name}%`
+          } 
+        }
+      });
     }
+
   }
 }
