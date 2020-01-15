@@ -59,16 +59,17 @@ module.exports = (db) => {
       });
     },
 
-    findDescriptionMaid: function (id) {
+    findMaidByMaidId: (maidId) => {
       return db.user.findOne({
         attributes: ['id', 'first_name', 'last_name', 'type', 'phone_no', 'email',
           'profile_img', 'address', 'status', 'bank_account_no', 'bank_name', 'price_per_hour', 'holidays', 'about_maid',
         ],
         where: {
-          id: id
+          id: maidId
         },
         include: [{
           model: db.user,
+          as: 'reviewed_maids',
           through: {
             attributes: [
               ['rating', 'จนคะแนน'],

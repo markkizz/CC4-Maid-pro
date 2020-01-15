@@ -9,5 +9,5 @@ module.exports = (server, db) => {
 
   server.get('/users/maids', (req, res) => controller.findMaids(req, res))
 
-  server.get('/users/maid/:id', (req, res) => controller.findDescriptionMaid(req, res))
+  server.get('/users/maids/:maidId', (req, res) => controller.findMaidByMaidId(req, res))
 };

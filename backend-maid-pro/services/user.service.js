@@ -119,17 +119,57 @@ module.exports = (db) => {
         });
 
         if (result.length === 0) {
-          return { httpStatus: 204, message: result };
+          return {
+            httpStatus: 204,
+            message: result
+          };
         } else {
-          return { httpStatus: 200, message: codecampResult };
+          return {
+            httpStatus: 200,
+            message: codecampResult
+          };
         }
       } catch (ex) {
         if (ex.message.includes('ECONNREFUSED')) {
-          return { httpStatus: 500, errorMessage: 'Database server error' };
+          return {
+            httpStatus: 500,
+            errorMessage: 'Database server error'
+          };
         }
-        return { httpStatus: 400, errorMessage: ex.message };
+        return {
+          httpStatus: 400,
+          errorMessage: ex.message
+        };
       }
-    }
+    },
+    findMaidByMaidId: async (maidId) => {
+      try {
+        const result = await repository.findMaidByMaidId(maidId);
 
+        if (!result) {
+          return {
+            httpStatus: 204,
+            message: result
+          };
+        } else {
+          return {
+            httpStatus: 200,
+            message: result
+          };
+        }
+      } catch (ex) {
+        if (ex.message.includes('ECONNREFUSED')) {
+          return {
+            httpStatus: 500,
+            errorMessage: 'Database server error'
+          };
+        }
+        return {
+          httpStatus: 400,
+          errorMessage: ex.message
+        };
+      }
+
+    }
   }
 };

@@ -15,7 +15,9 @@ module.exports = (db) => {
         if (!errorMessage) {
           res.status(httpStatus).json(message);
         } else {
-          res.status(httpStatus).json({ errorMessage });
+          res.status(httpStatus).json({
+            errorMessage
+          });
         }
       } catch (ex) {
         res.status(400).json({
@@ -67,9 +69,28 @@ module.exports = (db) => {
       }
     },
 
-    findDescriptionMaid: function (req, res) {
-      return service.findDescriptionMaid(req.params.id);
-    }
-    
+    findMaidByMaidId: async (req, res) => {
+      
+      try {
+        let result = await service.findMaidByMaidId(req.params.maidId);
+        const {
+          httpStatus,
+          message,
+          errorMessage
+        } = result
+        if (!errorMessage) {
+          res.status(httpStatus).json(message)
+        } else {
+          res.status(httpStatus).json({
+            errorMessage: errorMessage
+          })
+        }
+      } catch (err) {
+        res.status(400).json({
+          errorMessage: errorMessage
+        })
+      }
+    },
+
   }
 }
