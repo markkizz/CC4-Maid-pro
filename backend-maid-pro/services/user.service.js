@@ -97,7 +97,6 @@ module.exports = (db) => {
           resolve(result);
         })(req, res, next)
       });
-<<<<<<< Updated upstream
     },
 
     findMaids: async (type) => {
@@ -130,16 +129,6 @@ module.exports = (db) => {
         }
         return { httpStatus: 400, errorMessage: ex.message };
       }
-=======
-    }, 
-
-    findMaids: function (type) {
-      return repository.findMaids(type);
-
-    },
-    findDescriptionMaid:function (id){
-      return repository.findDescriptionMaid(id);
->>>>>>> Stashed changes
     }
 
   }
