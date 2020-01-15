@@ -1,4 +1,3 @@
-
 module.exports = (db) => {
   return {
     createBooking: async (req, res) => {

@@ -7,6 +7,9 @@ const passport = require('passport');
 
 const userRouter = require('./routes/user.router');
 const bookingRouter = require('./routes/booking.router')
+const buildingTypeRouter = require('./routes/building-type.router')
+const reviewRouter = require('./routes/review.router')
+
 const PORT = 3333;
 
 // import passport config
@@ -21,6 +24,9 @@ server.use(bodyParser.urlencoded({ extended: true }));
 db.sequelize.sync({ alter: false, force: true }).then(() => {
   userRouter(server, db);
   bookingRouter(server, db)
+  buildingTypeRouter(server, db)
+  reviewRouter(server, db)
+
   server.listen(PORT, () => console.log("Backend is started with port:", PORT));
 });
 
