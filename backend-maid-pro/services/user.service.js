@@ -9,6 +9,7 @@ module.exports = (db) => {
   return {
 
     signUp: (req, user) => {
+      let finalResult;
       return new Promise((resolve, reject) => {
         passport.authenticate('local-hashPassword', {}, async (err, hashedPassword) => {
 
@@ -31,6 +32,7 @@ module.exports = (db) => {
                 message: result
               });
             }
+            finalResult = result
           } catch (ex) {
             if (ex.message.includes('ECONNREFUSED')) {
               return {
@@ -101,16 +103,32 @@ module.exports = (db) => {
     findMaids: async (type) => {
       try {
         const result = await repository.findMaids(type);
+
+        let codecampResult = [];
+        result.map(maid => {
+          let reviewsList = [];
+          for (let reviewer of maid.reviewed_maids) {
+            reviewsList.push({
+              rating: reviewer.review.rating
+            });
+          }
+          codecampResult.push({
+            maid_first_name: maid.first_name,
+            maid_last_name: maid.last_name,
+            reviewsList
+          });
+        });
+
         if (result.length === 0) {
-          return { httpStatus: 204, message: result }
+          return { httpStatus: 204, message: result };
         } else {
-          return { httpStatus: 200, message: result }
+          return { httpStatus: 200, message: codecampResult };
         }
-      } catch (err) {
-        if (err.message.includes('ECONNREFUSED')) {
+      } catch (ex) {
+        if (ex.message.includes('ECONNREFUSED')) {
           return { httpStatus: 500, errorMessage: 'Database server error' };
         }
-        return { httpStatus: 400, errorMessage: err.message }
+        return { httpStatus: 400, errorMessage: ex.message };
       }
 =======
     }, 

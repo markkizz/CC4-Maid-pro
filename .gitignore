@@ -1,5 +1,6 @@
 # Sequelize configuration
-**/backend-maid-pro/config/config.json
+*/config.json
+config.json
 
 # User-specific stuff
 .idea/**/workspace.xml
@@ -261,7 +262,11 @@ sketch
 .idea/**/markdown-navigator.xml
 .idea/**/markdown-navigator/
 
-##
+## npm/yarn lock file
 package-lock.json
 backend-maid-pro/package-lock.json
 frontend-maid-pro/package-lock.json
+yarn.lock
+backend-maid-pro/yarn.lock
+frontend-maid-pro/yarn.lock
+

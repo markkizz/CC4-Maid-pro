@@ -50,9 +50,18 @@ module.exports = (db) => {
 
     findMaids: (type) => {
       return db.user.findAll({
+<<<<<<< HEAD
         where: {
           type: type
         }
+=======
+        where: { type: type },
+        include: [{
+          model: db.user,
+          as: 'reviewed_maids',
+          through: { attributes: ['rating'] }
+        }],
+>>>>>>> 247a14abdee434e439b95e2c882368d91a1d3306
       });
     },
 
@@ -75,5 +84,6 @@ module.exports = (db) => {
         }],
       })
     }
+
   }
 }

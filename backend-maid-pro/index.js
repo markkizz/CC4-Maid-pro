@@ -21,7 +21,7 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 
 
-db.sequelize.sync({ alter: false, force: true }).then(() => {
+db.sequelize.sync({ alter: true }).then(() => {
   userRouter(server, db);
   bookingRouter(server, db)
   buildingTypeRouter(server, db)

@@ -15,10 +15,14 @@ module.exports = (db) => {
         if (!errorMessage) {
           res.status(httpStatus).json(message);
         } else {
+<<<<<<< HEAD
           console.log('errorMessage', errorMessage);
           res.status(httpStatus).json({
             errorMessage
           });
+=======
+          res.status(httpStatus).json({ errorMessage });
+>>>>>>> 247a14abdee434e439b95e2c882368d91a1d3306
         }
       } catch (ex) {
         res.status(400).json({
@@ -50,6 +54,7 @@ module.exports = (db) => {
 
     findMaids: async (req, res) => {
       try {
+<<<<<<< HEAD
         const result = await service.findMaids(req.query.type)
         const {
           httpStatus,
@@ -77,3 +82,19 @@ module.exports = (db) => {
     
   }
 }
+=======
+        const result = await service.findMaids(req.query.type);
+        const { httpStatus, message, errorMessage } = result;
+
+        if (!result.errorMessage) {
+          res.status(httpStatus).json(message);
+        } else {
+          res.status(httpStatus).json({ errorMessage: errorMessage });
+        }
+      } catch (err) {
+        res.status(400).json({ errorMessage: err.message });
+      }
+    }
+  };
+};
+>>>>>>> 247a14abdee434e439b95e2c882368d91a1d3306
