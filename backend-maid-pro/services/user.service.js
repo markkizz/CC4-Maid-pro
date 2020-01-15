@@ -32,7 +32,6 @@ module.exports = (db) => {
                 message: result
               });
             }
-            finalResult = result
           } catch (ex) {
             if (ex.message.includes('ECONNREFUSED')) {
               return {

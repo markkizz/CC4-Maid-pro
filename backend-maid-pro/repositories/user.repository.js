@@ -1,3 +1,5 @@
+const sequelize = require('sequelize');
+
 module.exports = (db) => {
   return {
 
@@ -50,31 +52,61 @@ module.exports = (db) => {
 
     findMaids: (type) => {
       return db.user.findAll({
-        where: { type: type },
-        include: [{
-          model: db.user,
-          as: 'reviewed_maids',
-          through: { attributes: ['rating'] }
-        }],
-      });
-    },
-
-    findMaidByMaidId: (maidId) => {
-      return db.user.findOne({
-        attributes: ['id', 'first_name', 'last_name', 'type', 'phone_no', 'email',
-          'profile_img', 'address', 'status', 'bank_account_no', 'bank_name', 'price_per_hour', 'holidays', 'about_maid',
-        ],
         where: {
-          id: maidId
+          type: type
         },
         include: [{
           model: db.user,
           as: 'reviewed_maids',
           through: {
-            attributes: ['rating', 'content']
+            attributes: ['rating']
           }
         }],
-      })
+      });
+    },
+
+    // findMaidByMaidId: async (maidId) => {
+    //     let result = await db.user.findOne({
+    //       attributes: ['id', 'first_name', 'last_name', 'type', 'phone_no', 'email',
+    //         'profile_img', 'address', 'status', 'bank_account_no', 'bank_name', 'price_per_hour', 'holidays', 'about_maid',
+    //       ],
+    //       where: {
+    //         id: maidId
+    //       },
+    //       include: [{
+    //         model: db.user,
+    //         as: 'reviewed_maids',
+    //         through: {
+    //           attributes: ['rating', 'content']
+    //         }
+    //       }],
+    //     })
+
+    //     const finalResult = []
+    //     result.map(maid => {
+    //       let reviewList = [];
+    //       for (let review of maid.reviewed_maids) {
+    //         reviewList.push({
+    //           rating: review.review.rating
+    //         });
+    //       }
+    //       finalResult.push({
+    //         rating: review.review.rating,
+    //         reviewList
+    //       });
+    //     });
+    //     let review = {}
+    //     try {
+    //       review = result["dataValues"]["reviewed_maids"][0]["dataValues"]["review"]
+    //     } catch (error) {
+    //       review = {}
+    //     }
+    //     result["dataValues"]["reviewed_maids"] = review
+    //     return result
+    //   }
+
+    findMaidByMaidId: async (maidId) => {
+      sequelize.QueryInterface('')
     }
 
   }

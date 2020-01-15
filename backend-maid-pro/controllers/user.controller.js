@@ -21,7 +21,7 @@ module.exports = (db) => {
         }
       } catch (ex) {
         res.status(400).json({
-          errorMessage: ex.message
+          errorMessage: ex
         });
       }
     },
