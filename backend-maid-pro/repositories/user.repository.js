@@ -71,10 +71,7 @@ module.exports = (db) => {
           model: db.user,
           as: 'reviewed_maids',
           through: {
-            attributes: [
-              ['rating', 'จนคะแนน'],
-              ['content', 'คอมเม้นต์']
-            ]
+            attributes: ['rating', 'content']
           }
         }],
       })
