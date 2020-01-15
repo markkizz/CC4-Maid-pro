@@ -22,14 +22,14 @@ or YARN install sequelize-cli:
 ### ```cd backend-maid-pro && yarn global add sequelize-cli && cd ..```
 
 And then Create Database:
-###1. `cd back-maid-pro && sequelize init:config`
+### 1. `cd back-maid-pro && sequelize init:config`
 Change Password in Sequelize config
 1. Open ./backend-maid-pro/config/config.json
 2. Edit "password" in "development" to be your MySql's password
 3. Edit "database" to be "cc4_maid_pro"
 4. Add "salt_length": 12 into "development" object.
 
-###2. `cd backend-maid-pro && sequelize db:create && cd ..`
+### 2. `cd backend-maid-pro && sequelize db:create && cd ..`
 
 ## ✔ Available Scripts
 
