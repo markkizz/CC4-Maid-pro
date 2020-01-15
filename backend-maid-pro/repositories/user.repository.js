@@ -26,6 +26,22 @@ module.exports = (db) => {
 
     findUserByUsername: (username) => {
       return db.user.findOne({ where: { username } });
+    },
+
+    findMaids: (type) => {
+      return db.user.findAll({
+        where: { type: type },
+        include: [{
+          model: db.user,
+          as: 'reviewed_maids',
+          through: { attributes: ['rating'] }
+        }],
+        // raw: true
+      });
+      // order: [
+      //   ['id', 'DESC'],
+      // ],
     }
+
   }
 };
