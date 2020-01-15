@@ -1,6 +1,6 @@
-import userReducer from "./userReducer";
-import { userTypes } from "../actions/types";
-import {} from "../actions/actions";
+import userReducer from "../../redux/reducers/userReducer";
+import { userTypes } from "../../redux/actions/types";
+import {} from "../../redux/actions/actions";
 
 describe("User Reducer", () => {
   const initialState = {

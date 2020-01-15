@@ -1,0 +1,46 @@
+.BookingCard-Body {
+  padding: 0px 0.5rem;
+}
+
+.BookingCard-BodyTop {
+  padding: 0.5rem 0px;
+  color: black;
+}
+
+.BookingCard-MaidPhoto {
+  border-radius: 50%;
+}
+
+.BookingCard-HorizontalDivider {
+  margin: 0px;
+}
+
+.BookingCard-BodyBottom {
+  padding: 0.5rem 0px;
+}
+
+.BookingCard-Cancel {
+  box-shadow: none;
+  border: none;
+  border-radius: 15px;
+  margin-right: 0.5rem;
+  background-color: #FF0000;
+  color: white;
+}
+
+.BookingCard-Cancel:focus {
+  color: #FF0000;
+}
+
+.BookingCard-Accept {
+  box-shadow: none;
+  border: none;
+  border-radius: 15px;
+  margin-right: 0.5rem;
+  background-color: #005792;
+  color: white;
+}
+
+.BookingCard-Accept:focus {
+  color: #005792;
+}
