@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './BookingCard.css'
 import {Row, Col, Divider, Button} from 'antd'
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 export default class BookingCard extends Component {
   render() {
@@ -10,18 +11,20 @@ export default class BookingCard extends Component {
           <Col>
             <Row type="flex" align="middle" className="BookingCard-BodyTop">
               <Col span={7}>
-                <Row>
-                  <Col>January</Col>
-                  <Col>10</Col>
+                <Row type="flex" justify="center" align="middle" className="BookingCard-Date">
+                  <Col className="BookingCard-Month">January</Col>
+                  <Col className="BookingCard-Day">10</Col>
                 </Row>
               </Col>
               <Col span={9}>
-                <Row>Customer</Row>
-                <Row>10:00 - 11:00 am</Row>
-                <Row>Phetchaburi Rd, Thanon Phaya Thai, Ratchathewi</Row>
+                <Row className="BookingCard-Details">
+                  <Col className="BookingCard-Customer">Customer</Col>
+                  <Col className="BookingCard-Time">10:00 - 11:00 am</Col>
+                  <Col className="BookingCard-Address"><FaMapMarkerAlt /> Phetchaburi Rd, Thanon Phaya Thai, Ratchathewi</Col>
+                </Row>
               </Col>
               <Col span={8}>
-                <img src="JessicaSpencer.png" alt="" width="100%" className="BookingCard-MaidPhoto" />
+                <img src="JessicaSpencer.png" alt="" className="BookingCard-MaidPhoto" />
               </Col>
             </Row>
             <Divider className="BookingCard-HorizontalDivider" />

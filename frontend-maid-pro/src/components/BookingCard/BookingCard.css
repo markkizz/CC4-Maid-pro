@@ -7,8 +7,40 @@
   color: black;
 }
 
+.BookingCard-Date {
+  padding-right: 0.5rem;
+  line-height: 1;
+}
+
+.BookingCard-Month {
+  font-size: 25px;
+}
+
+.BookingCard-Day {
+  font-size: 50px;
+}
+
+.BookingCard-Details {
+  padding-right: 0.5rem;
+}
+
+.BookingCard-Customer {
+  font-size: 25px;
+}
+
+.BookingCard-Time {
+  font-size: 16px;
+}
+
+.BookingCard-Address {
+  padding-top: 5%;
+  font-size: 10px;
+}
+
 .BookingCard-MaidPhoto {
   border-radius: 50%;
+  width: 100%;
+  max-width: 250px;
 }
 
 .BookingCard-HorizontalDivider {
