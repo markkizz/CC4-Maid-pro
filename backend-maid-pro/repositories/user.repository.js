@@ -8,16 +8,19 @@ module.exports = (db) => {
       } = user;
 
       return db.user.create({
-        username: username, password,
+        username: username, 
+        password,
         first_name: firstName,
         last_name: lastName,
-        type, address,
+        type, 
+        address,
         phone_no: phoneNo,
         profile_image: profileImage,
         bank_account_no: bankAccountNo,
         bank_name: bankName,
         id_card_no: idCardNo,
-        holidays, email,
+        holidays, 
+        email,
         about_maid: aboutMaid,
         price_per_hour: pricePerHour,
         status: 'ACTIVE'
@@ -26,6 +29,18 @@ module.exports = (db) => {
 
     findUserByUsername: (username) => {
       return db.user.findOne({ where: { username } });
+    },
+
+    findMaids: (type) => {
+      return db.user.findAll({
+        where: { type: type },
+        include: [{
+          model: db.user,
+          as: 'reviewed_maids',
+          through: { attributes: ['rating'] }
+        }],
+      });
     }
+
   }
-};
+}

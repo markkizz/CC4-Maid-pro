@@ -1,7 +1,6 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const jwtOptions = require('../config/passport/passport');
-
 const userRepository = require('../repositories/user.repository');
 
 module.exports = (db) => {
@@ -10,6 +9,7 @@ module.exports = (db) => {
   return {
 
     signUp: (req, user) => {
+      let finalResult;
       return new Promise((resolve, reject) => {
         passport.authenticate('local-hashPassword', {}, async (err, hashedPassword) => {
 
@@ -23,6 +23,7 @@ module.exports = (db) => {
             } else {
               resolve({ httpStatus: 200, message: result });
             }
+            finalResult = result
           } catch (ex) {
             if (ex.message.includes('ECONNREFUSED')) {
               return { httpStatus: 500, errorMessage: 'Database server error' };
@@ -72,6 +73,38 @@ module.exports = (db) => {
           resolve(result);
         })(req, res, next)
       });
+    },
+
+    findMaids: async (type) => {
+      try {
+        const result = await repository.findMaids(type);
+
+        let codecampResult = [];
+        result.map(maid => {
+          let reviewsList = [];
+          for (let reviewer of maid.reviewed_maids) {
+            reviewsList.push({
+              rating: reviewer.review.rating
+            });
+          }
+          codecampResult.push({
+            maid_first_name: maid.first_name,
+            maid_last_name: maid.last_name,
+            reviewsList
+          });
+        });
+
+        if (result.length === 0) {
+          return { httpStatus: 204, message: result };
+        } else {
+          return { httpStatus: 200, message: codecampResult };
+        }
+      } catch (ex) {
+        if (ex.message.includes('ECONNREFUSED')) {
+          return { httpStatus: 500, errorMessage: 'Database server error' };
+        }
+        return { httpStatus: 400, errorMessage: ex.message };
+      }
     }
 
   }

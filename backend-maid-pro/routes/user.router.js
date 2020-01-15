@@ -7,4 +7,6 @@ module.exports = (server, db) => {
 
   server.post('/users/sign-in', controller.signIn);
 
+  server.get('/users/maids', (req, res) => controller.findMaids(req, res));
+
 };

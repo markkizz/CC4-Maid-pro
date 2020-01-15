@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const booking = sequelize.define('booking', {
+  const booking = sequelize.define("booking", {
     work_at: {
       type: DataTypes.DATE,
       allowNull: false
@@ -9,7 +9,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     status: {
-      type:DataTypes.ENUM('TEST'),
+      type: DataTypes.ENUM(
+        "WAIT_FOR_ACCEPTANCE",
+        "ACCEPT",
+        "REJECT",
+        "CANCEL",
+        "FINISHED"
+      ),
       allowNull: false
     },
     pay_slip_image: {
