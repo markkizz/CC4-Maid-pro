@@ -44,6 +44,21 @@ module.exports = (db) => {
       } catch (err) {
         res.status(400).json({ errorMessage: err.message });
       }
+    },
+
+    searchMaids: async (req, res) => {
+      try {
+        const result = await service.searchMaids(req.query.name)
+        const { httpStatus, message, errorMessage } = result
+        if (!errorMessage) {
+          res.status(httpStatus).json(message)
+        } else {
+          res.status(httpStatus).json({ errorMessage: errorMessage })
+        }
+      }
+      catch (err) {
+        res.status(400).json({ errorMessage: errorMessage })
+      }
     }
   };
 };
