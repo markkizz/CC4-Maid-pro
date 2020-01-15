@@ -65,49 +65,40 @@ module.exports = (db) => {
       });
     },
 
-    // findMaidByMaidId: async (maidId) => {
-    //     let result = await db.user.findOne({
-    //       attributes: ['id', 'first_name', 'last_name', 'type', 'phone_no', 'email',
-    //         'profile_img', 'address', 'status', 'bank_account_no', 'bank_name', 'price_per_hour', 'holidays', 'about_maid',
-    //       ],
-    //       where: {
-    //         id: maidId
-    //       },
-    //       include: [{
-    //         model: db.user,
-    //         as: 'reviewed_maids',
-    //         through: {
-    //           attributes: ['rating', 'content']
-    //         }
-    //       }],
-    //     })
-
-    //     const finalResult = []
-    //     result.map(maid => {
-    //       let reviewList = [];
-    //       for (let review of maid.reviewed_maids) {
-    //         reviewList.push({
-    //           rating: review.review.rating
-    //         });
-    //       }
-    //       finalResult.push({
-    //         rating: review.review.rating,
-    //         reviewList
-    //       });
-    //     });
-    //     let review = {}
-    //     try {
-    //       review = result["dataValues"]["reviewed_maids"][0]["dataValues"]["review"]
-    //     } catch (error) {
-    //       review = {}
-    //     }
-    //     result["dataValues"]["reviewed_maids"] = review
-    //     return result
-    //   }
-
     findMaidByMaidId: async (maidId) => {
-      sequelize.QueryInterface('')
-    }
+      let result = await db.user.findOne({
+        attributes: ['id', 'first_name', 'last_name', 'type', 'phone_no', 'email',
+          'profile_img', 'address', 'status', 'bank_account_no', 'bank_name', 'price_per_hour', 'holidays', 'about_maid',
+        ],
+        where: {
+          id: maidId
+        },
+        include: [{
+          model: db.user,
+          as: 'reviewed_maids',
+          through: {
+            attributes: ['rating', 'content']
+          },
+        }],
+      });
 
+      let sum = 0;
+      for (let review of result.reviewed_maids) {
+        sum += parseFloat(review.review.rating);
+      }
+      const average = sum / (result.reviewed_maids.length || 1);
+
+      return {
+        firstName: result.first_name,
+        lastName: result.last_name,
+        type: result.type,
+        phoneNo: result.phone_no,
+        profileImg: result.profile_img,
+        pricePerHour: result.price_per_hour,
+        holidays: result.holidays,
+        aboutMaid: result.aboutMaid,
+        averageRating: average
+      }
+    }
   }
-}
+};

@@ -87,7 +87,7 @@ module.exports = (db) => {
         }
       } catch (err) {
         res.status(400).json({
-          errorMessage: errorMessage
+          errorMessage: err.message
         })
       }
     },
