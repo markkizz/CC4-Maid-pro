@@ -59,6 +59,22 @@ module.exports = (db) => {
       catch (err) {
         res.status(400).json({ errorMessage: errorMessage })
       }
+    },
+
+    getMyBooking: async (req, res) => {
+      try{
+        const result = await service.getMyBooking(req.user.id, req.user.type)
+        const { httpStatus, message, errorMessage } = result
+        if (!errorMessage) {
+          res.status(httpStatus).json(message)
+        } else {
+          res.status(httpStatus).json({ errorMessage: errorMessage })
+        }
+      } catch (err) {
+        console.error(err);
+        res.status(400).json({ errorMessage: errorMessage })
+      }
     }
+
   };
 };

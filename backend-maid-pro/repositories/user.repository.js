@@ -56,11 +56,22 @@ module.exports = (db) => {
             as: 'served_building_types',
             model: db.building_type,
             where: {
-                  type: type
+              type: type
             }
           }
         ]
       });
+    },
+    getMyBooking: (user_id, type) => {
+      if (type == "MAID") {
+        return db.booking.findAll({
+          where: { maid_id: user_id }
+        })
+      } else {
+        return db.booking.findAll({
+          where: { employer_id: user_id }
+        })
+      }
     }
 
   }
