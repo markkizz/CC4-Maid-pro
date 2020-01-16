@@ -48,7 +48,7 @@ module.exports = (db) => {
 
     searchMaids: async (req, res) => {
       try {
-        const result = await service.searchMaids(req.query.name)
+        const result = await service.searchMaids(req.query.name, req.query.type)
         const { httpStatus, message, errorMessage } = result
         if (!errorMessage) {
           res.status(httpStatus).json(message)
