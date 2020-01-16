@@ -12,6 +12,8 @@
     "start:frontend": "cd frontend-maid-pro && npm start",
     "start:backend": "cd backend-maid-pro && npm start",
     "start:frontend:y": "cd frontend-maid-pro && yarn start",
-    "start:backend:y": "cd backend-maid-pro && yarn start"
+    "start:backend:y": "cd backend-maid-pro && yarn start",
+    "seed": "cd backend-maid-pro && npm run seed",
+    "seed:y": "cd backend-maid-pro && yarn seed:y"
   }
 }
