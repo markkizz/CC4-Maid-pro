@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './BookingCard.css'
-import {Row, Col, Divider, Button} from 'antd'
+import { Row, Col, Divider, Button } from 'antd'
 import { FaMapMarkerAlt } from "react-icons/fa";
 
 export default class BookingCard extends Component {
