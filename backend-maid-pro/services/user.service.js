@@ -89,9 +89,9 @@ module.exports = (db) => {
       }
     },
 
-    searchMaids: async (first_name) => {
+    searchMaids: async (first_name, type) => {
       try {
-        const result = await repository.searchMaids(first_name);
+        const result = await repository.searchMaids(first_name, type);
         console.log(result)
         if (result.length === 0) {
           return { httpStatus: 204, message: result }
