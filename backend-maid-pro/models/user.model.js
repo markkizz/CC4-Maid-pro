@@ -116,6 +116,7 @@ module.exports = (sequelize, DataTypes) => {
   user.associate = (models) => {
     user.belongsToMany(models.building_type, {
       as: 'served_building_types',
+      onDelete: 'CASCADE',
       through: 'services',
       foreignKey: {
         name: 'user_id',

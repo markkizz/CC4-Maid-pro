@@ -24,7 +24,7 @@ server.use(bodyParser.urlencoded({ extended: true }));
 // import passport config
 require('./config/passport/passport');
 
-db.sequelize.sync({ alter: true }).then(() => {
+db.sequelize.sync({ force: true }).then(() => {
   userRouter(server, db);
   bookingRouter(server, db)
   buildingTypeRouter(server, db)
