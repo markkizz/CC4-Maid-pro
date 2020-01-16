@@ -113,7 +113,42 @@ module.exports = (db) => {
         }
         return { httpStatus: 400, errorMessage: ex.message };
       }
-    }
+    },
 
+    searchMaids: async (first_name, type) => {
+      try {
+        const result = await repository.searchMaids(first_name, type);
+        console.log(result)
+        if (result.length === 0) {
+          return { httpStatus: 204, message: result }
+        } else {
+          return { httpStatus: 200, message: result }
+        }
+      } catch (err) {
+        if (err.message.includes('ECONNREFUSED')) {
+          return { httpStatus: 500, errorMessage: 'Database server error' };
+        }
+        return { httpStatus: 400, errorMessage: err.message }
+      }
+    },
+
+    getMyBooking: async(id, type) => {
+      try {
+        const result = await repository.getMyBooking(id, type);
+        console.log(result)
+        if (result.length === 0) {
+          return { httpStatus: 204, message: result }
+        } else {
+          return { httpStatus: 200, message: result }
+        }
+      } catch (err) {
+        if (err.message.includes('ECONNREFUSED')) {
+          return { httpStatus: 500, errorMessage: 'Database server error' };
+        }
+        return { httpStatus: 400, errorMessage: err.message }
+      }
+    }
   }
 };
+
+
