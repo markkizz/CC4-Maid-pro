@@ -1,5 +1,6 @@
 # Sequelize configuration
-**/backend-maid-pro/config/config.json
+*/config.json
+config.json
 
 # User-specific stuff
 .idea/**/workspace.xml
@@ -269,3 +270,5 @@ yarn.lock
 backend-maid-pro/yarn.lock
 frontend-maid-pro/yarn.lock
 
+## uploads
+uploads/
