@@ -5,7 +5,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon"
+    "start": "nodemon",
+    "seed": "npx sequelize db:seed:all",
+    "seed:y": "yarn sequelize db:seed:all"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -20,5 +22,9 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "sequelize": "^5.21.2"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "sequelize-cli": "^5.5.1"
   }
 }
