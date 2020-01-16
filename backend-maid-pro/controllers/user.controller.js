@@ -11,7 +11,6 @@ module.exports = (db) => {
         if (!errorMessage) {
           res.status(httpStatus).json(message);
         } else {
-          console.log('errorMessage', errorMessage);
           res.status(httpStatus).json({ errorMessage });
         }
       } catch (ex) {
@@ -34,16 +33,16 @@ module.exports = (db) => {
 
     findMaids: async (req, res) => {
       try {
-        const result = await service.findMaids(req.query.type)
-        const { httpStatus, message, errorMessage } = result
-        if (!errorMessage) {
-          res.status(httpStatus).json(message)
+        const result = await service.findMaids(req.query.type);
+        const { httpStatus, message, errorMessage } = result;
+
+        if (!result.errorMessage) {
+          res.status(httpStatus).json(message);
         } else {
-          res.status(httpStatus).json({ errorMessage: errorMessage })
+          res.status(httpStatus).json({ errorMessage: errorMessage });
         }
-      }
-      catch (err) {
-        res.status(400).json({ errorMessage: errorMessage })
+      } catch (err) {
+        res.status(400).json({ errorMessage: err.message });
       }
     },
 

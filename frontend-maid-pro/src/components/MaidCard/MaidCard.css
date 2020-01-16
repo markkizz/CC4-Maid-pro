@@ -1,7 +1,12 @@
 .MaidCard-card {
-  width: 180px;
-  height: 280px;
+  width: 160px;
+  height: 240px;
   border-radius: 10px;
+}
+
+.MaidCard-card img {
+  object-fit: cover;
+  height: 142px;
 }
 
 .MaidCard-Row {
@@ -14,6 +19,7 @@
 }
 
 .MaidCard-p {
+  text-align: right;
   font-size: 12px;
 }
 

@@ -35,7 +35,12 @@ module.exports = (db) => {
 
     findMaids: (type) => {
       return db.user.findAll({
-        where: { type: type }
+        where: { type: type },
+        include: [{
+          model: db.user,
+          as: 'reviewed_maids',
+          through: { attributes: ['rating'] }
+        }],
       });
     },
     searchMaids: (first_name, type) => {
