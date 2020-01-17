@@ -6,8 +6,9 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon",
-    "seed": "npx sequelize db:seed:all",
-    "seed:y": "yarn sequelize db:seed:all"
+    "start:server": "nodemon index.js",
+    "seed": "$PWD/seeding.sh npx",
+    "seed:y": "$PWD/seeding.sh yarn"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -17,6 +18,7 @@
     "express-fileupload": "^1.1.6",
     "jest": "^24.9.0",
     "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.9.1",
     "mysql2": "^2.0.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
