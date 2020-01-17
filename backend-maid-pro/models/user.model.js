@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         is: ["^[a-z0-9]+$", 'i'],
       }
     },
+
     password: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -96,6 +97,9 @@ module.exports = (sequelize, DataTypes) => {
     about_maid: {
       type: DataTypes.STRING(1500)
     },
+    average_rating: {
+      type: DataTypes.FLOAT
+    }
   }, {
     
     getterMethods: {

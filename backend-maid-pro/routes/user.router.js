@@ -15,4 +15,6 @@ module.exports = (server, db) => {
   server.get('/users/my-booking', passport.authenticate('jwt', { session: false }), controller.getMyBooking)
   
   server.get('/users/maids/:maidId', (req, res) => controller.findMaidByMaidId(req, res))
+
+  server.get('/users/maids/tops/:amount', controller.findMaidTop)
 };

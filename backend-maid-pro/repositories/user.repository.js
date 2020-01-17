@@ -160,6 +160,13 @@ module.exports = db => {
         aboutMaid: result.aboutMaid,
         averageRating: average
       }
+    },
+    findMaidTop: async(amount) => {
+      db.user.findAll({
+        type: "MAID",
+        limit: 10 ,
+        order: ['','DESC'],
+      })
     }
   }
 };
