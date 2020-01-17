@@ -36,6 +36,7 @@ for (let i = 1; i <= 10; i++) {
     bank_account_no: faker.finance.account(),
     bank_name: genBankName(),
     price_per_hour: Math.floor(Math.random() * 1000) + 200,
+    holidays: faker.date.weekday(),
     about_maid: faker.lorem.paragraph(1),
     createdAt: new Date(),
     updatedAt: new Date()

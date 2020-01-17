@@ -115,14 +115,16 @@ module.exports = (db) => {
       }
     },
 
-    searchMaids: async (first_name, type) => {
+    searchMaids: async (name, type_id, date, time, rating, price_hour) => {
       try {
-        const result = await repository.searchMaids(first_name, type);
-        console.log(result)
-        if (result.length === 0) {
-          return { httpStatus: 204, message: result }
-        } else {
-          return { httpStatus: 200, message: result }
+        let result = await repository.searchMaidsAllChoice(name, type_id, date, time, rating, price_hour);
+        if(result.length === 0) {
+          result = await repository.searchMaids(name, type_id, date, time, rating, price_hour)
+          if (result.length === 0) {
+            return { httpStatus: 204, message: result }
+          } else {
+            return { httpStatus: 200, message: result }
+          }
         }
       } catch (err) {
         if (err.message.includes('ECONNREFUSED')) {
@@ -130,6 +132,6 @@ module.exports = (db) => {
         }
         return { httpStatus: 400, errorMessage: err.message }
       }
-    },
+    }
   }
 };

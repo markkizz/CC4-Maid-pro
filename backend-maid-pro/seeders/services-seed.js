@@ -38,6 +38,36 @@ module.exports = {
         building_type_id: 3,
         user_id: 6
       },
+      {
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        building_type_id: 3,
+        user_id: 7
+      },
+      {
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        building_type_id: 3,
+        user_id: 8
+      },
+      {
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        building_type_id: 6,
+        user_id: 8
+      },
+      {
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        building_type_id: 3,
+        user_id: 9
+      },
+      {
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        building_type_id: 4,
+        user_id: 10
+      },
     ], {});
   },
   down: (queryInterface, Sequelize) => {

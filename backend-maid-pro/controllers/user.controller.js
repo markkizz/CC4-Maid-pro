@@ -1,6 +1,6 @@
-const userService = require('../services/user.service');
+const userService = require("../services/user.service");
 
-module.exports = (db) => {
+module.exports = db => {
   const service = userService(db);
 
   return {
@@ -19,7 +19,11 @@ module.exports = (db) => {
     },
 
     signIn: async (req, res, next) => {
-      const { httpStatus, message, errorMessage } = await service.signIn(req, res, next);
+      const { httpStatus, message, errorMessage } = await service.signIn(
+        req,
+        res,
+        next
+      );
       try {
         if (!errorMessage) {
           res.status(httpStatus).json(message);
@@ -45,19 +49,23 @@ module.exports = (db) => {
         res.status(400).json({ errorMessage: err.message });
       }
     },
-
+    // ? available time and total rating of maid not in database
     searchMaids: async (req, res) => {
+      console.log('inside searchmaid')
       try {
-        const result = await service.searchMaids(req.query.name, req.query.type)
-        const { httpStatus, message, errorMessage } = result
+        const { name, date, time, rating, price_hour } = req.query;
+        const arrPrice_hour = price_hour.split(",").map(price => Number(price))
+        let type_id = Number(req.query.type_id);
+        let result = await service.searchMaids(name, type_id, date, time, rating, arrPrice_hour);
+        const { httpStatus, message, errorMessage } = result;
         if (!errorMessage) {
-          res.status(httpStatus).json(message)
+          res.status(httpStatus).json(message);
         } else {
-          res.status(httpStatus).json({ errorMessage: errorMessage })
+          res.status(httpStatus).json({ errorMessage: errorMessage });
         }
-      }
-      catch (err) {
-        res.status(400).json({ errorMessage: errorMessage })
+      } catch (err) {
+        console.log('err', err)
+        res.status(400).json({ errorMessage: err });
       }
     }
   };

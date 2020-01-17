@@ -5,7 +5,8 @@
     "database": "cc4_maid_pro",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "salt_length": 12
+    "salt_length": 12,
+    "timezone": "Asia/Bangkok"
   },
   "test": {
     "username": "root",

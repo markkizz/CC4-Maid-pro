@@ -1,7 +1,7 @@
 #!/bin/bash
 fileSeed=('user-seed' 'building-type-seed' 'services-seed');
 
-for i in ${fileSeed[@]}
+for flie in ${fileSeed[@]}
 do
-  eval "$1 sequelize db:seed --seed $i"
+  eval "$1 sequelize db:seed --seed $flie"
 done
