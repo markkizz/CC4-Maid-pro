@@ -161,11 +161,11 @@ module.exports = db => {
         averageRating: average
       }
     },
-    findMaidTop: async(amount) => {
-      db.user.findAll({
+    findMaidTop: async (amount) => {
+      return await db.user.findAll({
         type: "MAID",
-        limit: 10 ,
-        order: ['','DESC'],
+        limit: parseInt(amount),
+        order: [['average_rating', 'DESC']],
       })
     }
   }

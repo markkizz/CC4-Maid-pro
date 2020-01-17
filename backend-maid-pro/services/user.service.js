@@ -202,12 +202,14 @@ module.exports = (db) => {
     findMaidTop: async(amount) => {
       try {
         const result = await repository.findMaidTop(amount);
+        console.log(result)
         if (result.length === 0) {
           return { httpStatus: 204, message: result }
         } else {
           return { httpStatus: 200, message: result }
         }
       } catch (err) {
+        console.error(err);
         if (err.message.includes('ECONNREFUSED')) {
           return { httpStatus: 500, errorMessage: 'Database server error' };
         }

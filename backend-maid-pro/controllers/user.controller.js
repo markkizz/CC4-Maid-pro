@@ -124,6 +124,7 @@ module.exports = db => {
         res.status(400).json({ errorMessage: errorMessage })
       }
     },
+    
     findMaidTop: async (req, res) => {
       try {
         const result = await service.findMaidTop(req.params.amount);
