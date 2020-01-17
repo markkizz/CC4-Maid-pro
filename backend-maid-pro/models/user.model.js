@@ -123,15 +123,15 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
-    // user.belongsToMany(user, {
-    //   as: 'maid_bookings',
-    //   through: models.booking,
-    //   foreignKey: {
-    //     name: 'employer_id',
-    //     allowNull: false
-    //   },
-    //   otherKey: 'maid_id'
-    // });
+    user.belongsToMany(user, {
+      as: 'maid_bookings',
+      through: models.booking,
+      foreignKey: {
+        name: 'employer_id',
+        allowNull: false
+      },
+      otherKey: 'maid_id'
+    });
     user.belongsToMany(models.user, {
       as: 'reviewed_employers',
       through: models.review,
@@ -141,7 +141,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
 
-    user.belongsToMany(user, {
+    user.belongsToMany(models.user, {
       as: 'reviewed_maids',
       through: models.review,
       foreignKey: {

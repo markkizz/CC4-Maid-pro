@@ -51,7 +51,6 @@ module.exports = db => {
     },
     // ? available time and total rating of maid not in database
     searchMaids: async (req, res) => {
-      console.log('inside searchmaid')
       try {
         const { name, date, time, rating, price_hour } = req.query;
         const arrPrice_hour = price_hour.split(",").map(price => Number(price))
@@ -66,6 +65,21 @@ module.exports = db => {
       } catch (err) {
         console.log('err', err)
         res.status(400).json({ errorMessage: err });
+      }
+    },
+
+    getMyBooking: async (req, res) => {
+      try{
+        const result = await service.getMyBooking(req.user.id, req.user.type)
+        const { httpStatus, message, errorMessage } = result
+        if (!errorMessage) {
+          res.status(httpStatus).json(message)
+        } else {
+          res.status(httpStatus).json({ errorMessage: errorMessage })
+        }
+      } catch (err) {
+        console.error(err);
+        res.status(400).json({ errorMessage: errorMessage })
       }
     }
   };
