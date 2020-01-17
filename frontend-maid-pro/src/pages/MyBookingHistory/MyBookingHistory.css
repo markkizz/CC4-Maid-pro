@@ -1,0 +1,8 @@
+.MyBookingHistory-Body {
+  min-height: 100vh;
+  background-color: #F2F3F5;
+}
+
+.MyBookingHistory-Tabs {
+  box-shadow: none;
+}
