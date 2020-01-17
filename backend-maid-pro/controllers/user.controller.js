@@ -7,48 +7,99 @@ module.exports = db => {
     signUp: async (req, res) => {
       try {
         const result = await service.signUp(req, req.body);
-        const { httpStatus, message, errorMessage } = result;
+        const {
+          httpStatus,
+          message,
+          errorMessage
+        } = result;
         if (!errorMessage) {
           res.status(httpStatus).json(message);
         } else {
-          res.status(httpStatus).json({ errorMessage });
+          res.status(httpStatus).json({
+            errorMessage
+          });
         }
       } catch (ex) {
-        res.status(400).json({ errorMessage: ex.message });
+        res.status(400).json({
+          errorMessage: ex
+        });
       }
     },
 
     signIn: async (req, res, next) => {
+<<<<<<< HEAD
       const { httpStatus, message, errorMessage } = await service.signIn(
         req,
         res,
         next
       );
+=======
+      const {
+        httpStatus,
+        message,
+        errorMessage
+      } = await service.signIn(req, res, next);
+>>>>>>> may_maidDescription
       try {
         if (!errorMessage) {
           res.status(httpStatus).json(message);
         } else {
-          res.status(httpStatus).json({ errorMessage: errorMessage });
+          res.status(httpStatus).json({
+            errorMessage: errorMessage
+          });
         }
       } catch (ex) {
-        res.status(400).json({ errorMessage: ex.message });
+        res.status(400).json({
+          errorMessage: ex.message
+        });
       }
     },
 
     findMaids: async (req, res) => {
       try {
-        const result = await service.findMaids(req.query.type);
-        const { httpStatus, message, errorMessage } = result;
-
-        if (!result.errorMessage) {
-          res.status(httpStatus).json(message);
+        const result = await service.findMaids(req.query.type)
+        const {
+          httpStatus,
+          message,
+          errorMessage
+        } = result
+        if (!errorMessage) {
+          res.status(httpStatus).json(message)
         } else {
-          res.status(httpStatus).json({ errorMessage: errorMessage });
+          res.status(httpStatus).json({
+            errorMessage: errorMessage
+          })
         }
       } catch (err) {
-        res.status(400).json({ errorMessage: err.message });
+        res.status(400).json({
+          errorMessage: errorMessage
+        })
       }
     },
+
+    findMaidByMaidId: async (req, res) => {
+      
+      try {
+        let result = await service.findMaidByMaidId(req.params.maidId);
+        const {
+          httpStatus,
+          message,
+          errorMessage
+        } = result
+        if (!errorMessage) {
+          res.status(httpStatus).json(message)
+        } else {
+          res.status(httpStatus).json({
+            errorMessage: errorMessage
+          })
+        }
+      } catch (err) {
+        res.status(400).json({
+          errorMessage: err.message
+        })
+      }
+    },
+<<<<<<< HEAD
     // ? available time and total rating of maid not in database
     searchMaids: async (req, res) => {
       try {
@@ -84,3 +135,8 @@ module.exports = db => {
     }
   };
 };
+=======
+
+  }
+}
+>>>>>>> may_maidDescription
