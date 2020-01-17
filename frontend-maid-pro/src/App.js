@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import "./App.css";
+import BookingCard from "./components/BookingCard/BookingCard";
 
 export class App extends Component {
   render() {
-    return <div className="App"></div>;
+    return <div className="App">
+      <BookingCard/>
+    </div>;
   }
 }
 
