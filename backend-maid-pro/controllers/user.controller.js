@@ -27,19 +27,11 @@ module.exports = db => {
     },
 
     signIn: async (req, res, next) => {
-<<<<<<< HEAD
-      const { httpStatus, message, errorMessage } = await service.signIn(
-        req,
-        res,
-        next
-      );
-=======
       const {
         httpStatus,
         message,
         errorMessage
       } = await service.signIn(req, res, next);
->>>>>>> may_maidDescription
       try {
         if (!errorMessage) {
           res.status(httpStatus).json(message);
@@ -99,7 +91,6 @@ module.exports = db => {
         })
       }
     },
-<<<<<<< HEAD
     // ? available time and total rating of maid not in database
     searchMaids: async (req, res) => {
       try {
@@ -135,8 +126,3 @@ module.exports = db => {
     }
   };
 };
-=======
-
-  }
-}
->>>>>>> may_maidDescription
