@@ -76,3 +76,29 @@
 .BookingCard-Accept:focus {
   color: #005792;
 }
+
+.BookingCard-CancelBooking {
+  margin: 5px;
+  border-radius: 80px;
+  -webkit-box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.BookingCard-type {
+ padding: 78px 16px;
+}
+
+.BookingCard-Cancel-Detial {
+  text-align: left;
+  margin: 5px;
+}
+.BookingCard-Cancel-Hour {
+  text-align: left;
+  margin: 5px;
+}
+
+.BookingCard-Cancel-Description {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
