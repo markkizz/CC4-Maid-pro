@@ -1,0 +1,65 @@
+.MaidDescription-Profile {
+    background-color: #D7D7D7;
+}
+.MaidDescription-ProfilePicture-top {
+    margin-top: 25px;
+}
+.MaidDescription-Rate {
+    font-size: 18px;
+  }
+
+.MaidDescription-Description-bgColor {
+    background-color: #26485F;
+    color: white;
+}
+.MaidDescription-Description {
+    color: white;
+    margin: 25px;
+}
+
+.MaidDescription-ProfilePicture {
+    margin: 10px;
+    border-radius: 80px;
+    -webkit-box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
+}
+.MaidDescription-Name {
+    margin-top: 30px;
+}
+
+.MaidDescription-TypeOfPlace {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.MaidDescription-Type {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.MaidDescription-icon {
+    font-size: 60px
+}
+
+.MaidDescription-BookingButton {
+    box-shadow: none;
+    border-radius: 11px;
+    border-color: #005792;
+    background-color: #005792;
+    color: white;
+    width: 130px;
+}
+.MaidDescription-BookingButtonforview {
+    text-align: center;
+}
+.MaidDescription-Booking {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.MaidDescription-center {
+    margin-bottom: 15px;
+    
+}

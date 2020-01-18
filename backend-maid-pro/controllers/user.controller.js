@@ -1,6 +1,6 @@
-const userService = require('../services/user.service');
+const userService = require("../services/user.service");
 
-module.exports = (db) => {
+module.exports = db => {
   const service = userService(db);
 
   return {
@@ -70,7 +70,7 @@ module.exports = (db) => {
     },
 
     findMaidByMaidId: async (req, res) => {
-      
+
       try {
         let result = await service.findMaidByMaidId(req.params.maidId);
         const {
@@ -87,10 +87,57 @@ module.exports = (db) => {
         }
       } catch (err) {
         res.status(400).json({
-          errorMessage: errorMessage
+          errorMessage: err.message
         })
       }
     },
+    // ? available time and total rating of maid not in database
+    searchMaids: async (req, res) => {
+      try {
+        const { name, date, time, rating, price_hour } = req.query;
+        const arrPrice_hour = price_hour.split(",").map(price => Number(price))
+        let type_id = Number(req.query.type_id);
+        let result = await service.searchMaids(name, type_id, date, time, rating, arrPrice_hour);
+        const { httpStatus, message, errorMessage } = result;
+        if (!errorMessage) {
+          res.status(httpStatus).json(message);
+        } else {
+          res.status(httpStatus).json({ errorMessage: errorMessage });
+        }
+      } catch (err) {
+        console.log('err', err)
+        res.status(400).json({ errorMessage: err });
+      }
+    },
 
-  }
-}
+    getMyBooking: async (req, res) => {
+      try {
+        const result = await service.getMyBooking(req.user.id, req.user.type)
+        const { httpStatus, message, errorMessage } = result
+        if (!errorMessage) {
+          res.status(httpStatus).json(message)
+        } else {
+          res.status(httpStatus).json({ errorMessage: errorMessage })
+        }
+      } catch (err) {
+        console.error(err);
+        res.status(400).json({ errorMessage: errorMessage })
+      }
+    },
+    
+    findMaidTop: async (req, res) => {
+      try {
+        const result = await service.findMaidTop(req.params.amount);
+        const { httpStatus, message, errorMessage } = result
+        if (!errorMessage) {
+          res.status(httpStatus).json(message)
+        } else {
+          res.status(httpStatus).json({ errorMessage: errorMessage })
+        }
+      } catch (err) {
+        console.error(err);
+        res.status(400).json({ errorMessage: errorMessage })
+      }
+    }
+  };
+};

@@ -1,9 +1,8 @@
-const sequelize = require('sequelize');
-
-module.exports = (db) => {
+const Sequelize = require("sequelize");
+const { Op } = require("sequelize");
+module.exports = db => {
   return {
-
-    signUp: (user) => {
+    signUp: user => {
       const {
         username,
         password,
@@ -38,76 +37,136 @@ module.exports = (db) => {
         email,
         about_maid: aboutMaid,
         price_per_hour: pricePerHour,
-        status: 'ACTIVE'
-      })
-    },
-
-    findUserByUsername: (username) => {
-      return db.user.findOne({
-        where: {
-          username
-        }
+        status: "ACTIVE"
       });
     },
 
-    findMaids: (type) => {
+    findUserByUsername: username => {
+      return db.user.findOne({ where: { username } });
+    },
+
+    findMaids: type => {
+      return db.user.findAll({
+        where: { type: type },
+        include: [
+          {
+            model: db.user,
+            as: "reviewed_maids",
+            through: { attributes: ["rating"] }
+          }
+        ]
+      });
+    },
+    searchMaidsAllChoice: (name, type_id, date, time, rating, price_hour) => {
       return db.user.findAll({
         where: {
-          type: type
+          type: "MAID",
+          [Op.or]: {
+            first_name: {
+              [Op.like]: `%${name}%`
+            },
+            last_name: {
+              [Op.like]: `%${name}%`
+            }
+          },
+          holidays: {
+            [Op.notIn]: [date]
+          },
+          price_per_hour: {
+            [Op.between]: [price_hour[0], price_hour[1]]
+          }
+        },
+        attributes: {
+          exclude: ["password"]
+        },
+        include: [
+          {
+            as: "served_building_types",
+            model: db.building_type,
+            where: {
+              id: type_id
+            }
+          }
+        ]
+      });
+    },
+    searchMaids: (name, type_id, date, time, rating, price_hour) => {
+      return db.user.findAll({
+        where: {
+          type: "MAID",
+          price_per_hour: {
+            [Op.between]: [price_hour[0], price_hour[1]]
+          },
+          holidays: {
+            [Op.notIn]: [date]
+          }
+        },
+        attributes: {
+          exclude: ["password"]
+        },
+        include: [
+          {
+            as: "served_building_types",
+            model: db.building_type,
+            where: {
+              id: type_id
+            }
+          }
+        ]
+      });
+    },
+    getMyBooking: (user_id, type) => {
+      if (type == "MAID") {
+        return db.booking.findAll({
+          where: { maid_id: user_id }
+        })
+      } else {
+        return db.booking.findAll({
+          where: { employer_id: user_id }
+        })
+      }
+    },
+    findMaidByMaidId: async (maidId) => {
+      let result = await db.user.findOne({
+        attributes: ['id', 'first_name', 'last_name', 'type', 'phone_no', 'email',
+          'profile_img', 'address', 'status', 'bank_account_no', 'bank_name', 'price_per_hour', 'holidays', 'about_maid',
+        ],
+        where: {
+          id: maidId
         },
         include: [{
           model: db.user,
           as: 'reviewed_maids',
           through: {
-            attributes: ['rating']
-          }
+            attributes: ['rating', 'content']
+          },
         }],
       });
+
+      let sum = 0;
+      for (let review of result.reviewed_maids) {
+        sum += parseFloat(review.review.rating);
+      }
+      const average = sum / (result.reviewed_maids.length || 1);
+
+      return {
+        firstName: result.first_name,
+        lastName: result.last_name,
+        type: result.type,
+        phoneNo: result.phone_no,
+        profileImg: result.profile_img,
+        pricePerHour: result.price_per_hour,
+        holidays: result.holidays,
+        aboutMaid: result.aboutMaid,
+        averageRating: average
+      }
     },
-
-    // findMaidByMaidId: async (maidId) => {
-    //     let result = await db.user.findOne({
-    //       attributes: ['id', 'first_name', 'last_name', 'type', 'phone_no', 'email',
-    //         'profile_img', 'address', 'status', 'bank_account_no', 'bank_name', 'price_per_hour', 'holidays', 'about_maid',
-    //       ],
-    //       where: {
-    //         id: maidId
-    //       },
-    //       include: [{
-    //         model: db.user,
-    //         as: 'reviewed_maids',
-    //         through: {
-    //           attributes: ['rating', 'content']
-    //         }
-    //       }],
-    //     })
-
-    //     const finalResult = []
-    //     result.map(maid => {
-    //       let reviewList = [];
-    //       for (let review of maid.reviewed_maids) {
-    //         reviewList.push({
-    //           rating: review.review.rating
-    //         });
-    //       }
-    //       finalResult.push({
-    //         rating: review.review.rating,
-    //         reviewList
-    //       });
-    //     });
-    //     let review = {}
-    //     try {
-    //       review = result["dataValues"]["reviewed_maids"][0]["dataValues"]["review"]
-    //     } catch (error) {
-    //       review = {}
-    //     }
-    //     result["dataValues"]["reviewed_maids"] = review
-    //     return result
-    //   }
-
-    findMaidByMaidId: async (maidId) => {
-      sequelize.QueryInterface('')
+    findMaidTop: async (amount) => {
+      return await db.user.findAll({
+        type: "MAID",
+        limit: parseInt(amount),
+        order: [['average_rating', 'DESC']],
+      })
     }
-
   }
-}
+};
