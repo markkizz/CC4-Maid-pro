@@ -15,10 +15,10 @@ export default class MyBookingHistory extends Component {
     return (
       <div className="MyBookingHistory-Body">
         <Navbar />
-        <Row>
+        <Row type="flex" justify="center">
           <Col>
             <Tabs defaultActiveKey="1" onChange={callback} className="MyBookingHistory-Tabs">
-              <TabPane tab="Upcoming" key="1">
+              <TabPane tab="Upcoming" key="1" className="MyBookingHistory-TabPane">
                 <BookingCard />
               </TabPane>
               <TabPane tab="History" key="2">

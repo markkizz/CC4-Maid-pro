@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import "./App.css";
-import MaidDescription from './pages/MaidDescription/MaidDescription'
+import MyBookingHistory from "./pages/MyBookingHistory/MyBookingHistory";
+
 export class App extends Component {
   render() {
     return <div className="App">
-      <MaidDescription />
+      <MyBookingHistory />
     </div>;
   }
 }
