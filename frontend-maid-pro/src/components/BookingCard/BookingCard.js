@@ -27,7 +27,7 @@ export default class BookingCard extends Component {
   };
 
   render() {
-    const { visible, loading } = this.state;
+    const { visible } = this.state;
     return (
       <div>
         <Row className="BookingCard-Body">
@@ -59,6 +59,7 @@ export default class BookingCard extends Component {
           <Modal
           visible={visible}
           title="Cancel Booing"
+          style={{ top: 10 }}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
