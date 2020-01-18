@@ -18,10 +18,10 @@ export class HomePage extends Component {
     return (
       <>
         <Navbar />
-        <div className="HomePage-Carousel-container">
-          <Row type="flex" justify="center">
-            <Col span={24}>
-              <Carousel autoplay>
+        <div className="HomePage-container" >
+          <Row type="flex" justify="center" className="HomePage-Carousel-container">
+            <Col span={24} >
+              <Carousel autoplay >
                 {imageUrls.map((url, i) => (
                   <div key={i + " Carousel"}>
                     <img
@@ -35,6 +35,7 @@ export class HomePage extends Component {
             </Col>
           </Row>
         </div>
+
         <div className="container HomePage-footer-margin">
           <Row>
             <Col style={{ marginTop: 20, textAlign: "center" }}>
@@ -59,30 +60,45 @@ export class HomePage extends Component {
               </Col>
             </div>
           </Row>
-          <Row
-            style={{ marginTop: 20 }}
-            type="flex"
-            justify="center"
-            gutter={[16, 18]}
-          >
-            <Col span={24}>
-              <div className="HomePage-text-center">
-                <h2>Maid Recommended For You</h2>
-              </div>
-            </Col>
-            <Col xs={12}>
-              <MaidCard />
-            </Col>
-            <Col xs={12}>
-              <MaidCard />
-            </Col>
-            <Col xs={12}>
-              <MaidCard />
-            </Col>
-            <Col xs={12}>
-              <MaidCard />
+        </div>
+        <div>
+          <Row type="flex" justify="center" style={{ marginTop: '20px'}}>
+            <Col>
+              <h2>Maid Recommended For You</h2>
             </Col>
           </Row>
+          <div className="HomePage-margin" >
+            <Col span={12}>
+              <Row type="flex" justify="center" align="middle"style={{ marginBottom: '20px'}}>
+                <Col >
+                  <MaidCard />
+                </Col>
+              </Row>
+            </Col>
+            <Col span={12}>
+              <Row type="flex" justify="center" align="middle"style={{ marginBottom: '20px'}}>
+                <Col >
+                  <MaidCard />
+                </Col>
+              </Row>
+            </Col>
+          </div>
+          <div className="HomePage-margin" >
+            <Col span={12}>
+              <Row type="flex" justify="center" align="middle"style={{ marginBottom: '20px'}}>
+                <Col >
+                  <MaidCard />
+                </Col>
+              </Row>
+            </Col>
+            <Col span={12}>
+              <Row type="flex" justify="center" align="middle"style={{ marginBottom: '20px'}}>
+                <Col >
+                  <MaidCard />
+                </Col>
+              </Row>
+            </Col>
+          </div>
         </div>
         <Footer />
       </>
