@@ -22,7 +22,7 @@ export default class MyBookingHistory extends Component {
                 <BookingCard />
               </TabPane>
               <TabPane tab="History" key="2">
-                History
+                Content of Tab Pane 2
               </TabPane>
             </Tabs>
           </Col>

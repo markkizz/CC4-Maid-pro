@@ -6,3 +6,10 @@
 .MyBookingHistory-Tabs {
   background-color: white;
 }
+
+.ant-tabs-tab {
+  flex-grow: 1;
+  margin-right: 0px;
+  width: 84%;
+  text-align: center;
+}
