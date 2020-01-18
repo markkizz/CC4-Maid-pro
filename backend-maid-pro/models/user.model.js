@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         is: ["^[a-z0-9]+$", 'i'],
       }
     },
+
     password: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -96,12 +97,17 @@ module.exports = (sequelize, DataTypes) => {
     about_maid: {
       type: DataTypes.STRING(1500)
     },
+    average_rating: {
+      type: DataTypes.FLOAT
+    }
   }, {
+    
     getterMethods: {
       full_name() {
         return `${this.first_name} ${this.last_name}`
       }
     },
+
     setterMethods: {
       full_name(value) {
         if (value !== undefined || value !== null) {
@@ -123,6 +129,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
+
     user.belongsToMany(user, {
       as: 'maid_bookings',
       through: models.booking,
@@ -132,22 +139,27 @@ module.exports = (sequelize, DataTypes) => {
       },
       otherKey: 'maid_id'
     });
+
     user.belongsToMany(models.user, {
       as: 'reviewed_employers',
-      through: models.review,
+      through: {
+        model: models.review,
+        unique: false,
+      },
       foreignKey: {
         name: 'employer_id',
-        allowNull: false
-      }
+      },
     });
 
     user.belongsToMany(models.user, {
       as: 'reviewed_maids',
-      through: models.review,
+      through: {
+        model: models.review,
+        unique: false,
+      },
       foreignKey: {
         name: 'maid_id',
-        allowNull: false
-      }
+      },
     });
   };
 

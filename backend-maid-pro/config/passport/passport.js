@@ -13,7 +13,7 @@ const userRepository = require('../../repositories/user.repository');
 
 let jwtOptions = {};
 jwtOptions.secretOrKey = 'c0d3c4m4';
-//
+
 passport.use('local-hashPassword', new LocalStrategy({ session: false }, (username, password, done) => {
   const salt = bcrypt.genSaltSync(BCRYPT_SALT_ROUNDS);
   const hashedPassword = bcrypt.hashSync(password, salt);
