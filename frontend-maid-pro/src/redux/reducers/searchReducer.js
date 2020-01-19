@@ -8,8 +8,15 @@ const initialState = {
 function searchReducer(state=initialstate, action) {
   switch (action.type) {
     case searchTypes.QUICK_SEARCH_TYPE:
-      return null
-
+      return {
+        ...state,
+        quickSearchType: action.payload
+      }
+      case searchTypes.FILTER_SEARCH:
+      return {
+        ...state,
+        filterSearch: action.payload
+      }
     default:
       return state;
   }
