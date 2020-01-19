@@ -1,6 +1,6 @@
 import userReducer from "../../redux/reducers/userReducer";
-import { userTypes } from "../../redux/actions/types";
-import {} from "../../redux/actions/actions";
+import searchReducer from '../../redux/reducers/searchReducer'
+import { userTypes, searchTypes } from "../../redux/actions/types";
 
 describe("User Reducer", () => {
   const initialState = {
@@ -44,3 +44,21 @@ describe("User Reducer", () => {
     });
   });
 });
+
+describe('Search Reducer', () => {
+  const initialState = {
+    quickSearchType: '',
+    filterSearch: []
+  }
+
+  describe("when user doesn't send any action", () => {
+    it('Should return initial state', () => {
+      const newState = searchReducer(initialState, {})
+      expect(newState).toEqual(initialState)
+    })
+  })
+
+  // describe("when user click button quick search in home page", () => {
+  //   const newState = searchReducer(initialState, )
+  // })
+})
