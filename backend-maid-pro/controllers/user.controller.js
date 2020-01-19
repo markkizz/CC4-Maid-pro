@@ -124,10 +124,30 @@ module.exports = db => {
         res.status(400).json({ errorMessage: errorMessage })
       }
     },
-    
+
     findMaidTop: async (req, res) => {
       try {
         const result = await service.findMaidTop(req.params.amount);
+        const { httpStatus, message, errorMessage } = result
+        if (!errorMessage) {
+          res.status(httpStatus).json(message)
+        } else {
+          res.status(httpStatus).json({ errorMessage: errorMessage })
+        }
+      } catch (err) {
+        console.error(err);
+        res.status(400).json({ errorMessage: errorMessage })
+      }
+    },
+
+    findMaidsQuickSearch: async (req, res) => {
+      try {
+        const {type} = req.query
+        let serviceTypeId
+        if(type === 'condo') serviceTypeId = [1,4]
+        else if(type === 'house') serviceTypeId = [5,7]
+        else res.status(400).json({errorMessage: 'invalid service type'})
+        const result = await service.findMaidsQuickSearch(serviceTypeId)
         const { httpStatus, message, errorMessage } = result
         if (!errorMessage) {
           res.status(httpStatus).json(message)
