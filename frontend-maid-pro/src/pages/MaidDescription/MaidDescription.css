@@ -8,7 +8,7 @@
     font-size: 18px;
   }
 
-.MaidDescription-Description-bgColor {
+.MaidDescription-DescriptionRow {
     background-color: #26485F;
     color: white;
 }
@@ -19,27 +19,48 @@
 
 .MaidDescription-ProfilePicture {
     margin: 10px;
-    border-radius: 80px;
+    border-radius: 50%;
     -webkit-box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
+    margin-right: 5%;
 }
+
 .MaidDescription-Name {
     margin-top: 30px;
 }
 
-.MaidDescription-TypeOfPlace {
+.MaidDescription-MarginTop20px {
     margin-top: 20px;
-    text-align: center;
 }
 
 .MaidDescription-Type {
     margin-top: 20px;
-    text-align: center;
+    text-align: end;
+    padding-right: 1.2rem;
 }
 
 .MaidDescription-icon {
     font-size: 60px
+}
+
+.MaidDescription-CondoText{
+    padding-right: 0.8rem;
+}
+
+.MaidDescription-CondoType {
+    margin-top: 20px;
+    padding-left: 1.2rem;
+}
+
+.MaidDescription-HomeText{
+    padding-right: 0.8rem;
+    margin-top: -0.4rem;
+}
+
+.MaidDescription-HomeType {
+    margin-top: 20px;
+    padding-left: 1.2rem;
 }
 
 .MaidDescription-BookingButton {
