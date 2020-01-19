@@ -5,7 +5,7 @@ const initialState = {
   filterSearch: []
 }
 
-function searchReducer(state=initialstate, action) {
+function searchReducer(state=initialState, action) {
   switch (action.type) {
     case searchTypes.QUICK_SEARCH_TYPE:
       return {
