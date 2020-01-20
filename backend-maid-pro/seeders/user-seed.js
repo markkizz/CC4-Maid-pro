@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const faker = require("faker");
-
+const { numberOfUser } = require("./constant/constant");
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config.json")[env];
 
@@ -17,7 +17,7 @@ const genBankName = () => {
 
 let userData = [];
 
-for (let i = 1; i <= 10; i++) {
+for (let i = 1; i <= numberOfUser; i++) {
   let user = {
     id: i,
     username: i === 0 ? "test" : faker.internet.userName(),

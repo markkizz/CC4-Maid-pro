@@ -1,5 +1,5 @@
 #!/bin/bash
-fileSeed=('user-seed' 'building-type-seed' 'services-seed');
+fileSeed=('user-seed' 'building-type-seed' 'services-seed' 'booking-seed');
 
 for flie in ${fileSeed[@]}
 do

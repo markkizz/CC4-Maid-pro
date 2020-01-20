@@ -101,7 +101,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT
     }
   }, {
-    
+
     getterMethods: {
       full_name() {
         return `${this.first_name} ${this.last_name}`
@@ -130,7 +130,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
 
-    user.belongsToMany(user, {
+    user.belongsToMany(models.user, {
       as: 'maid_bookings',
       through: models.booking,
       foreignKey: {
