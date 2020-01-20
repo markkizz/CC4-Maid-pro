@@ -38,17 +38,17 @@ export class SearchPage extends Component {
               </ButtonFilter>
             </Col>
           </Row>
-          <Row type="flex" justify="center" gutter={[16, 16]}>
-            <Col xs={12}>
+          <Row type="flex" justify="center" gutter={[16,16]}>
+            <Col span={12} style={{display: 'flex', justifyContent: 'center'}}>
               <MaidCard />
             </Col>
-            <Col xs={12}>
+            <Col span={12} style={{display: 'flex', justifyContent: 'center'}}>
               <MaidCard />
             </Col>
-            <Col xs={12}>
+            <Col span={12} style={{display: 'flex', justifyContent: 'center'}}>
               <MaidCard />
             </Col>
-            <Col xs={12}>
+            <Col span={12} style={{display: 'flex', justifyContent: 'center'}}>
               <MaidCard />
             </Col>
           </Row>
