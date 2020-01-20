@@ -44,7 +44,11 @@ module.exports = (db) => {
     },
 
     signIn: (req, res, next) => {
-      const result = { httpStatus: 500, message: undefined, errorMessage: undefined };
+      const result = {
+        httpStatus: 500,
+        message: undefined,
+        errorMessage: undefined
+      };
       return new Promise((resolve, reject) => {
         passport.authenticate('local-comparePassword', {}, (err, user, info) => {
           if (err) {
@@ -65,10 +69,15 @@ module.exports = (db) => {
             }
             console.log(info.message);
           } else {
-            const token = jwt.sign(
-              { id: user.id, type: user.type, first_name: user.first_name, last_name: user.last_name },
-              jwtOptions.secretOrKey,
-              { expiresIn: 3600 }
+            const token = jwt.sign({
+                id: user.id,
+                type: user.type,
+                first_name: user.first_name,
+                last_name: user.last_name
+              },
+              jwtOptions.secretOrKey, {
+                expiresIn: 3600
+              }
             );
 
             result.httpStatus = 200;
@@ -103,26 +112,68 @@ module.exports = (db) => {
         });
 
         if (result.length === 0) {
-          return { httpStatus: 204, message: result };
+          return {
+            httpStatus: 204,
+            message: result
+          };
         } else {
-          return { httpStatus: 200, message: codecampResult };
+          return {
+            httpStatus: 200,
+            message: codecampResult
+          };
         }
       } catch (ex) {
         if (ex.message.includes('ECONNREFUSED')) {
-          return { httpStatus: 500, errorMessage: 'Database server error' };
+          return {
+            httpStatus: 500,
+            errorMessage: 'Database server error'
+          };
         }
-        return { httpStatus: 400, errorMessage: ex.message };
+        return {
+          httpStatus: 400,
+          errorMessage: ex.message
+        };
+      }
+    },
+    findMaidByMaidId: async (maidId) => {
+      try {
+        const result = await repository.findMaidByMaidId(maidId);
+
+        if (!result) {
+          return {
+            httpStatus: 204,
+            message: result
+          };
+        } else {
+          return {
+            httpStatus: 200,
+            message: result
+          };
+        }
+      } catch (ex) {
+        if (ex.message.includes('ECONNREFUSED')) {
+          return {
+            httpStatus: 500,
+            errorMessage: 'Database server error'
+          };
+        }
+        return {
+          httpStatus: 400,
+          errorMessage: ex.message
+        };
       }
     },
 
-    searchMaids: async (first_name, type) => {
+    searchMaids: async (name, type_id, date, time, rating, price_hour) => {
       try {
-        const result = await repository.searchMaids(first_name, type);
-        console.log(result)
-        if (result.length === 0) {
-          return { httpStatus: 204, message: result }
-        } else {
-          return { httpStatus: 200, message: result }
+        let result = await repository.searchMaidsAllChoice(name, type_id, date, time, rating, price_hour);
+        if(result.length === 0) {
+          result = await repository.searchMaids(name, type_id, date, time, rating, price_hour)
+          if (result.length === 0) {
+            return { httpStatus: 204, message: result }
+          } else {
+            return { httpStatus: 200, message: result }
+          }
         }
       } catch (err) {
         if (err.message.includes('ECONNREFUSED')) {
@@ -135,7 +186,6 @@ module.exports = (db) => {
     getMyBooking: async(id, type) => {
       try {
         const result = await repository.getMyBooking(id, type);
-        console.log(result)
         if (result.length === 0) {
           return { httpStatus: 204, message: result }
         } else {
@@ -147,8 +197,43 @@ module.exports = (db) => {
         }
         return { httpStatus: 400, errorMessage: err.message }
       }
+    },
+
+    findMaidTop: async(amount) => {
+      try {
+        const result = await repository.findMaidTop(amount);
+        console.log(result)
+        if (result.length === 0) {
+          return { httpStatus: 204, message: result }
+        } else {
+          return { httpStatus: 200, message: result }
+        }
+      } catch (err) {
+        console.error(err);
+        if (err.message.includes('ECONNREFUSED')) {
+          return { httpStatus: 500, errorMessage: 'Database server error' };
+        }
+        return { httpStatus: 400, errorMessage: err.message }
+      }
+    },
+
+    findMaidsQuickSearch: async (serviceTypeId) => {
+      try {
+        const result = await repository.findMaidsQuickSearch(serviceTypeId)
+        console.log(result)
+        if (result.length === 0) {
+          return { httpStatus: 204, message: result }
+        } else {
+          return { httpStatus: 200, message: result }
+        }
+      } catch (err) {
+        console.error(err);
+        if (err.message.includes('ECONNREFUSED')) {
+          return { httpStatus: 500, errorMessage: 'Database server error' };
+        }
+        return { httpStatus: 400, errorMessage: err.message }
+      }
     }
   }
 };
-
 

@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const faker = require("faker");
 
-const env = process.env.NODE_ENV || 'development'
+const env = process.env.NODE_ENV || "development";
 const config = require("../config/config.json")[env];
 
 const BCRYPT_SALT_ROUNDS = config.salt_length;
@@ -15,30 +15,28 @@ const genBankName = () => {
   return bankName[randomNumber];
 };
 
-const genUserType = () => {
-  const userType = ["EMPLOYER", "MAID"];
-  return userType[Math.floor(Math.random() * 2)];
-};
-
 let userData = [];
 
-for (let i = 0; i < 10; i++) {
+for (let i = 1; i <= 10; i++) {
   let user = {
     id: i,
     username: i === 0 ? "test" : faker.internet.userName(),
     password: hashedPassword("1234"),
-    id_card_no: '1234567890123',
+    id_card_no: "1234567890123",
     first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
-    type: genUserType(),
-    phone_no: faker.phone.phoneNumber('08#######'),
+    type: i % 2 === 0 ? "MAID" : "EMPLOYER",
+    phone_no: faker.phone.phoneNumber("08#######"),
     email: faker.internet.email(),
     profile_img: faker.internet.avatar(),
-    address: "Phetchaburi Rd, Thanon Phaya Thai, Ratchathewi ",
+    address: `${faker.address.city()} ${faker.address.state(
+      true
+    )} ${faker.address.streetAddress(true)} ${faker.address.streetName()}`,
     status: "ACTIVE",
     bank_account_no: faker.finance.account(),
     bank_name: genBankName(),
     price_per_hour: Math.floor(Math.random() * 1000) + 200,
+    holidays: faker.date.weekday(),
     about_maid: faker.lorem.paragraph(1),
     createdAt: new Date(),
     updatedAt: new Date()

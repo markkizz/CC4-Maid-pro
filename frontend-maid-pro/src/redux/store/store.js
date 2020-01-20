@@ -33,9 +33,7 @@ const store = createStore(
   reducers,
   persistStore,
   compose(
-    applyMiddleware(...middlewares),
-    window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+    applyMiddleware(...middlewares)  )
 );
 
 store.subscribe(() => {

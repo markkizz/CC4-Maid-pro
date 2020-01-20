@@ -1,6 +1,7 @@
 import userReducer from "../../redux/reducers/userReducer";
-import { userTypes } from "../../redux/actions/types";
-import {} from "../../redux/actions/actions";
+import searchReducer from "../../redux/reducers/searchReducer";
+import maidReducer from '../../redux/reducers/maidReducer'
+import { userTypes, searchTypes, maidTypes } from "../../redux/actions/types";
 
 describe("User Reducer", () => {
   const initialState = {
@@ -26,16 +27,16 @@ describe("User Reducer", () => {
     const user = {
       id: 0,
       username: "markkizz",
-      phone: "084721xxxx",
-      role: "user"
+      first_name: 'mark',
+      last_name: 'kriz',
+      type: 'MAID'
     };
     it("Should return user data when user Login to website", () => {
       const newState = userReducer(initialState, {
         type: userTypes.USER_LOGIN,
         payload: user
       });
-      console.log(newState);
-      expect(newState).toEqual(user);
+      expect(newState).toEqual({...user, role: 'maid'});
     });
 
     it("Should return guest role when user Logout", () => {
@@ -44,3 +45,65 @@ describe("User Reducer", () => {
     });
   });
 });
+
+describe("Search Reducer", () => {
+  const initialState = {
+    quickSearchType: "",
+    filterSearch: []
+  };
+
+  describe("when user doesn't send any action in quick search", () => {
+    it("Should return initial state", () => {
+      const newState = searchReducer(initialState, {});
+      expect(newState).toEqual(initialState);
+    });
+  });
+
+  describe("when user click button quick search in home page", () => {
+    it("Should return state that store quickSearchType with house", () => {
+      const newState = searchReducer(initialState, {
+        type: searchTypes.QUICK_SEARCH_TYPE,
+        payload: "house"
+      });
+      expect(newState).toEqual({ ...initialState, quickSearchType: "house" });
+    });
+  });
+
+  describe('When user use filter feature', () => {
+    const data = {
+      maidName: "mark",
+      typeOfPlaceId: 1,
+      date: "Monday",
+      rating: 5,
+      price_hour: [0, 750]
+    };
+    const newState = searchReducer(initialState, {
+      type: searchTypes.FILTER_SEARCH,
+      payload: data
+    })
+    expect(newState).toEqual({...initialState, filterSearch: {...data}})
+  })
+});
+
+describe('Maid Reducer', () => {
+  const initialState = {
+    selectedMaid: 0
+  }
+  describe("When user doesn't send any action in MaidCard", () => {
+    it('Should return initial state', () => {
+      const newState = maidReducer(initialState, {})
+      expect(newState).toEqual(initialState)
+    })
+  })
+
+  describe("When user click in MaidCard", () => {
+    it('Should return state that store selectedMaid with maid id', () => {
+      const maidId = 1
+      const newState = maidReducer(initialState, {
+        type: maidTypes.SELECTED_MAID,
+        payload: maidId
+      })
+      expect(newState).toEqual({...initialState, selectedMaid: maidId})
+    })
+  })
+})

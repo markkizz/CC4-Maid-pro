@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   buildingType.associate = (models) => {
     buildingType.belongsToMany(models.user, {
       as: 'served_maids',
+      onDelete: 'CASCADE',
       through: 'services',
       foreignKey: {
         name: 'building_type_id',
