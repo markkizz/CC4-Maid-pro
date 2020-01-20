@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./MaidCard.css";
 import { Row, Col, Card, Rate } from "antd";
 
@@ -14,7 +15,7 @@ function MaidCard() {
           alt="maid"
         />
       }
-      bodyStyle={{ padding: "6px 16px" }}
+      bodyStyle={{ padding: "6px 10px" }}
     >
       <h3>Mark Maid</h3>
       <Row className="MaidCard-Row" type="flex" align="bottom">
@@ -27,11 +28,22 @@ function MaidCard() {
       </Row>
       <Row>
         <Col>
-          <Card.Meta description={description.substr(0, 40) + "..."} />
+          <Card.Meta
+            style={{ fontSize: 12 }}
+            description={description.substr(0, 45) + "..."}
+          />
         </Col>
       </Row>
     </Card>
   );
 }
+
+MaidCard.propTypes = {
+  maidName: PropTypes.string,
+  src: PropTypes.string,
+  rating: PropTypes.number,
+  totalReview: PropTypes.number,
+  desc: PropTypes.string
+};
 
 export default MaidCard;

@@ -26,22 +26,24 @@ class ModalSearch extends Component {
       "บ้าน มากกว่า 200 ตร.ม."
     ],
     marks: {
-      0: "500",
-      33: "1000",
-      66: "1500",
-      100: "2000"
+      0: "250",
+      33: "500",
+      66: "750",
+      100: "1000"
     }
   };
 
   render() {
     const { services, marks } = this.state;
+    const {onCancel, visible} = this.props
     return (
       <Modal
-        visible
+        visible={visible}
+        onCancel={onCancel}
         footer={null}
         closable
         width={340}
-        bodyStyle={{ padding: "60px 16px 16px" }}
+        bodyStyle={{ padding: "45px 16px 16px" }}
       >
         <Row gutter={[14, 16]}>
           <Col span={24}>
@@ -100,8 +102,8 @@ class ModalSearch extends Component {
             </Row>
           </Col>
           <Col span={24}>
-            <Row>
-              <Col span={24}>
+            <Row type="flex" justify="center">
+              <Col>
                 <h3>Price / Hour</h3>
               </Col>
               <Col span={24}>
@@ -120,7 +122,7 @@ class ModalSearch extends Component {
               Apply
             </Button>
           </Col>
-          <Col span={24}>
+          <Col span={24} onClick={onCancel}>
             <Button block size="large">
               Cancel
             </Button>

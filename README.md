@@ -16,17 +16,20 @@ or YARN:
 
 ### Provide database:
 NPM install sequelize-cli:
-### ```cd backend-maid-pro && npm install -g sequelize-cli && cd ..```  
+### ```cd backend-maid-pro && npm install -g sequelize-cli && cd ..```
 
 or YARN install sequelize-cli:
 ### ```cd backend-maid-pro && yarn global add sequelize-cli && cd ..```
 
 And then Create Database:
-### ```cd backend-maid-pro && sequelize db:create && cd ..```
-
+### 1. `cd back-maid-pro && sequelize init:config`
 Change Password in Sequelize config
 1. Open ./backend-maid-pro/config/config.json
 2. Edit "password" in "development" to be your MySql's password
+3. Edit "database" to be "cc4_maid_pro"
+4. Add "salt_length": 12 into "development" object.
+
+### 2. `cd backend-maid-pro && sequelize db:create && cd ..`
 
 ## ✔ Available Scripts
 
@@ -34,15 +37,18 @@ In the project directory, you can run:
 
 ### `npm start` or `yarn start`
 
-Runs the app in the development mode.  
+Runs the app in the development mode.
 Open [http://localhost:8080](http://localhost:8080) to view it in the browser. (Client side)
 And [http://localhost:3333](http://localhost:3333) will be your server side.
 
-Run only Backend:  
+Run only Backend:
 ### `npm run start:backend` or `yarn start:backend`
 
 Run only Frontend:
 ### `npm run start:frontend` or `yarn start:frontend`
+
+Run seed for mocking data
+### `npm run seed` or `yarn seed:y`
 
 ## 🛠 Built with...
 ### Frontend (📂 frontend-maid-pro)
@@ -58,10 +64,10 @@ Run only Frontend:
 - [ExpressJS](https://reactjs.org/) - Server side framework
 
 
-## 🤘 Authors  
+## 🤘 Authors
 
 1. Mark
-2. Hon  
+2. Hon
 3. Korn
 4. Bell
 5. May
