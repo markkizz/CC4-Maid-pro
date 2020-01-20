@@ -28,7 +28,8 @@ describe("User login to website and request to backend", () => {
       id: 1,
       username: "mark",
       first_name: "kittayot",
-      last_name: "pattanapara"
+      last_name: "pattanapara",
+      type: 'EMPLOYER'
     };
     const token = jwt.sign(expectedUser, "53cr3tk3y");
 
@@ -50,7 +51,7 @@ describe("User login to website and request to backend", () => {
       })
       .then(() => {
         const newState = store.getState();
-        expect(newState.user).toEqual(expectedUser);
+        expect(newState.user).toEqual({...expectedUser, role: 'user'});
       });
   });
 });
