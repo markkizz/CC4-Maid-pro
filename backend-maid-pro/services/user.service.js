@@ -92,49 +92,39 @@ module.exports = (db) => {
       });
     },
 
-    findMaids: async (limit) => {
-      try {
-        const result = await repository.findMaidTop(limit);
-        if (result.length === 0) {
-          return { httpStatus: 204, message: result }
-        } else {
-          return { httpStatus: 200, message: result }
-        }
-      } catch (err) {
-        console.error(err);
-        if (err.message.includes('ECONNREFUSED')) {
-          return { httpStatus: 500, errorMessage: 'Database server error' };
-        }
-        return { httpStatus: 400, errorMessage: err.message }
-      }
-    },
-
     findMaidByMaidId: async (maidId) => {
       try {
-        const result = await repository.findMaidByMaidId(maidId);
+        let result = await repository.findMaidByMaidId(maidId);
 
         if (!result) {
-          return {
-            httpStatus: 204,
-            message: result
-          };
+          return { httpStatus: 204, message: result };
         } else {
-          return {
-            httpStatus: 200,
-            message: result
+
+          let sum = 0;
+          for (let review of result.reviewed_maids) {
+            sum += parseFloat(review.review.rating);
+          }
+          const average = sum / (result.reviewed_maids.length || 1);
+
+          result = {
+            firstName: result.first_name,
+            lastName: result.last_name,
+            type: result.type,
+            phoneNo: result.phone_no,
+            profileImg: result.profile_img,
+            pricePerHour: result.price_per_hour,
+            holidays: result.holidays,
+            aboutMaid: result.aboutMaid,
+            averageRating: average
           };
+
+          return { httpStatus: 200, message: result };
         }
       } catch (ex) {
         if (ex.message.includes('ECONNREFUSED')) {
-          return {
-            httpStatus: 500,
-            errorMessage: 'Database server error'
-          };
+          return { httpStatus: 500, errorMessage: 'Database server error' };
         }
-        return {
-          httpStatus: 400,
-          errorMessage: ex.message
-        };
+        return { httpStatus: 400, errorMessage: ex.message };
       }
     },
 
@@ -192,8 +182,7 @@ module.exports = (db) => {
 
     findMaidsQuickSearch: async (serviceTypeId) => {
       try {
-        const result = await repository.findMaidsQuickSearch(serviceTypeId)
-        console.log(result)
+        const result = await repository.findMaidsQuickSearch(serviceTypeId);
         if (result.length === 0) {
           return { httpStatus: 204, message: result }
         } else {
