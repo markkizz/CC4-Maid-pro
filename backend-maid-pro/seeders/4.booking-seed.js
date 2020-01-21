@@ -53,119 +53,153 @@ for (let i = 1; i <= numberOfUser; i++) {
   };
   bookingData.push(booking);
 }
+
+const genAddress = () => `${faker.address.city()} ${faker.address.state(
+  true
+)} ${faker.address.streetAddress(true)} ${faker.address.streetName()}`
+
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
+    let stat;
+    const genstatus = () => {
+      stat = status[Math.floor(Math.random() * 5)]
+      return stat
+    }
+    const checkIfReject = status => status === 'REJECT' ? 'uvuvwevwevwe onyetenyevwe ugwemubwem ossas' : null
     return queryInterface.bulkInsert("bookings",
     [
       {
-        work_at: genDateWork(),
+        customer_location: genAddress(),
+        work_date: genDateWork(),
         work_hour: 2,
-        status: status[Math.floor(Math.random() * 5)],
+        status: genstatus(),
         pay_slip_image: 'url',
         employer_id: 1,
         maid_id: 2,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        reject_note: checkIfReject(stat)
       },
       {
-        work_at: genDateWork(),
+        customer_location: genAddress(),
+        work_date: genDateWork(),
         work_hour: 2,
-        status: status[Math.floor(Math.random() * 5)],
+        status: genstatus(),
         pay_slip_image: 'url',
         employer_id: 1,
         maid_id: 4,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        reject_note: checkIfReject(stat)
       },
       {
-        work_at: genDateWork(),
+        customer_location: genAddress(),
+        work_date: genDateWork(),
         work_hour: 2,
-        status: status[Math.floor(Math.random() * 5)],
+        status: genstatus(),
         pay_slip_image: 'url',
         employer_id: 3,
         maid_id: 6,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        reject_note: checkIfReject(stat)
       },
       {
-        work_at: genDateWork(),
+        customer_location: genAddress(),
+        work_date: genDateWork(),
         work_hour: 2,
-        status: status[Math.floor(Math.random() * 5)],
+        status: genstatus(),
         pay_slip_image: 'url',
         employer_id: 5,
         maid_id: 8,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        reject_note: checkIfReject(stat)
       },
       {
-        work_at: genDateWork(),
+        customer_location: genAddress(),
+        work_date: genDateWork(),
         work_hour: 2,
-        status: status[Math.floor(Math.random() * 5)],
+        status: genstatus(),
         pay_slip_image: 'url',
         employer_id: 7,
         maid_id: 10,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        reject_note: checkIfReject(stat)
       },
       {
-        work_at: genDateWork(),
+        customer_location: genAddress(),
+        work_date: genDateWork(),
         work_hour: 2,
-        status: status[Math.floor(Math.random() * 5)],
+        status: genstatus(),
         pay_slip_image: 'url',
         employer_id: 5,
         maid_id: 2,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        reject_note: checkIfReject(stat)
       },
       {
-        work_at: genDateWork(),
+        customer_location: genAddress(),
+        work_date: genDateWork(),
         work_hour: 2,
-        status: status[Math.floor(Math.random() * 5)],
+        status: genstatus(),
         pay_slip_image: 'url',
         employer_id: 9,
         maid_id: 8,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        reject_note: checkIfReject(stat)
       },
       {
-        work_at: genDateWork(),
+        customer_location: genAddress(),
+        work_date: genDateWork(),
         work_hour: 2,
-        status: status[Math.floor(Math.random() * 5)],
+        status: genstatus(),
         pay_slip_image: 'url',
         employer_id: 7,
         maid_id: 4,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        reject_note: checkIfReject(stat)
       },
       {
-        work_at: genDateWork(),
+        customer_location: genAddress(),
+        work_date: genDateWork(),
         work_hour: 2,
-        status: status[Math.floor(Math.random() * 5)],
+        status: genstatus(),
         pay_slip_image: 'url',
         employer_id: 1,
         maid_id: 10,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        reject_note: checkIfReject(stat)
       },
       {
-        work_at: genDateWork(),
+        customer_location: genAddress(),
+        work_date: genDateWork(),
         work_hour: 2,
-        status: status[Math.floor(Math.random() * 5)],
+        status: genstatus(),
         pay_slip_image: 'url',
         employer_id: 9,
         maid_id: 6,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        reject_note: checkIfReject(stat)
       },
       {
-        work_at: genDateWork(),
+        customer_location: genAddress(),
+        work_date: genDateWork(),
         work_hour: 2,
-        status: status[Math.floor(Math.random() * 5)],
+        status: genstatus(),
         pay_slip_image: 'url',
         employer_id: 7,
         maid_id: 2,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        reject_note: checkIfReject(stat)
       }
     ], {});
   },
