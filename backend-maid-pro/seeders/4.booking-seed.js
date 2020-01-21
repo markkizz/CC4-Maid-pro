@@ -173,15 +173,4 @@ module.exports = {
     return queryInterface.bulkDelete("bookings", [{}]);
   }
 };
-/**
- *       {
-        work_at: genDateWork(),
-        work_hour: 2,
-        status: 'ACCEPT',
-        pay_slip_image: 'url',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        employer_id: 1,
-        maid_id: 2
-      }
- */
+
