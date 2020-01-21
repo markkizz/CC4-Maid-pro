@@ -18,7 +18,7 @@ handleQuickSearchHome = () => {
 
 handleClickMaid = (maidId) => {
   dispatch(maidIdTypes(maidId))
-  this.history.push(maid/{maidId})
+  this.history.push(`maid/${maidId}`)
 }
 
 export class HomePage extends Component {
@@ -122,5 +122,6 @@ export class HomePage extends Component {
     );
   }
 }
+
 
 export default HomePage;
