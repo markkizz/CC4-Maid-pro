@@ -7,7 +7,7 @@ import { Row, Col } from "antd";
 import { FaSlidersH } from "react-icons/fa";
 import axios from "../../config/api.service";
 import { dispatch } from "rxjs/internal/observable/pairs";
-import {selectedMaid} from "../../redux/actions/actions";
+import { selectedMaid } from "../../redux/actions/actions";
 import { connect } from "react-redux";
 
 export class SearchPage extends Component {
@@ -67,14 +67,14 @@ export class SearchPage extends Component {
                 <Row gutter={[4, 16]}>
                   <Col span={10}>
                     <FaSlidersH />
-                  </Col>{" "}
+                  </Col>
                   <Col span={14}>
-                    <p> Filter </p>{" "}
-                  </Col>{" "}
-                </Row>{" "}
-              </ButtonFilter>{" "}
-            </Col>{" "}
-          </Row>{" "}
+                    <p> Filter </p>
+                  </Col>
+                </Row>
+              </ButtonFilter>
+            </Col>
+          </Row>
           <Row type="flex" justify="center" gutter={[16, 16]}>
             <Col
               span={12}
@@ -84,7 +84,7 @@ export class SearchPage extends Component {
               }}
             >
               <MaidCard />
-            </Col>{" "}
+            </Col>
             <Col
               span={12}
               style={{
@@ -93,7 +93,7 @@ export class SearchPage extends Component {
               }}
             >
               <MaidCard />
-            </Col>{" "}
+            </Col>
             <Col
               span={12}
               style={{
@@ -102,7 +102,7 @@ export class SearchPage extends Component {
               }}
             >
               <MaidCard />
-            </Col>{" "}
+            </Col>
             <Col
               span={12}
               style={{
@@ -111,13 +111,13 @@ export class SearchPage extends Component {
               }}
             >
               <MaidCard />
-            </Col>{" "}
-          </Row>{" "}
-        </div>{" "}
+            </Col>
+          </Row>
+        </div>
         <ModalSearch
           onCancel={this.handleModalVisible}
           visible={modalVisible}
-        />{" "}
+        />
       </>
     );
   }
@@ -130,4 +130,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(SearchPage);
+export default connect( mapStateToProps, null )(SearchPage);

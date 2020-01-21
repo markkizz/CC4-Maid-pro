@@ -19,6 +19,35 @@ import { FaClock, FaBook } from "react-icons/fa";
 const { Option } = Select;
 
 class Booking extends Component {
+  state = {
+    username: '',
+    password: '',
+    email: ''
+  }
+
+  handleChange = (label) => e => {
+    this.setState({
+      [label]: e.target.value,
+    })
+  }
+  handleSubmit = (e) => {
+    axios.post(`/register`, {
+      username: this.state.username,
+      password: this.state.password,
+      email: this.state.email
+    })
+      .then(result => {
+        console.log(result)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+      this.setState({
+        username: '',
+        password: '',
+        email: ''
+      })
+  }
   handleSelect = value => {
     console.log(value);
     this.setState({
@@ -59,6 +88,7 @@ class Booking extends Component {
               </Col>
               <Col span={16}>
                 <Select
+
                   defaultValue="คอนโด 1 ห้องนอน (ไม่เกิน 40 ตร.ม.)"
                   style={{ width: "100%" }}
                 >
@@ -97,6 +127,7 @@ class Booking extends Component {
                   defaultValue={moment("01/01/2015", dateFormatList[0])}
                   format={dateFormatList}
                   style={{ width: "100%" }}
+                  onChange={this.handleChange('username')}
                 />
               </Col>
             </Row>
