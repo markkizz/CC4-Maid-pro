@@ -1,4 +1,6 @@
 import { userTypes } from "./types";
+import { searchQuickTypes } from "./types"
+import { maidIdTypes } from "./types"
 
 const TOKEN = "ACCESS_TOKEN";
 
@@ -15,5 +17,22 @@ export const logout = () => {
   localStorage.removeItem(TOKEN);
   return {
     type: userTypes.USER_LOGOUT
+  };
+};
+
+export const searchHome = () => {
+  return {
+    type: searchQuickTypes.SEARCH_HOME,
+  }
+};
+export const searchCondo = () => {
+  return {
+    type: searchQuickTypes.SEARCH_CONDO,
+  };
+};
+export const maidId = (maidId) => {
+  return {
+    type: maidIdTypes.MAID_ID,
+    payload: maidId
   };
 };

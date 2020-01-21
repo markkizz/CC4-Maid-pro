@@ -5,8 +5,25 @@ import MaidCard from "../../components/MaidCard/MaidCard";
 import Footer from "../../components/Footer/Footer";
 import { Carousel, Row, Col } from "antd";
 import { FaBuilding, FaHome } from "react-icons/fa";
+
+handleQuickSearchCondo = () => {
+  dispatch(searchCondo())
+  this.history.push('/search/quickCondo')
+}
+
+handleQuickSearchHome = () => {
+  dispatch(searchHome())
+  this.history.push('/search/quickHome')
+}
+
+handleClickMaid = (maidId) => {
+  dispatch(maidIdTypes(maidId))
+  this.history.push(maid/{maidId})
+}
+
 export class HomePage extends Component {
   state = {
+    
     imageUrls: [
       "https://architecturesideas.com/wp-content/uploads/2019/12/Housekeeper1.jpg",
       "https://architecturesideas.com/wp-content/uploads/2019/12/Housekeeper2.jpg"
@@ -45,7 +62,7 @@ export class HomePage extends Component {
               <Col span={12}>
                 <Row type="flex" justify="center" align="middle">
                   <Col className="HomePage-text-center HomePage-q-card">
-                    <FaBuilding className="HomaPage-icon" />
+                    <FaBuilding className="HomaPage-icon" onClick={this.handleQuickSearchCondo}/>
                     <p>Condo</p>
                   </Col>
                 </Row>
@@ -53,7 +70,7 @@ export class HomePage extends Component {
               <Col span={12}>
                 <Row type="flex" justify="center" align="middle">
                   <Col className="HomePage-text-center HomePage-q-card">
-                    <FaHome className="HomaPage-icon" />
+                    <FaHome className="HomaPage-icon" onClick={this.handleQuickSearchHome}/>
                     <p>Home</p>
                   </Col>
                 </Row>
