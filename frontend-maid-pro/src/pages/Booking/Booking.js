@@ -1,24 +1,17 @@
 import React, { Component } from "react";
 import "./Booking.css";
-import Navbar from "../../components/Navbar/Navbar";
-import Footer from "../../components/Footer/Footer";
-import {
-  Card,
-  Row,
-  Col,
-  Input,
-  Button,
-  Icon,
-  Form,
-  Select,
-  DatePicker,
-  Upload
-} from "antd";
+import { connect } from 'react-redux';
+import { Card,Row,Col,Input,Button,Icon,Form,Select,DatePicker,Upload,Modal } from "antd";
 import moment from "moment";
 import { FaClock, FaBook } from "react-icons/fa";
 const { Option } = Select;
 
 class Booking extends Component {
+  
+  state = {
+    visible: false
+  }
+
   handleSelect = value => {
     console.log(value);
     this.setState({
@@ -26,13 +19,17 @@ class Booking extends Component {
     });
   };
 
+
   render() {
     const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
     const { TextArea } = Input;
     return (
-      <>
-        <Navbar />
-        <Row type="flex" justify="center" className="Booking-Body">
+      <Modal
+        visible={this.props.visible}
+        footer={null}
+        onCancel={this.props.onCancel}
+      >
+        <Row type="flex" justify="center">
           <Card className="Booking-Card">
             <Row className="Booking-Margin" style={{ width: "100%" }}>
               <Col>
@@ -189,13 +186,13 @@ class Booking extends Component {
                 span={12}
                 style={{ display: "flex", justifyContent: "center" }}
               >
-                <Button className="Booking-CancelButton">Cancel</Button>
+                <Button onClick={() => this.props.onCancel(false)} className="Booking-CancelButton">Cancel</Button>
               </Col>
               <Col
                 span={12}
                 style={{ display: "flex", justifyContent: "center" }}
               >
-                <Button className="Booking-ConfirmButton">confirm</Button>
+                <Button className="Booking-ConfirmButton" >confirm</Button>
               </Col>
             </Row>
           </Card>
@@ -205,10 +202,8 @@ class Booking extends Component {
           type="flex"
           justify="center"
           align="middle"
-        >
-          <Footer />
-        </div>
-      </>
+        ></div>
+      </Modal>
     );
   }
 }
