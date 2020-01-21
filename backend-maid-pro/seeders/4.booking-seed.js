@@ -1,5 +1,5 @@
 const faker = require("faker");
-const { numberOfUser } = require("./constant/constant");
+const { numberOfUser } = require("./cons/constant");
 
 const status = [
   "WAIT_FOR_ACCEPTANCE",
@@ -19,17 +19,17 @@ const genId = (OddOrEven, id) => {
   };
   let newId = id;
   while (ifCondition(newId)) {
-    newId = Math.floor(Math.random() * numberOfUser);
+    newId = Math.floor(Math.random() * 10);
   }
   return newId;
 };
 const bookingData = [];
 
-for (let i = 1; i <= numberOfUser; i++) {
+for (let i = 1; i <= 10; i++) {
   const booking = {
     work_at: new Date(),
     work_hour: 2,
-    status: status[Math.floor(Math.random() * 5)],
+    status: 'ACCEPT',
     pay_slip_image: faker.image.cats(),
     employer_id: 1,
     maid_id: 2,

@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const faker = require("faker");
-const { numberOfUser } = require("./constant/constant");
+const { numberOfUser } = require("./cons/constant");
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config.json")[env];
 
