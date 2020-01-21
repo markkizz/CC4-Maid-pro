@@ -51,16 +51,14 @@ module.exports = db => {
         for (let i = 0; i < resultMaidId.length; i++) {
           let maid = await db.user.findOne({
             where: { id: resultMaidId[i] },
-            attributes: [
-              "username",
-              "first_name",
-              "last_name",
-              "profile_img"
-            ]
+            attributes: ["username", "first_name", "last_name", "profile_img"]
           });
           maidData.push(maid.dataValues);
         }
-        const newResult = result.map((maid, i) => ({...maid.dataValues, maid_data: maidData[i] }))
+        const newResult = result.map((maid, i) => ({
+          ...maid.dataValues,
+          maid_data: maidData[i]
+        }));
         if (newResult.length === 0) {
           res.status(204).json(newResult);
         } else {
@@ -89,16 +87,14 @@ module.exports = db => {
         for (let i = 0; i < resultEmployerId.length; i++) {
           let employer = await db.user.findOne({
             where: { id: resultEmployerId[i] },
-            attributes: [
-              "username",
-              "first_name",
-              "last_name",
-              "profile_img"
-            ]
+            attributes: ["username", "first_name", "last_name", "profile_img"]
           });
           emplyerData.push(employer.dataValues);
         }
-        const newResult = result.map((em, i) => ({...em.dataValues, employer_data: emplyerData[i] }))
+        const newResult = result.map((em, i) => ({
+          ...em.dataValues,
+          employer_data: emplyerData[i]
+        }));
         if (newResult.length === 0) {
           res.status(204).json(newResult);
         } else {
@@ -110,6 +106,39 @@ module.exports = db => {
         }
         res.status(400).json({ errorMessage: err.message });
       }
-    }
+    },
+
+    maidAcceptBooking: async (req, res) => {
+      try {
+        const { employerId } = req.params;
+        const maid = req.user;
+        if (maid.type !== "MAID")
+          res.status(401).json({ errorMessage: "Unauthorized" });
+        const maidBooking = await db.booking.findOne({
+          where: { maid_id: maid.id, employer_id: employerId }
+        });
+        if (
+          Object.keys(maidBooking).length === 0 &&
+          maidBooking.constructor === Object
+        ) {
+          res.status(204).json({ errorMessage: "no booking" });
+        }
+        if (maidBooking.dataValues.status === "WAIT_FOR_ACCEPTANCE") {
+          const result = await maidBooking.update({ status: "ACCEPT" });
+          res.status(200).json({ message: "update complete" });
+        } else {
+          res
+            .status(406)
+            .json({ message: "Already accept or employer reject" });
+        }
+      } catch (err) {
+        if (err.message.includes("ECONNREFUSED")) {
+          res.status(500).json({ errorMessage: "Database server error" });
+        }
+        res.status(400).json({ errorMessage: err.message });
+      }
+    },
+
+    maidRejectBooking: async (req, res) => {}
   };
 };

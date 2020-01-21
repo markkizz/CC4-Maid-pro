@@ -7,4 +7,8 @@ module.exports = (server, db) => {
     server.get('/bookings/employers/', passport.authenticate('jwt', { session: false }), controller.findBookingsByEmployerId);
 
     server.get('/bookings/maids/',passport.authenticate('jwt', { session: false }), controller.findBookingsByMaidId)
+
+    server.put('/bookings/maid/accept/:employerId',passport.authenticate('jwt', { session: false }), controller.maidAcceptBooking)
+
+    server.put('/bookings/maid/reject',passport.authenticate('jwt', { session: false }), controller.maidRejectBooking)
 };
