@@ -2,6 +2,8 @@ import { userTypes, maidTypes, searchTypes } from "./types";
 
 const TOKEN = "ACCESS_TOKEN";
 
+export const USER_LOGOUT = 'USER_LOGOUT';
+
 export const login = (user, token) => {
   localStorage.setItem(TOKEN, token);
   const { iat, ...userData } = user;
