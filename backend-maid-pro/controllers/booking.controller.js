@@ -124,8 +124,8 @@ module.exports = db => {
           res.status(204).json({ errorMessage: "no booking" });
         }
         if (maidBooking.dataValues.status === "WAIT_FOR_ACCEPTANCE") {
-          const result = await maidBooking.update({ status: "ACCEPT" });
-          res.status(200).json({ message: "update complete" });
+          await maidBooking.update({ status: "ACCEPT" });
+          res.status(200).json({ message: "accpect complete" });
         } else {
           res
             .status(406)
@@ -139,6 +139,36 @@ module.exports = db => {
       }
     },
 
-    maidRejectBooking: async (req, res) => {}
+    maidRejectBooking: async (req, res) => {
+      try {
+        const { employerId } = req.params;
+        const { reject_note } = req.body;
+        const maid = req.user;
+        if (maid.type !== "MAID")
+          res.status(401).json({ errorMessage: "Unauthorized" });
+        const maidBooking = await db.booking.findOne({
+          where: { maid_id: maid.id, employer_id: employerId }
+        });
+        if (
+          Object.keys(maidBooking).length === 0 &&
+          maidBooking.constructor === Object
+        ) {
+          res.status(204).json({ errorMessage: "no booking" });
+        }
+        if (maidBooking.dataValues.status === "WAIT_FOR_ACCEPTANCE") {
+          await maidBooking.update({ status: "REJECT", reject_note });
+          res.status(200).json({ message: "reject complete" });
+        } else {
+          res
+            .status(406)
+            .json({ message: "Already reject" });
+        }
+      } catch (err) {
+        if (err.message.includes("ECONNREFUSED")) {
+          res.status(500).json({ errorMessage: "Database server error" });
+        }
+        res.status(400).json({ errorMessage: err.message });
+      }
+    }
   };
 };
