@@ -35,7 +35,7 @@ module.exports = db => {
         res.status(400).json({ errorMessage: err.message });
       }
     },
-
+    // employer history
     findBookingsByEmployerId: async (req, res) => {
       try {
         const employer = req.user;
@@ -43,7 +43,7 @@ module.exports = db => {
           res.status(400).json({ errorMessage: "Unauthorized" });
         const result = await db.booking.findAll({
           where: {
-            employer_id: req.user.id
+            employer_id: employer.id
           }
         });
         const resultMaidId = result.map(maid => maid.dataValues.maid_id);
@@ -61,7 +61,6 @@ module.exports = db => {
           maidData.push(maid.dataValues);
         }
         const newResult = result.map((maid, i) => ({...maid.dataValues, maid_data: maidData[i] }))
-        console.log(newResult)
         if (newResult.length === 0) {
           res.status(204).json(newResult);
         } else {
@@ -74,7 +73,7 @@ module.exports = db => {
         res.status(400).json({ errorMessage: err.message });
       }
     },
-
+    // maid history
     findBookingsByMaidId: async (req, res) => {
       try {
         const maid = req.user;
@@ -82,9 +81,29 @@ module.exports = db => {
           res.status(401).json({ errorMessage: "Unauthorized" });
         const result = await db.booking.findAll({
           where: {
-            maidId: maid.id
+            maid_id: maid.id
           }
         });
+        const resultEmployerId = result.map(em => em.dataValues.employer_id);
+        let emplyerData = [];
+        for (let i = 0; i < resultEmployerId.length; i++) {
+          let employer = await db.user.findOne({
+            where: { id: resultEmployerId[i] },
+            attributes: [
+              "username",
+              "first_name",
+              "last_name",
+              "profile_img"
+            ]
+          });
+          emplyerData.push(employer.dataValues);
+        }
+        const newResult = result.map((em, i) => ({...em.dataValues, employer_data: emplyerData[i] }))
+        if (newResult.length === 0) {
+          res.status(204).json(newResult);
+        } else {
+          res.status(200).json(newResult);
+        }
       } catch (err) {
         if (err.message.includes("ECONNREFUSED")) {
           res.status(500).json({ errorMessage: "Database server error" });
