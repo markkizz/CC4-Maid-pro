@@ -100,7 +100,7 @@ export class HomePage extends Component {
               <Col span={12}>
                 <Row type="flex" justify="center" align="middle" style={{ marginBottom: "20px" }}>
                   <Col>
-                    <MaidCard />
+                    <MaidCard maid={maid}/>
                   </Col>
                 </Row>
               </Col>
