@@ -4,15 +4,12 @@ import "./MaidCard.css";
 import { Row, Col, Card, Rate } from "antd";
 
 function MaidCard(props) {
-  const description =
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque iste, laboriosam adipisci voluptatem dolor quod " +
-    "ipsa nulla sint corrupti tempore laborum a assumenda officia consectetur reprehenderit vitae? Beatae, ad autem.";
   const { maid } = props;
   return (
     <Card className="MaidCard-card" bodyStyle={{ padding: "6px 10px" }}
           cover={
             <img
-              src="https://img.favpng.com/1/17/0/maid-service-cleaner-cleaning-housekeeping-png-favpng-hHyK6AM2eL1YXmKj8YJWLxE9d.jpg"
+              src={maid.profile_img}
               alt="maid"
             />
           }

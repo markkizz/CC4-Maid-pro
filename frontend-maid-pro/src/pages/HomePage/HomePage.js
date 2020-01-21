@@ -20,7 +20,6 @@ export class HomePage extends Component {
 
   componentDidMount() {
     axios.get("/users/maids?limit=6").then(result => {
-      console.log(result.data, result)
       this.setState({
         topMaids: result.data
       });
@@ -97,7 +96,7 @@ export class HomePage extends Component {
           </Row>
           <div className="HomePage-margin">
             {topMaids.map(maid => (
-              <Col span={12}>
+              <Col key={maid.id} span={12}>
                 <Row type="flex" justify="center" align="middle" style={{ marginBottom: "20px" }}>
                   <Col>
                     <MaidCard maid={maid}/>
