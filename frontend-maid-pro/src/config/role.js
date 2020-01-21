@@ -59,7 +59,8 @@ export default {
       pageComponents.maidRegister,
       pageComponents.homepage,
       pageComponents.search,
-      pageComponents.maidDescription
+      pageComponents.maidDescription,
+      pageComponents.mybooking
     ],
     redirect: '/login'
   }

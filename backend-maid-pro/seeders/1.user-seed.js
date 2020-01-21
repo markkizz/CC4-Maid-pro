@@ -38,6 +38,7 @@ for (let i = 1; i <= numberOfUser; i++) {
     price_per_hour: Math.floor(Math.random() * 1000) + 200,
     holidays: faker.date.weekday(),
     about_maid: faker.lorem.paragraph(1),
+    average_rating: i % 2 === 0 ? Math.ceil(Math.random() * 10) : null,
     createdAt: new Date(),
     updatedAt: new Date()
   };
