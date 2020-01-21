@@ -5,7 +5,6 @@ import MaidCard from "../../components/MaidCard/MaidCard";
 import Footer from "../../components/Footer/Footer";
 import { Carousel, Row, Col } from "antd";
 import { FaBuilding, FaHome } from "react-icons/fa";
-import { TiArrowMaximiseOutline } from "react-icons/ti";
 import axios from "../../config/api.service";
 import { dispatch } from "rxjs/internal/observable/range";
 import { quickSearchType, selectedMaid } from "../../redux/actions/actions";

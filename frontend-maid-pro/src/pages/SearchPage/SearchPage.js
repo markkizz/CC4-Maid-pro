@@ -7,12 +7,8 @@ import { Row, Col } from "antd";
 import { FaSlidersH } from "react-icons/fa";
 import axios from "../../config/api.service";
 import { dispatch } from "rxjs/internal/observable/pairs";
-import {
-  selectedMaid,
-  quickSearchType,
-  filterSearch
-} from "../../redux/actions/actions";
-import connect from 'react-redux'
+import {selectedMaid} from "../../redux/actions/actions";
+import { connect } from "react-redux";
 
 export class SearchPage extends Component {
   state = {
@@ -25,6 +21,7 @@ export class SearchPage extends Component {
       modalVisible: !state.modalVisible
     }));
   };
+
   componentDidMount = () => {
     const { Option } = this.props.match.params;
     if (Option === "filter") {
@@ -39,7 +36,6 @@ export class SearchPage extends Component {
         });
 
       if (Option === "quicksearch") {
-        const type = fromSearchStore;
         axios.get("/users/maids?type={condo || house}");
       }
     }
@@ -127,9 +123,11 @@ export class SearchPage extends Component {
   }
 }
 
-mapStateToProps = state => {
-  quickSearchType: state.search.quickSearchType;
-  filterSearch: state.search.filterSearch;
+const mapStateToProps = state => {
+  return {
+    quickSearchType: state.search.quickSearchType,
+    filterSearch: state.search.filterSearch
+  };
 };
 
-export default connect(SearchPage);
+export default connect(mapStateToProps)(SearchPage);
