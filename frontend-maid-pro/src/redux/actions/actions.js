@@ -1,6 +1,4 @@
-import { userTypes } from "./types";
-import { searchQuickTypes } from "./types"
-import { maidIdTypes } from "./types"
+import { userTypes, maidTypes, searchTypes } from "./types";
 
 const TOKEN = "ACCESS_TOKEN";
 
@@ -20,19 +18,24 @@ export const logout = () => {
   };
 };
 
-export const searchHome = () => {
+
+export const selectedMaid = maidId => {
   return {
-    type: searchQuickTypes.SEARCH_HOME,
-  }
-};
-export const searchCondo = () => {
-  return {
-    type: searchQuickTypes.SEARCH_CONDO,
-  };
-};
-export const maidId = (maidId) => {
-  return {
-    type: maidIdTypes.MAID_ID,
+    type: maidTypes.SELECTED_MAID,
     payload: maidId
-  };
-};
+  }
+}
+
+export const quickSearchType = serviceType => {
+  return {
+    type: searchTypes.QUICK_SEARCH_TYPE,
+    payload: serviceType
+  }
+}
+
+export const filterSearch = data => {
+  return {
+    type: searchTypes.FILTER_SEARCH,
+    payload: data
+  }
+}

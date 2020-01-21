@@ -1,31 +1,25 @@
-import { searchQuickTypes, maidIdTypes } from "../actions/types"
+import { searchTypes } from '../actions/types'
 
-function searchQuickReducer(currentUser = initialState(), action) {
-        switch (action.type) {
-            case searchQuickTypes.SEARCH_HOME:
-                return {
-                    ...action.payload
-                };
-            case searchQuickTypes.SEARCH_CONDO:
-                return {
-                    ...action.payload
-                };
-            default:
-                return currentUser;
-        }
-    }
-
-export default searchQuickReducer;
-
-function maidIdReducer(currentUser = initialState(), action) {
-    switch (action.type) {
-        case maidIdTypes.MAID_ID:
-            return {
-                ...action.payload
-            };
-        default:
-            return currentUser;
-    }
+const initialState = {
+  quickSearchType: '',
+  filterSearch: []
 }
 
-export default maidIdReducer;
+function searchReducer(state=initialState, action) {
+  switch (action.type) {
+    case searchTypes.QUICK_SEARCH_TYPE:
+      return {
+        ...state,
+        quickSearchType: action.payload
+      }
+      case searchTypes.FILTER_SEARCH:
+      return {
+        ...state,
+        filterSearch: action.payload
+      }
+    default:
+      return state;
+  }
+}
+
+export default searchReducer

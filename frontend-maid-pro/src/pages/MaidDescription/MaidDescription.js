@@ -13,10 +13,12 @@ export default class MaidDescription extends Component {
         <Row>
           <Col>
             <Row className='MaidDescription-Profile'>
-              <Col span={12} >
-                <img src="JessicaSpencer.png" alt='' width='150' className='MaidDescription-ProfilePicture' />
+              <Col span={11}>
+                <Row type="flex" justify="end">
+                  <img src="JessicaSpencer.png" alt='' width='150' className='MaidDescription-ProfilePicture' />
+                </Row>
               </Col>
-              <Col span={12} className='MaidDescription-Name'>
+              <Col span={13} className='MaidDescription-Name'>
                 <h2>Jessica Spencer</h2>
                 <h3>
                   <Rate
@@ -29,46 +31,47 @@ export default class MaidDescription extends Component {
                 <h3>4.0</h3>
               </Col>
             </Row>
-            <Row className='MaidDescription-Description-bgColor'>
-              <Col type= 'flex' justify='center' className='MaidDescription-Description'>
-                <h3 className='MaidDescription-Description'>
-                  Description
-                </h3>
+            <Row type="flex" justify="center" className='MaidDescription-DescriptionRow'>
+              <Col span={20} className='MaidDescription-Description'>
                 <Row>
-                  <Col>
-                    Jessica SpencerDescriptionDescriptionDes criptionDescriptionDescriptionDescript ionDescriptionDescript iononDescriptionDescriptionDescriptionDescript ionDescr
-                  </Col>
+                  Description
+                </Row>
+                <Row>
+                  Jessica is an Austrian-American actor, filmmaker, businessman, author, and former professional bodybuilder and politician.[2] He served as the 38th Governor of California from 2003 to 2011. As of 2019, he is the most recent Republican governor of California.
                 </Row>
               </Col>
             </Row>
-            <Row className='MaidDescription-TypeOfPlace'>
-              <Col span={12}>
-                <h3>Type Of Place</h3>
-                <br />
-                <FaBuilding className="MaidDescription-icon" />
-                <h5>Condo</h5>
-                <br />
-                <FaHome className="MaidDescription-icon" />
-                <h5>Home</h5>
-
-              </Col>
-              <Col span={12} className="MaidDescription-Type">
-                <br />
-                <h5>40 Sq.m.</h5>
-                <h5>50 Sq.m.</h5>
-                <h5>80 Sq.m.</h5>
-                <h5>100 Sq.m.</h5>
-                <br />
-                <h5>100 Sq.m.</h5>
-                <h5>100-200 Sq.m.</h5>
-                <h5>200 Sq.m.</h5>
-              </Col>
+            <Row type="flex" justify="center" className='MaidDescription-MarginTop20px'>
+              <h3>Type Of Place</h3>
             </Row>
+            <Row>
+              <Col span={12} className='MaidDescription-Type'>
+                <FaBuilding className="MaidDescription-icon" />
+                <h5 className="MaidDescription-CondoText">Condo</h5>
+              </Col>
+              <Col span={12} className="MaidDescription-CondoType">
+                <h5>{"<"} 40 Sq.m.</h5>
+                <h5>{"<"} 50 Sq.m.</h5>
+                <h5>{"<"} 80 Sq.m.</h5>
+                <h5>{"<"} 100 Sq.m.</h5>
+              </Col>
+              </Row>
+              <Row>
+                <Col span={12} className="MaidDescription-Type">
+                  <FaHome className="MaidDescription-icon" />
+                  <h5 className="MaidDescription-HomeText">Home</h5>
+                </Col>
+                <Col span={12} className="MaidDescription-HomeType">
+                  <h5>{"<"} 100 Sq.m.</h5>
+                  <h5>{"<"} 100-200 Sq.m.</h5>
+                  <h5>{"<"} 200 Sq.m.</h5>
+                </Col>
+              </Row>
             <Row className='MaidDescription-BookingButtonforview'>
               <Col span={24}className='MaidDescription-Booking'>Price 250 Price/Hour</Col>
               <Button className="MaidDescription-BookingButton">Booking</Button>
               <Col span={24}className='MaidDescription-Booking'>
-              <h4>REVIEW</h4>
+              <h4>REVIEWS</h4>
               </Col>
             </Row>
           </Col>

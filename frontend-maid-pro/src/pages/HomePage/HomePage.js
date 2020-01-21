@@ -13,7 +13,11 @@ handleQuickSearchCondo = () => {
 
 handleQuickSearchHome = () => {
   dispatch(searchHome())
-  this.history.push('/search/quickHome')
+  this.history.push('/search/quickSearch')
+}
+
+handle = serviceTypes => (e) => { 
+
 }
 
 handleClickMaid = (maidId) => {
@@ -62,7 +66,7 @@ export class HomePage extends Component {
               <Col span={12}>
                 <Row type="flex" justify="center" align="middle">
                   <Col className="HomePage-text-center HomePage-q-card">
-                    <FaBuilding className="HomaPage-icon" onClick={this.handleQuickSearchCondo}/>
+                    <FaBuilding className="HomaPage-icon" onClick={this.handleQuickSearchCondo('condo')}/>
                     <p>Condo</p>
                   </Col>
                 </Row>
@@ -124,4 +128,4 @@ export class HomePage extends Component {
 }
 
 
-export default HomePage;
+export default connect() (HomePage)

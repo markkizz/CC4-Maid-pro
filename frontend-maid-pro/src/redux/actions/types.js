@@ -3,13 +3,11 @@ export const userTypes = {
   USER_LOGOUT: "USER_LOGOUT"
 };
 
-export const searchQuickTypes = {
-  SEARCH_HOME: "SEARCH_HOME",
-  SEARCH_CONDO: "SEARCH_CONDO"
-};
+export const maidTypes = {
+  SELECTED_MAID: "SELECTED_MAID"
+}
 
-export const maidIdTypes = {
-  MAID_ID: "MAID_ID",
-};
-
-
+export const searchTypes = {
+  QUICK_SEARCH_TYPE: "QUICK_SEARCH_TYPE",
+  FILTER_SEARCH: "FILTER_SEARCH"
+}

@@ -167,6 +167,25 @@ module.exports = db => {
         limit: parseInt(amount),
         order: [['average_rating', 'DESC']],
       })
+    },
+    findMaidsQuickSearch: async (serviceTypeId) => {
+      return await db.user.findAll({
+        where: { type: 'MAID' },
+        attributes: {
+          exclude: ["password"]
+        },
+        include: [
+          {
+            as: "served_building_types",
+            model: db.building_type,
+            where: {
+              id: {
+                [Op.between]: serviceTypeId
+              }
+            }
+          }
+        ]
+      })
     }
   }
 };

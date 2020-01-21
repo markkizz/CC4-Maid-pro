@@ -15,8 +15,12 @@ const initialState = () => {
 function userReducer(currentUser = initialState(), action) {
   switch (action.type) {
     case userTypes.USER_LOGIN:
+      const user = action.payload
+      const {type} = user
+      const role = type==='MAID' ? 'maid' : 'user'
       return {
-        ...action.payload
+        ...user,
+        role
       };
     case userTypes.USER_LOGOUT:
       return {
