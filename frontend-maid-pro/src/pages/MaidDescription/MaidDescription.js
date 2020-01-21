@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {connect} from 'react-redux'
 import "./MaidDescription.css";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
@@ -6,10 +7,23 @@ import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import { Row, Col, Button, Rate } from "antd";
 import { FaBuilding, FaHome } from "react-icons/fa";
 import Booking from "../Booking/Booking";
-export default class MaidDescription extends Component {
+
+class MaidDescription extends Component {
   state = {
+    maidData: [],
     visible: false
-  };
+  }
+
+  componentDidMount = () => {
+    console.log(this.props)
+    // const maidID = this.props.maidId
+    // Axios.get('/users/maids/{maidId}')
+    // this.setState((state) => {
+    //   return {
+
+    //   }
+    // })
+  }
   showModal = () => {
     this.setState({
       visible: true
@@ -22,7 +36,6 @@ export default class MaidDescription extends Component {
       visible: false,
     });
   };
-
   render() {
     return (
       <div>
@@ -136,3 +149,11 @@ export default class MaidDescription extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    maidId: state.maid.selectedMaid
+  }
+}
+
+export default connect(mapStateToProps, null)(MaidDescription)

@@ -9,6 +9,7 @@ import { FiLogIn } from "react-icons/fi";
 import { TiPlus } from "react-icons/ti";
 import { GiBroom } from "react-icons/gi";
 import { IoIosDocument } from "react-icons/io";
+import Logo from '../../images/maidProServiceLogo.png'
 
 export default class Navbar extends Component {
   state = { visible: false };
@@ -31,7 +32,7 @@ export default class Navbar extends Component {
         <Row type="flex" align="middle" className="Navbar-Body">
           <Col span={4}>
             <a href="http://localhost:3000/">
-              <img src="maidProServiceLogo.png" alt="" width="125" />
+              <img src={Logo} alt="" width="125" />
             </a>
           </Col>
           <Col span={20}>

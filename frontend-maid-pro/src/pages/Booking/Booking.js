@@ -24,10 +24,12 @@ class Booking extends Component {
     const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
     const { TextArea } = Input;
     return (
-      <Modal
+      <Modal 
         visible={this.props.visible}
         footer={null}
         onCancel={this.props.onCancel}
+        className="Booking-Top"
+
       >
         <Row type="flex" justify="center">
           <Card className="Booking-Card">
