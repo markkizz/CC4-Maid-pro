@@ -45,17 +45,15 @@ module.exports = db => {
       return db.user.findOne({ where: { username } });
     },
 
-    findMaids: type => {
+    findMaidsWithMaybeLimitOrderByAverageRatingDesc: limit => {
       return db.user.findAll({
-        where: { type: type },
-        include: [
-          {
-            model: db.user,
-            as: "reviewed_maids",
-            through: { attributes: ["rating"] }
-          }
-        ]
-      });
+        where: { type: "MAID" },
+        limit,
+        attributes: {
+          exclude: ['password']
+        },
+        order: [['average_rating', 'DESC']],
+      })
     },
     searchMaidsAllChoice: (name, type_id, date, time, rating, price_hour) => {
       return db.user.findAll({
@@ -116,7 +114,7 @@ module.exports = db => {
       });
     },
     getMyBooking: (user_id, type) => {
-      if (type == "MAID") {
+      if (type === "MAID") {
         return db.booking.findAll({
           where: { maid_id: user_id }
         })
@@ -161,15 +159,8 @@ module.exports = db => {
         averageRating: average
       }
     },
-    findMaidTop: async (amount) => {
-      return await db.user.findAll({
-        type: "MAID",
-        limit: parseInt(amount),
-        order: [['average_rating', 'DESC']],
-      })
-    },
     findMaidsQuickSearch: async (serviceTypeId) => {
-      return await db.user.findAll({
+      return db.user.findAll({
         where: { type: 'MAID' },
         attributes: {
           exclude: ["password"]

@@ -7,8 +7,8 @@
   "scripts": {
     "start": "nodemon",
     "start:server": "nodemon index.js",
-    "seed": "$PWD/seeding.sh npx",
-    "seed:y": "$PWD/seeding.sh yarn"
+    "seed": "npx sequelize db:seed:all",
+    "seed:y": "yarn sequelize db:seed:all"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

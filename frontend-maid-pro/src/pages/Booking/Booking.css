@@ -1,82 +1,74 @@
-  .Booking-Body {
-    background: #F2F3F5;
-    padding: 20px 15px;
-    min-height: calc(100vh - 114px);
-  }
-  
-  .Booking-Card {
-    width: 350%;
-    border: none;
-  }
+.Booking-Card {
+  width: 350%;
+  border: none;
+}
 
-  .Booking-InputMargin {
-    margin-bottom: 2%;
-  }
+.Booking-InputMargin {
+  margin-bottom: 2%;
+}
 
-  .Booking-ConfirmButton {
-    box-shadow: none;
-    border-radius: 11px;
-    border-color: #005792;
-    background-color: #005792;
-    color: white;
-   
-   
-  }
-  
-  .Booking-CancelButton {
-    box-shadow: none;
-    border-radius: 11px;
-    border-color: #005792;
-    color: #005792;
- 
-  }
+.Booking-ConfirmButton {
+  box-shadow: none;
+  border-radius: 11px;
+  border-color: #005792;
+  background-color: #005792;
+  color: white;
+}
+
+.Booking-CancelButton {
+  box-shadow: none;
+  border-radius: 11px;
+  border-color: #005792;
+  color: #005792;
+}
 
 .Booking-Footer {
-    margin-bottom: 10px;
-  }
+  margin-bottom: 10px;
+}
 
-  .Booking-icon {
-    color: #005792;
-    font-size:24px;
-  }
+.Booking-icon {
+  color: #005792;
+  font-size: 24px;
+}
 
-  .Booking-icon_font{
-    font-size: 24px;
-  }
+.Booking-icon_font {
+  font-size: 24px;
+}
 
-  .Booking_font {
-    font-size: 18px;
-  }
+.Booking_font {
+  font-size: 18px;
+}
 
-  .Booking2_font {
-    font-size: 16px;
-    
-  }
-  .Booking-iconClock {
-    color: #FCC400;
-    font-size:25px;
-  }
+.Booking2_font {
+  font-size: 16px;
+}
+.Booking-iconClock {
+  color: #fcc400;
+  font-size: 25px;
+}
 
-  .Booking3_font {
-    font-size: 14px;
-  }
+.Booking3_font {
+  font-size: 14px;
+}
 
-  .Booking-Margin {
-    margin-bottom: 2%;
-    width: 100%;
-  }
+.Booking-Margin {
+  margin-bottom: 2%;
+  width: 100%;
+}
 
-  .Booking-Margin2 {
-    margin-bottom: 5%;
-   
-  }
+.Booking-Margin2 {
+  margin-bottom: 5%;
+}
 
-  .Booking-Margin3 {
-    margin-bottom: 10%;
-  
-  }
+.Booking-Margin3 {
+  margin-bottom: 10%;
+}
 
-  .Booking-Center {
-]   display: flex;
-    justify: center;
-  }
+.Booking-Center {
+  display: flex;
+  justify-content: center;
+}
+
+.Booking-Top {
+  top: 20px;
+}
