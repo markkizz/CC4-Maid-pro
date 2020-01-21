@@ -17,20 +17,21 @@ export class HomePage extends Component {
       "https://architecturesideas.com/wp-content/uploads/2019/12/Housekeeper1.jpg",
       "https://architecturesideas.com/wp-content/uploads/2019/12/Housekeeper2.jpg"
     ],
-    topmaid: 0
+    topMaids: []
   };
+
   componentDidMount() {
-    console.log(this.props)
-    // axios.get("/users/maids/top/:amont").then(result => {
-    //   this.setState({
-    //     topmaid: result.data
-    //   });
-    // });
+    axios.get("/users/maids?limit=6").then(result => {
+      this.setState({
+        topMaids: result.data
+      });
+    });
   }
-  // handleClickQuickSearch = serviceType => {
-  //   dispatch(quickSearchType(serviceType));
-  //   this.props.history.push(`/search/quicksearch`);
-  // };
+
+  handleClickQuickSearch = serviceType => {
+    dispatch(quickSearchType(serviceType));
+    this.history.push(`/search/quicksearch`);
+  };
 
   // handleClickMaid = maidId = () => {
   //   dispatch(selectedMaid(maidId));
@@ -38,7 +39,7 @@ export class HomePage extends Component {
   // };
 
   render() {
-    const { imageUrls } = this.state;
+    const { imageUrls, topMaids } = this.state;
     return (
       <>
         <Navbar />
@@ -50,7 +51,6 @@ export class HomePage extends Component {
           >
             <Col span={24}>
               <Carousel autoplay>
-                
                 {imageUrls.map((url, i) => (
                   <div key={i + " Carousel"}>
                     <img
@@ -66,12 +66,7 @@ export class HomePage extends Component {
         </div>
         <div className="container HomePage-footer-margin">
           <Row>
-            <Col
-              style={{
-                marginTop: 20,
-                textAlign: "center"
-              }}
-            >
+            <Col style={{ marginTop: 20, textAlign: "center" }}>
               <h2> Services </h2>
             </Col>
             <div className="HomePage-margin">
@@ -79,7 +74,6 @@ export class HomePage extends Component {
                 <Row type="flex" justify="center" align="middle">
                   <Col className="HomePage-text-center HomePage-q-card">
                     <FaBuilding className="HomaPage-icon" />
-                    {/* onClick={this.props.handleClickQuickSearch()} */}
                     <p> Condo </p>
                   </Col>
                 </Row>
@@ -87,7 +81,7 @@ export class HomePage extends Component {
               <Col span={12}>
                 <Row type="flex" justify="center" align="middle">
                   <Col className="HomePage-text-center HomePage-q-card">
-                    <FaHome className="HomaPage-icon"/>
+                    <FaHome className="HomaPage-icon" />
                     <p> Home </p>
                   </Col>
                 </Row>
@@ -96,79 +90,24 @@ export class HomePage extends Component {
           </Row>
         </div>
         <div>
-          <Row
-            type="flex"
-            justify="center"
-            style={{
-              marginTop: "20px"
-            }}
-          >
+          <Row type="flex" justify="center" style={{ marginTop: "20px" }}>
             <Col>
               <h2> Maid Recommended For You </h2>
             </Col>
           </Row>
           <div className="HomePage-margin">
-            <Col span={12}>
-              <Row
-                type="flex"
-                justify="center"
-                align="middle"
-                style={{
-                  marginBottom: "20px"
-                }}
-              >
-                <Col>
-                  <MaidCard />
-                  {/* onClick={this.handleClickMaid()} */}
-                </Col>
-              </Row>
-            </Col>
-            <Col span={12}>
-              <Row
-                type="flex"
-                justify="center"
-                align="middle"
-                style={{
-                  marginBottom: "20px"
-                }}
-              >
-                <Col>
-                  <MaidCard />
-                </Col>
-              </Row>
-            </Col>
-          </div>
-          <div className="HomePage-margin">
-            <Col span={12}>
-              <Row
-                type="flex"
-                justify="center"
-                align="middle"
-                style={{
-                  marginBottom: "20px"
-                }}
-              >
-                <Col>
-                  <MaidCard />
-                </Col>
-              </Row>
-            </Col>
-            <Col span={12}>
-              <Row
-                type="flex"
-                justify="center"
-                align="middle"
-                style={{
-                  marginBottom: "20px"
-                }}
-              >
-                <Col>
-                  <MaidCard />
-                </Col>
-              </Row>
-            </Col>
+            {topMaids.map(maid => (
+              <Col key={maid.id} span={12}>
+                <Row type="flex" justify="center" align="middle" style={{ marginBottom: "20px" }}>
+                  <Col>
+                    <MaidCard maid={maid}/>
+                  </Col>
+                </Row>
+              </Col>
+            ))}
           </div>
         </div>
+
         <Footer />
       </>
     );

@@ -2,7 +2,7 @@ import axios from "axios";
 import { USER_LOGOUT } from "../redux/actions/actions";
 import store from "../redux/store/store";
 
-axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.baseURL = "http://localhost:3333";
 
 const TOKEN = "ACCESS_TOKEN";
 const PROTECTED_PATHS = ["review-create"];
