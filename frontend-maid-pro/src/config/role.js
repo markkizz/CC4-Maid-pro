@@ -60,7 +60,7 @@ export default {
       pageComponents.homepage,
       pageComponents.search,
       pageComponents.maidDescription,
-      pageComponents.mybooking
+      pageComponents.mybooking,
     ],
     redirect: '/login'
   }

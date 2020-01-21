@@ -4,21 +4,60 @@ import { connect } from 'react-redux';
 import { Card,Row,Col,Input,Button,Icon,Form,Select,DatePicker,Upload,Modal } from "antd";
 import moment from "moment";
 import { FaClock, FaBook } from "react-icons/fa";
+import axios from '../../config/api.service'
 const { Option } = Select;
 
 class Booking extends Component {
-  
   state = {
-    visible: false
+    visible: false,
+    address: '',
+    category: '',
+    Date: '',
   }
 
-  handleSelect = value => {
-    console.log(value);
+  handleChange = (label) => e => {
+console.log(e.target.value)
     this.setState({
-      work_section: value
-    });
-  };
+      [label]: e.target.value,
+    })
+  }
 
+  handleSelectCondo = (value) => {
+    console.log(value)
+    this.setState({
+      category: value,
+    })
+  }
+
+  handleSelectHour = (value) => {
+    console.log(value)
+    this.setState({
+      hour: value
+    })
+  }
+
+  handleDatePicker = (value) => {
+    console.log(value)
+    this.setState({
+      Date: value,
+    })
+  }
+
+  handleConfirm = (e) => {
+    axios.post(`/maid`, {
+      address: this.state.address,
+      category: this.state.category,
+      Date: this.state.Date,
+      hour: this.state.hour,
+    })
+      .then(result => {
+        console.log(result)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+      
+  }
 
   render() {
     const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
@@ -29,7 +68,6 @@ class Booking extends Component {
         footer={null}
         onCancel={this.props.onCancel}
         className="Booking-Top"
-
       >
         <Row type="flex" justify="center">
           <Card className="Booking-Card">
@@ -58,26 +96,27 @@ class Booking extends Component {
               </Col>
               <Col span={16}>
                 <Select
+                  onChange={this.handleSelectCondo}
                   defaultValue="คอนโด 1 ห้องนอน (ไม่เกิน 40 ตร.ม.)"
                   style={{ width: "100%" }}
                 >
-                  <Option value="Condo 1">
+                  <Option value="1">
                     คอนโด 1 ห้องนอน (ไม่เกิน 40 ตร.ม.)
                   </Option>
-                  <Option value="Condo 2">
+                  <Option value="2">
                     คอนโด 1 ห้องนอน (ไม่เกิน 50 ตร.ม.)
                   </Option>
-                  <Option value="Condo 3">
+                  <Option value="3">
                     คอนโด 2 ห้องนอน (ไม่เกิน 80 ตร.ม.)
                   </Option>
-                  <Option value="Condo 4">
+                  <Option value="4">
                     คอนโด 3 ห้องนอน (ไม่เกิน 100 ตร.ม.)
                   </Option>
-                  <Option value="Condo 5">
+                  <Option value="5">
                     บ้าน 1 ชั้น (ไม่เกิน 100 ตร.ม.)
                   </Option>
-                  <Option value="Condo 6">บ้าน 2-3 ชั้น (100-200 ตร.ม.)</Option>
-                  <Option value="Condo 7">บ้าน 200 ตร.ม. ขึ้นไป</Option>
+                  <Option value="6">บ้าน 2-3 ชั้น (100-200 ตร.ม.)</Option>
+                  <Option value="7">บ้าน 200 ตร.ม. ขึ้นไป</Option>
                 </Select>
               </Col>
             </Row>
@@ -96,6 +135,7 @@ class Booking extends Component {
                   defaultValue={moment("01/01/2015", dateFormatList[0])}
                   format={dateFormatList}
                   style={{ width: "100%" }}
+                  onChange={this.handleDatePicker}
                 />
               </Col>
             </Row>
@@ -110,7 +150,9 @@ class Booking extends Component {
                 Hour
               </Col>
               <Col span={16}>
-                <Select defaultValue="1" style={{ width: "100%" }}>
+                <Select defaultValue="1" style={{ width: "100%" }}
+                onChange={this.handleSelectHour}
+                >
                   <Option value="1">1</Option>
                   <Option value="2">2</Option>
                   <Option value="3">3</Option>
@@ -129,7 +171,9 @@ class Booking extends Component {
                 Price
               </Col>
               <Col input span={16}>
-                <Input style={{ width: "100%" }} />
+                <Input style={{ width: "100%" }} 
+                onChange={this.handleChange('price')}
+                />
               </Col>
             </Row>
 
@@ -159,6 +203,7 @@ class Booking extends Component {
                   className="Bookbank_font"
                   rows={2}
                   placeholder="or not current address please enter your address"
+                  onChange={this.handleChange('address')}
                 />
               </Col>
             </Row>
@@ -194,7 +239,7 @@ class Booking extends Component {
                 span={12}
                 style={{ display: "flex", justifyContent: "center" }}
               >
-                <Button className="Booking-ConfirmButton" >confirm</Button>
+                <Button className="Booking-ConfirmButton" onClick={this.handleConfirm}>confirm</Button>
               </Col>
             </Row>
           </Card>

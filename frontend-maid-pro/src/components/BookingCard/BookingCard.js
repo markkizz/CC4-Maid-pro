@@ -2,13 +2,41 @@ import React, { Component } from 'react'
 import './BookingCard.css'
 import { Row, Col, Divider, Button, Modal, Input, Rate } from 'antd'
 import { FaMapMarkerAlt } from "react-icons/fa";
+import axios from "../../config/api.service"
 const { TextArea } = Input;
 export default class BookingCard extends Component {
   state = {
     loading: false,
     visible: false,
     modal1Visible: false,
+    rating: '',
+    content: '',
+    reason: ''
   };
+
+  handleChange = (label) => e => {
+    this.setState({
+      [label]: e.target.value,
+    })
+  }
+  handleSubmit = (e) => {
+    axios.post(`/mybooking`, {
+      rating: this.state.username,
+      content: this.state.password,
+      reason: this.state.reason
+    })
+      .then(result => {
+        console.log(result)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    this.setState({
+      rating: '',
+      content: '',
+      reason: ''
+      })
+  }
 
   showModal = () => {
     this.setState({
@@ -67,7 +95,7 @@ export default class BookingCard extends Component {
             onOk={this.handleOk}
             onCancel={this.handleCancel}
             footer={[
-              <Button key="1" type="danger">Send</Button>,
+              <Button key="1" type="danger" onClick={this.handleSubmit} >Send</Button>,
               <Button key="2" onClick={this.handleCancel}>Cancel</Button>,
             ]}
           >
@@ -103,7 +131,7 @@ export default class BookingCard extends Component {
             </Row>
             <Row type='flex' justify='center'>
               <Col ><h3>Description</h3></Col>
-            </Row><Col span={24} style={{ marginBottom: '10px' }}><TextArea rows={3} /></Col>
+            </Row><Col span={24} style={{ marginBottom: '10px' }}><TextArea rows={3} value={this.state.reason} onChange={this.handleChange('reason')} /></Col>
           </Modal>
           <Modal
             visible={this.state.modal1Visible}
@@ -112,7 +140,7 @@ export default class BookingCard extends Component {
             onOk={() => this.setModal1Visible(false)}
             onCancel={() => this.setModal1Visible(false)}
             footer={[
-              <Button type='flex' justify='center' key="1" className="BookingCard-submit">Submit</Button>
+              <Button type='flex' justify='center' key="1" className="BookingCard-submit" onClick={this.handleSubmit}>Submit</Button>
             ]}
           >
             <Row type='flex' justify='center' >
@@ -127,11 +155,12 @@ export default class BookingCard extends Component {
                   allowHalf
                   defaultValue={5}
                   className="ReviewCard-Rate"
+                  onChange={this.handleChange('rating')}
                 />
               </Col>
             </Row>
             <Row className={'BookingCard-Cancel-Description'}>
-              <Col span={24} ><TextArea rows={3} /></Col>
+              <Col span={24} ><TextArea rows={3} onChange={this.handleChange('content')} /></Col>
             </Row>
           </Modal>
         </Row>
