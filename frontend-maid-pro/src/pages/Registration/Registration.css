@@ -37,8 +37,8 @@
   border-color: #005792;
   background-color: #005792;
   color: white;
-  margin-top: 2%;
-  width: 130px;
+  margin-top: 6%;
+  width: 290px;
 }
 
 .Registration-CancelButton {
@@ -46,12 +46,22 @@
   border-radius: 11px;
   border-color: #005792;
   color: #005792;
-  margin-top: 2%;
-  width: 130px;
+  margin-top: 6%;
+  width: 290px;
 }
 
 .Registration-Footer {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+@media only screen and (max-height: 593px) {
+  .Registration-LoginButton{
+    margin-top: 2%;
+  }
+  
+  .Registration-CancelButton {
+    margin-top: 2%;
+  }
 }

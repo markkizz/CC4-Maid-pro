@@ -8,6 +8,9 @@
     "concurrently": "^5.0.2"
   },
   "scripts": {
+    "inst": "concurrently \"npm run inst:backend\" \"npm run inst:frontend\"",
+    "inst:frontend": "cd frontend-maid-pro && npm install",
+    "inst:backend": "cd backend-maid-pro && npm install",
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
     "start:frontend": "cd frontend-maid-pro && npm start",
     "start:backend": "cd backend-maid-pro && npm start",

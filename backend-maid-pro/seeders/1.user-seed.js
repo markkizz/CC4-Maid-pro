@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const faker = require("faker");
-
+const { numberOfUser } = require("./cons/constant");
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config.json")[env];
 
@@ -17,7 +17,7 @@ const genBankName = () => {
 
 let userData = [];
 
-for (let i = 1; i <= 10; i++) {
+for (let i = 1; i <= numberOfUser; i++) {
   let user = {
     id: i,
     username: i === 0 ? "test" : faker.internet.userName(),
@@ -38,6 +38,7 @@ for (let i = 1; i <= 10; i++) {
     price_per_hour: Math.floor(Math.random() * 1000) + 200,
     holidays: faker.date.weekday(),
     about_maid: faker.lorem.paragraph(1),
+    average_rating: i % 2 === 0 ? Math.ceil(Math.random() * 10) : null,
     createdAt: new Date(),
     updatedAt: new Date()
   };

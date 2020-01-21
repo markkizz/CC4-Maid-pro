@@ -48,5 +48,21 @@ module.exports = (db) => {
       }
     },
 
+    findBookingsByMaidId: async (req, res) => {
+      try {
+        const maid = req.user
+        if(maid.type !== 'MAID') res.status(401).json({errorMessage: 'Unauthorized'})
+        const result = await db.booking.findAll({
+          where: {
+            maidId: maid.id
+          }
+        })
+      } catch (err) {
+        if (err.message.includes('ECONNREFUSED')) {
+          res.status(500).json({ errorMessage: 'Database server error' })
+        }
+        res.status(400).json({ errorMessage: err.message })
+      }
+    }
   }
 };
