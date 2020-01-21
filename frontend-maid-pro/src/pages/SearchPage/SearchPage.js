@@ -7,7 +7,7 @@ import { Row, Col } from "antd";
 import { FaSlidersH } from "react-icons/fa";
 import axios from "../../config/api.service";
 import { dispatch } from "rxjs/internal/observable/pairs";
-import {selectedMaid} from "../../redux/actions/actions";
+import { selectedMaid } from "../../redux/actions/actions";
 import { connect } from "react-redux";
 
 export class SearchPage extends Component {
