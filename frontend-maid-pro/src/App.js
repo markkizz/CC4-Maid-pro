@@ -4,9 +4,7 @@ import HomePage from "./pages/HomePage/HomePage";
 
 export class App extends Component {
   render() {
-    return <div className="App">
-      <HomePage />
-    </div>;
+    return <div className="App"> </div>;
   }
 }
 
