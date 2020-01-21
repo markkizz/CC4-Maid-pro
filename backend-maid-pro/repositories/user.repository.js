@@ -47,8 +47,8 @@ module.exports = db => {
 
     findMaidsWithMaybeLimitOrderByAverageRatingDesc: limit => {
       return db.user.findAll({
-        type: "MAID",
-        limit: parseInt(limit),
+        where: { type: "MAID" },
+        limit,
         attributes: {
           exclude: ['password']
         },
@@ -114,7 +114,7 @@ module.exports = db => {
       });
     },
     getMyBooking: (user_id, type) => {
-      if (type == "MAID") {
+      if (type === "MAID") {
         return db.booking.findAll({
           where: { maid_id: user_id }
         })

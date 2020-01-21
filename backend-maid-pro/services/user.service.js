@@ -173,9 +173,9 @@ module.exports = (db) => {
       }
     },
 
-    findMaidsWithMaybeLimitOrderByAverageRatingDesc: async(amount) => {
+    findMaidsWithMaybeLimitOrderByAverageRatingDesc: async(limit) => {
       try {
-        const result = await repository.findMaidsWithMaybeLimitOrderByAverageRatingDesc(amount);
+        const result = await repository.findMaidsWithMaybeLimitOrderByAverageRatingDesc(parseInt(limit));
         if (result.length === 0) {
           return { httpStatus: 204, message: result }
         } else {
