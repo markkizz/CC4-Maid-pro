@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const db = require('./models');
 const passport = require('passport');
-const expressFileUpload = require('express-fileupload')
-const logger = require('morgan')
+const expressFileUpload = require('express-fileupload');
+const logger = require('morgan');
 
 const userRouter = require('./routes/user.router');
 const bookingRouter = require('./routes/booking.router');
@@ -14,7 +14,7 @@ const reviewRouter = require('./routes/review.router');
 
 const PORT = 3333;
 
-server.use(logger('dev'))
+server.use(logger('dev'));
 server.use(expressFileUpload({
   createParentPath: true
 }));
@@ -28,9 +28,9 @@ require('./config/passport/passport');
 
 db.sequelize.sync({ alter: true }).then(() => {
   userRouter(server, db);
-  bookingRouter(server, db)
-  buildingTypeRouter(server, db)
-  reviewRouter(server, db)
+  bookingRouter(server, db);
+  buildingTypeRouter(server, db);
+  reviewRouter(server, db);
 
   server.listen(PORT, () => console.log("Backend is started with port:", PORT));
 });
