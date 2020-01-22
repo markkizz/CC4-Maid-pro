@@ -5,10 +5,10 @@ import { Modal, Button, Row, Col, Input, Rate } from "antd";
 const { TextArea } = Input;
 
 function ModalBookingAccept(props) {
-  const {acceptVisible, onShowModal, onSubmit, onChange} = props
+  const {visible, onShowModal, onSubmit, onChange, onChangeRate} = props
   return (
     <Modal
-      visible={acceptVisible}
+      visible={visible}
       title="REVIEW"
       style={{ top: 10 }}
       onOk={onShowModal('acceptVisible')}
@@ -48,7 +48,7 @@ function ModalBookingAccept(props) {
             allowHalf
             defaultValue={5}
             className="ReviewCard-Rate"
-            onChange={onChange("rating")}
+            onChange={onChangeRate}
           />
         </Col>
       </Row>

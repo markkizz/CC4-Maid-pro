@@ -5,10 +5,10 @@ import './ModalBookingCancel.css'
 const {TextArea} = Input
 
 function ModalBookingCancel(props) {
-  const {cancelVisible, onShowModal, onSubmit, onChange, reason} = props
+  const {visible, onShowModal, onSubmit, onChange, reason} = props
   return (
     <Modal
-      visible={cancelVisible}
+      visible={visible}
       title="Cancel Booing"
       style={{ top: 10 }}
       onOk={onShowModal('cancelVisible')}
@@ -71,7 +71,7 @@ function ModalBookingCancel(props) {
       <Col span={24} style={{ marginBottom: "10px" }}>
         <TextArea
           rows={3}
-          value={reason}
+          // value={reason}
           onChange={onChange("reason")}
         />
       </Col>

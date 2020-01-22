@@ -15,11 +15,12 @@ export default class BookingCard extends Component {
     reason: ""
   };
 
-  handleChange = label => e => {
-    this.setState({
-      [label]: e.target.value
-    });
+  handleChange = label => ({target: {value}}) => {
+    this.setState(() => ({
+      [label]: value
+    }), () => console.log(this.state) );
   };
+
   handleSubmit = () => {
     axios
       .post(`/mybooking`, {
@@ -42,9 +43,15 @@ export default class BookingCard extends Component {
 
   showModal = label => () => {
     this.setState(state => ({
-      [label]: !state.visible
+      [label]: !state[label]
     }));
   };
+
+  handleRating = value => {
+    this.setState({
+      rating: value
+    })
+  }
 
   render() {
     const { acceptVisible, cancelVisible, reason } = this.state;
@@ -105,6 +112,7 @@ export default class BookingCard extends Component {
           onShowModal={this.showModal}
           onSubmit={this.handleSubmit}
           onChange={this.handleChange}
+          onChangeRate={this.handleRating}
         />
         <ModalCancel
           visible={cancelVisible}
