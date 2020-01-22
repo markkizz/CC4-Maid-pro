@@ -3,6 +3,7 @@ import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import './Registration.css'
 import { Row, Col, Input, Icon, Button } from 'antd';
+import Logo from '../../images/maidProServiceLoginLogo.png'
 import { MdLockOutline } from "react-icons/md";
 import { AiOutlineMail } from "react-icons/ai";
 import axios from "../../config/api.service"
@@ -45,7 +46,7 @@ export default class Registration extends Component {
         <Row type="flex" justify="center">
           <Col>
             <Row type="flex" justify="center">
-              <img src="maidProServiceLoginLogo.png" alt="" width="200" className="Registration-Logo" />
+              <img src={Logo} alt="" width="200" className="Registration-Logo" />
             </Row>
             <Row type="flex" justify="center" className="Registration-RegisterText">
               Register

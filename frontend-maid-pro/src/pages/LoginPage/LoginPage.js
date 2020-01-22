@@ -3,6 +3,7 @@ import './LoginPage.css'
 import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import { Row, Col, Input, Icon, Button, Divider } from 'antd'
+import Logo from '../../images/maidProServiceLoginLogo.png'
 import { MdLockOutline } from "react-icons/md";
 import axios from "../../config/api.service";
 
@@ -41,7 +42,7 @@ export default class LoginPage extends Component {
         <Row type="flex" justify="center">
           <Col>
             <Row type="flex" justify="center">
-              <img src="maidProServiceLoginLogo.png" alt="" width="200" className="LoginPage-Logo" />
+              <img src={Logo} alt="" width="200" className="LoginPage-Logo" />
             </Row>
             <Row className="LoginPage-Input">
               <Input
