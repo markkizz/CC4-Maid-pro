@@ -3,6 +3,8 @@ import './LoginPage.css'
 import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import { Row, Col, Input, Icon, Button, Divider } from 'antd'
+import Logo from '../../images/maidProServiceLoginLogo.png'
+import { MdLockOutline } from "react-icons/md";
 import axios from "../../config/api.service";
 import { successLoginNotification, failLoginNotification } from './LoginNotification'
 import { connect } from "react-redux";
@@ -20,7 +22,7 @@ class LoginPage extends Component {
       [label]: e.target.value,
     })
   }
-  handleLogin = (e) => {
+  handleLogin = () => {
     const { username, password } = this.state
     axios.post(`/users/sign-in`, {
       username, password
@@ -48,7 +50,7 @@ class LoginPage extends Component {
         <Row type="flex" justify="center">
           <Col>
             <Row type="flex" justify="center">
-              <img src="maidProServiceLoginLogo.png" alt="" width="200" className="LoginPage-Logo"/>
+              <img src={Logo} alt="" width="200" className="LoginPage-Logo" />
             </Row>
             <Row className="LoginPage-Input">
               <Input
@@ -60,9 +62,9 @@ class LoginPage extends Component {
             </Row>
             <Row className="LoginPage-Input">
               <Input.Password placeholder="password"
-                              value={this.state.password}
-                              onChange={this.handleChange('password')}/>
-
+                prefix={<MdLockOutline className="LoginPage-PasswordPrefix" />}
+                value={this.state.password}
+                onChange={this.handleChange('password')} />
             </Row>
             <Row type="flex" justify="end" className="LoginPage-ForgetPassword">
               <a href="http://localhost:3000/">forget password?</a>
