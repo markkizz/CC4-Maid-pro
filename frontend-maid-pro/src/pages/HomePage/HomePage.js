@@ -14,7 +14,7 @@ export class HomePage extends Component {
   state = {
 
     imageUrls: [
-      "https://architecturesideas.com/wp-content/uploads/2019/12/Housekeeper1.jpg",
+      "https://architecturesideas.com/wp-content/uploads/2019/12/Housekeeper2.jpg",
       "https://architecturesideas.com/wp-content/uploads/2019/12/Housekeeper2.jpg"
     ],
     topMaids: []
@@ -45,15 +45,12 @@ export class HomePage extends Component {
         <Navbar />
         <Row>
           <Col>
-
-
-
-            <Row type="flex" justify="center" className="HomePage-Carousel-container">
+            <Row type="flex" justify="center">
               <Col span={24}>
                 <Carousel autoplay>
                   {imageUrls.map((url, i) => (
                     <div key={i + " Carousel"}>
-                      <img src={url} alt="Carousel" className="HomePage-Carousel-img" />
+                      <img src={url} alt="Carousel" className="HomePage-Carousel" />
                     </div>
                   ))}
                 </Carousel>
@@ -87,14 +84,11 @@ export class HomePage extends Component {
                 </Row>
               </Col>
             </Row>
-
-
-
-            <Row type="flex" justify="center" style={{ marginTop: "20px" }}>
-              <Col>
-                <h2> Maid Recommended For You </h2>
-              </Col>
+            <Row type="flex" justify="center">
+              <h2> Maid Recommended For You </h2>
             </Row>
+
+
             <Row>
               {topMaids.map(maid => (
                 <Col key={maid.id} span={12}>
