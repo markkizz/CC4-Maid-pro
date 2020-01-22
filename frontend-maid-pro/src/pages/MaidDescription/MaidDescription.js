@@ -18,6 +18,7 @@ class MaidDescription extends Component {
       type: '',
       reviewedMaids: []
     }
+
   }
 
   componentDidMount = async () => {
@@ -130,7 +131,7 @@ class MaidDescription extends Component {
               >
                 Booking
               </Button>
-              <Booking visible={this.state.visible} onCancel={this.handleCancel} />
+              <Booking id={2} visible={this.state.visible} onCancel={this.handleCancel} />
               <Col span={24} className="MaidDescription-Booking">
                 <h4>REVIEWS</h4>
               </Col>
