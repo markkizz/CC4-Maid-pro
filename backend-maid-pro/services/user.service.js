@@ -11,36 +11,38 @@ module.exports = (db) => {
     signUp: (req, user) => {
       let finalResult;
       return new Promise((resolve, reject) => {
-        passport.authenticate('local-hashPassword', {}, async (err, hashedPassword) => {
-          if (!req.files) {
-            return {}
-          } else {
-            if (err) reject(err);
-            const image = req.files.profileImage;
-
-            const fileName = (new Date()).getTime();
-            const tempName = image.name.split(".");
-            const fileFormat = tempName[tempName.length - 1];
-            image.mv(`uploads/${fileName}.${fileFormat}`);
-
-            user = { ...user, password: hashedPassword };
+          passport.authenticate('local-hashPassword', {}, async (err, hashedPassword) => {
             try {
-              const result = await repository.signUp(user);
-              if (!result) {
-                resolve({ httpStatus: 204, message: result });
+              if (!req.files) {
+                console.log(hashedPassword)
+                return {}
               } else {
-                resolve({ httpStatus: 200, message: result });
+                if (err) reject(err);
+                const image = req.files.profileImage;
+
+                const fileName = (new Date()).getTime();
+                const tempName = image.name.split(".");
+                const fileFormat = tempName[tempName.length - 1];
+                image.mv(`uploads/${fileName}.${fileFormat}`);
+
+                user = { ...user, password: hashedPassword };
+                const result = await repository.signUp(user);
+                if (!result) {
+                  resolve({ httpStatus: 204, message: result });
+                } else {
+                  resolve({ httpStatus: 200, message: result });
+                }
+                finalResult = result
               }
-              finalResult = result
             } catch (ex) {
               if (ex.message.includes('ECONNREFUSED')) {
                 return { httpStatus: 500, errorMessage: 'Database server error' };
               }
               return { httpStatus: 400, errorMessage: ex };
             }
-          }
-        })(req)
-      });
+          })(req)
+        }
+      );
     },
 
     signIn: (req, res, next) => {
@@ -131,7 +133,7 @@ module.exports = (db) => {
     searchMaids: async (name, type_id, date, time, rating, price_hour) => {
       try {
         let result = await repository.searchMaidsAllChoice(name, type_id, date, time, rating, price_hour);
-        if(result.length === 0) {
+        if (result.length === 0) {
           result = await repository.searchMaids(name, type_id, date, time, rating, price_hour)
           if (result.length === 0) {
             return { httpStatus: 204, message: result }
@@ -147,7 +149,7 @@ module.exports = (db) => {
       }
     },
 
-    getMyBooking: async(id, type) => {
+    getMyBooking: async (id, type) => {
       try {
         const result = await repository.getMyBooking(id, type);
         if (result.length === 0) {
@@ -163,7 +165,7 @@ module.exports = (db) => {
       }
     },
 
-    findMaidsWithMaybeLimitOrderByAverageRatingDesc: async(limit) => {
+    findMaidsWithMaybeLimitOrderByAverageRatingDesc: async (limit) => {
       try {
         const result = await repository.findMaidsWithMaybeLimitOrderByAverageRatingDesc(parseInt(limit));
         if (result.length === 0) {
@@ -197,5 +199,6 @@ module.exports = (db) => {
       }
     }
   }
-};
+}
+;
 

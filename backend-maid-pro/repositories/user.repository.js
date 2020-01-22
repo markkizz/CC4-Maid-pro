@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const { Op } = require("sequelize");
 module.exports = db => {
   return {
-    signUp: user => {
+    signUp: async user => {
       const {
         username,
         password,
@@ -20,25 +20,30 @@ module.exports = db => {
         aboutMaid = null,
         pricePerHour = null
       } = user;
-
-      return db.user.create({
-        username: username,
-        password,
-        first_name: firstName,
-        last_name: lastName,
-        type,
-        address,
-        phone_no: phoneNo,
-        profile_image: profileImage,
-        bank_account_no: bankAccountNo,
-        bank_name: bankName,
-        id_card_no: idCardNo,
-        holidays,
-        email,
-        about_maid: aboutMaid,
-        price_per_hour: pricePerHour,
-        status: "ACTIVE"
-      });
+      try {
+        const result = await db.user.create({
+          username: username,
+          password,
+          first_name: firstName,
+          last_name: lastName,
+          type,
+          address,
+          phone_no: phoneNo,
+          profile_image: profileImage,
+          bank_account_no: bankAccountNo,
+          bank_name: bankName,
+          id_card_no: idCardNo,
+          holidays,
+          email,
+          about_maid: aboutMaid,
+          price_per_hour: pricePerHour,
+          status: "ACTIVE"
+        });
+        console.log(result)
+        return result
+      } catch (ex) {
+        console.log(ex)
+      }
     },
 
     findUserByUsername: username => {

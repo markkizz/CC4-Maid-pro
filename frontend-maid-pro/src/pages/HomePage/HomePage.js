@@ -6,8 +6,7 @@ import Footer from "../../components/Footer/Footer";
 import { Carousel, Row, Col } from "antd";
 import { FaBuilding, FaHome } from "react-icons/fa";
 import axios from "../../config/api.service";
-import { dispatch } from "rxjs/internal/observable/range";
-import { quickSearchType, selectedMaid } from "../../redux/actions/actions";
+import { fetchMaids, quickSearchType, selectedMaid } from "../../redux/actions/actions";
 import { connect } from "react-redux";
 
 export class HomePage extends Component {
@@ -21,22 +20,21 @@ export class HomePage extends Component {
   };
 
   componentDidMount() {
-    axios.get("/users/maids?limit=6").then(result => {
-      this.setState({
-        topMaids: result.data
-      });
+    this.setState({
+      topMaids: this.props.fetchMaids()
     });
+    console.log(this.state.topMaids);
   }
 
   handleClickQuickSearch = serviceType => {
-    dispatch(quickSearchType(serviceType));
+    // dispatch(quickSearchType(serviceType));
     this.history.push(`/search/quicksearch`);
   };
 
-  // handleClickMaid = maidId = () => {
-  //   dispatch(selectedMaid(maidId));
-  //   this.props.history.push(`/maid/${maidId}`);
-  // };
+  handleSelectedMaid = maidId => () => {
+    // dispatch(selectedMaid(maidId));
+    this.props.history.push(`/maid/${maidId}`);
+  };
 
   render() {
     const { imageUrls, topMaids } = this.state;
@@ -100,7 +98,7 @@ export class HomePage extends Component {
               <Col key={maid.id} span={12}>
                 <Row type="flex" justify="center" align="middle" style={{ marginBottom: "20px" }}>
                   <Col>
-                    <MaidCard maid={maid}/>
+                    <MaidCard onSelectedMaid={this.handleSelectedMaid} maid={maid} />
                   </Col>
                 </Row>
               </Col>
@@ -114,11 +112,18 @@ export class HomePage extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    topMaids: state.maids
+  }
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     quickSearchType: (serviceType) => dispatch(quickSearchType(serviceType)),
-    selectedMaid: (maidId) => dispatch(selectedMaid(maidId))
+    selectedMaid: (maidId) => dispatch(selectedMaid(maidId)),
+    fetchMaids: () => dispatch(fetchMaids())
   };
 };
 
-export default connect( null, mapDispatchToProps )(HomePage)
+export default connect(null, mapDispatchToProps)(HomePage)
