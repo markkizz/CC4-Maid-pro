@@ -3,6 +3,7 @@ import './LoginPage.css'
 import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import { Row, Col, Input, Icon, Button, Divider } from 'antd'
+import { MdLockOutline } from "react-icons/md";
 import axios from "../../config/api.service";
 
 export default class LoginPage extends Component {
@@ -52,9 +53,9 @@ export default class LoginPage extends Component {
             </Row>
             <Row className="LoginPage-Input">
               <Input.Password placeholder="password"
+                prefix={<MdLockOutline className="LoginPage-PasswordPrefix" />}
                 value={this.state.password}
                 onChange={this.handleChange('password')} />
-
             </Row>
             <Row type="flex" justify="end" className="LoginPage-ForgetPassword">
               <a href="http://localhost:3000/">forget password?</a>
