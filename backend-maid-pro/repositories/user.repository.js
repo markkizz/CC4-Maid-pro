@@ -24,7 +24,7 @@ module.exports = db => {
         order: [['average_rating', 'DESC']],
       })
     },
-    searchMaidsAllChoice: (name, type_id, date, time, rating, price_hour) => {
+    searchMaidsAllChoice: (name, type_id, date, rating, price_hour) => {
       return db.user.findAll({
         where: {
           type: "MAID",
@@ -39,6 +39,7 @@ module.exports = db => {
           holidays: {
             [Op.notIn]: [date]
           },
+          average_rating: rating,
           price_per_hour: {
             [Op.between]: [price_hour[0], price_hour[1]]
           }
@@ -57,7 +58,7 @@ module.exports = db => {
         ]
       });
     },
-    searchMaids: (name, type_id, date, time, rating, price_hour) => {
+    searchMaids: (name, type_id, date, rating, price_hour) => {
       return db.user.findAll({
         where: {
           type: "MAID",
@@ -66,7 +67,8 @@ module.exports = db => {
           },
           holidays: {
             [Op.notIn]: [date]
-          }
+          },
+          average_rating: rating
         },
         attributes: {
           exclude: ["password"]

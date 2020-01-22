@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { filterSearch } from "../../redux/actions/actions";
 import {
   Row,
   Col,
@@ -6,7 +9,6 @@ import {
   Input,
   Select,
   DatePicker,
-  TimePicker,
   Rate,
   Slider,
   Button
@@ -17,14 +19,19 @@ const { Option } = Select;
 class ModalSearch extends Component {
   state = {
     maidName: "",
-    services: [
-      "คอนโด 1 ห้องนอน (ไม่เกิน 40 ตร.ม.)",
-      "คอนโด 1 ห้องนอน (ไม่เกิน 50 ตร.ม.)",
-      "คอนโด 3 ห้องนอน (ไม่เกิน 100 ตร.ม.)",
-      "บ้าน 1 ชั้น (ไม่เกิน 100 ตร.ม.)",
-      "บ้าน 2-3 ชั้น (ไม่เกิน 100-200 ตร.ม.)",
-      "บ้าน มากกว่า 200 ตร.ม."
-    ],
+    typeId: 1,
+    workDate: "",
+    rating: 4,
+    priceRange: ["250", "100"],
+    services: {
+      "คอนโด 1 ห้องนอน (ไม่เกิน 40 ตร.ม.)": 1,
+      "คอนโด 1 ห้องนอน (ไม่เกิน 50 ตร.ม.)": 2,
+      "คอนโด 2 ห้องนอน (ไม่เกิน 80 ตร.ม.)": 3,
+      "คอนโด 3 ห้องนอน (ไม่เกิน 100 ตร.ม.)": 4,
+      "บ้าน 1 ชั้น (ไม่เกิน 100 ตร.ม.)": 5,
+      "บ้าน 2-3 ชั้น (ไม่เกิน 100-200 ตร.ม.)": 6,
+      "บ้าน มากกว่า 200 ตร.ม.": 7
+    },
     marks: {
       0: "250",
       33: "500",
@@ -33,9 +40,50 @@ class ModalSearch extends Component {
     }
   };
 
+  handleChangeMaidName = e => {
+    const { value } = e.target;
+    this.setState(() => ({
+      maidName: value
+    }));
+  };
+
+  handleMultiChange = label => value => {
+    const { services } = this.state;
+    const typeId = services[value];
+    this.setState(() => ({
+      [label]: label === "typeId" ? typeId : value
+    }));
+  };
+
+  handleWorkDate = (moment, dateStr) => {
+    const parseDateToNumDay = date => new Date(date).getDay();
+    const arrWeekdays = moment._locale._weekdays;
+    const numOfDay = parseDateToNumDay(moment._d);
+    const dayName = arrWeekdays[numOfDay];
+    this.setState(() => ({
+      workDate: dayName
+    }));
+  };
+
+  handlePriceOfRange = value => {
+    const { marks } = this.state;
+    const priceRange = value.map(numOfPrice => marks[numOfPrice]);
+    this.setState(() => ({
+      priceRange
+    }));
+  };
+
+  handleApply = () => {
+    const { services, marks, ...filterState } = this.state;
+    this.props.sendFilterData({ ...filterState });
+    this.props.history.push("/search/filter");
+    this.props.onCancel()
+    window.location.reload(true);
+  };
+
   render() {
     const { services, marks } = this.state;
-    const {onCancel, visible} = this.props
+    const { onCancel, visible } = this.props;
     return (
       <Modal
         visible={visible}
@@ -52,7 +100,7 @@ class ModalSearch extends Component {
                 <label>maid name :</label>
               </Col>
               <Col>
-                <Input />
+                <Input onChange={this.handleChangeMaidName} />
               </Col>
             </Row>
           </Col>
@@ -63,8 +111,12 @@ class ModalSearch extends Component {
               </Col>
               <Col>
                 {
-                  <Select style={{ width: "100%" }}>
-                    {services.map((service, i) => (
+                  <Select
+                    defaultValue={Object.keys(services)[0]}
+                    style={{ width: "100%" }}
+                    onChange={this.handleMultiChange("typeId")}
+                  >
+                    {Object.keys(services).map((service, i) => (
                       <Option key={i + service} value={service}>
                         {service}
                       </Option>
@@ -80,24 +132,18 @@ class ModalSearch extends Component {
                 <label>date :</label>
               </Col>
               <Col span={18}>
-                <DatePicker />
-              </Col>
-            </Row>
-          </Col>
-          <Col span={24}>
-            <Row type="flex" align="middle">
-              <Col span={4}>
-                <label>time :</label>
-              </Col>
-              <Col span={18}>
-                <TimePicker />
+                <DatePicker onChange={this.handleWorkDate} />
               </Col>
             </Row>
           </Col>
           <Col span={24}>
             <Row type="flex" justify="center">
               <Col>
-                <Rate allowHalf defaultValue={4} style={{ fontSize: 32 }} />
+                <Rate
+                  defaultValue={4}
+                  style={{ fontSize: 32 }}
+                  onChange={this.handleMultiChange("rating")}
+                />
               </Col>
             </Row>
           </Col>
@@ -113,17 +159,23 @@ class ModalSearch extends Component {
                   step={null}
                   defaultValue={[0, 100]}
                   tipFormatter={null}
+                  onChange={this.handlePriceOfRange}
                 />
               </Col>
             </Row>
           </Col>
           <Col span={24}>
-            <Button type="primary" block size="large">
+            <Button
+              type="primary"
+              block
+              size="large"
+              onClick={this.handleApply}
+            >
               Apply
             </Button>
           </Col>
           <Col span={24} onClick={onCancel}>
-            <Button block size="large">
+            <Button block size="large" onClick={onCancel}>
               Cancel
             </Button>
           </Col>
@@ -133,4 +185,8 @@ class ModalSearch extends Component {
   }
 }
 
-export default ModalSearch;
+const mapDispatchToProps = dispatch => ({
+  sendFilterData: data => dispatch(filterSearch(data))
+});
+
+export default withRouter(connect(null, mapDispatchToProps)(ModalSearch));
