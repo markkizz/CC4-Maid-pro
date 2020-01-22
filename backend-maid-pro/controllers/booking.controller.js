@@ -83,17 +83,18 @@ module.exports = db => {
           }
         });
         const resultEmployerId = result.map(em => em.dataValues.employer_id);
-        let emplyerData = [];
+        let employerData = [];
         for (let i = 0; i < resultEmployerId.length; i++) {
-          let employer = await db.user.findOne({
+          let employer = await db
+            .user.findOne({
             where: { id: resultEmployerId[i] },
             attributes: ["username", "first_name", "last_name", "profile_img"]
           });
-          emplyerData.push(employer.dataValues);
+          employerData.push(employer.dataValues);
         }
         const newResult = result.map((em, i) => ({
           ...em.dataValues,
-          employer_data: emplyerData[i]
+          employer_data: employerData[i]
         }));
         if (newResult.length === 0) {
           res.status(204).json(newResult);
