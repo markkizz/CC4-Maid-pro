@@ -11,7 +11,8 @@ export default class Registration extends Component {
   state = {
     username: '',
     password: '',
-    email: ''
+    email: '',
+    type: 'EMPLOYER'
   }
 
   handleChange = (label) => e => {
@@ -20,11 +21,8 @@ export default class Registration extends Component {
     })
   }
   handleSubmit = async (e) => {
-    const result = await axios.post(`/users/register`, {
-      username: this.state.username,
-      password: this.state.password,
-      email: this.state.email
-    })
+    const { username, password, email, type } = this.state;
+    const result = await axios.post(`/users/register`, { username, password, email, type })
     console.info('result', result)
       // .then(result => {
       //   console.log(result)

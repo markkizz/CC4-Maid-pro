@@ -12,16 +12,17 @@ module.exports = (db) => {
       let finalResult;
       return new Promise((resolve, reject) => {
         passport.authenticate('local-hashPassword', {}, async (err, hashedPassword) => {
-          if (!req.files) {
-            return {}
-          } else {
-            if (err) reject(err);
-            const image = req.files.profileImage;
+          // if (!req.files) {
+          //   console.log('req.file not arrive')
+          //   resolve({ httpStatus: 422, errorMessage: 'file does not arrive' });
+          // } else {
+          //   if (err) reject(err);
+          //   const image = req.files.profileImage;
 
-            const fileName = (new Date()).getTime();
-            const tempName = image.name.split(".");
-            const fileFormat = tempName[tempName.length - 1];
-            image.mv(`uploads/${fileName}.${fileFormat}`);
+          //   const fileName = (new Date()).getTime();
+          //   const tempName = image.name.split(".");
+          //   const fileFormat = tempName[tempName.length - 1];
+          //   image.mv(`uploads/${fileName}.${fileFormat}`);
 
             user = { ...user, password: hashedPassword };
             try {
@@ -38,7 +39,7 @@ module.exports = (db) => {
               }
               return { httpStatus: 400, errorMessage: ex };
             }
-          }
+          // }
         })(req)
       });
     },
