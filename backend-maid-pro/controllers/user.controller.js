@@ -46,7 +46,6 @@ module.exports = db => {
     },
 
     findMaidByMaidId: async (req, res) => {
-
       try {
         let result = await service.findMaidByMaidId(req.params.maidId);
         const { httpStatus, message, errorMessage } = result;

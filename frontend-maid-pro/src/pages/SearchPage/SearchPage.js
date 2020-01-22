@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 export class SearchPage extends Component {
   state = {
     modalVisible: false,
-    searchMaidData: 0
+    searchMaidData: []
   };
 
   handleModalVisible = () => {
@@ -22,21 +22,29 @@ export class SearchPage extends Component {
     }));
   };
 
-  componentDidMount = () => {
-    const { Option } = this.props.match.params;
-    if (Option === "filter") {
-      axios
-        .get(`/users/search`, {
-          ...this.props.fromFilterStore
-        })
-        .then(result => {
-          this.setState({
-            searchMaidData: result.data
-          });
-        });
-
-      if (Option === "quicksearch") {
-        axios.get("/users/maids?type={condo || house}");
+  componentDidMount = async () => {
+    const { option } = this.props.match.params;
+    const { quickSearchType, filterSearch } = this.props;
+    if (option === "filter") {
+      console.log(filterSearch);
+      // axios
+      //   .get(`/users/search`, )
+      //   .then(result => {
+      //     this.setState({
+      //       searchMaidData: result.data
+      //     });
+      //   });
+    }
+    if (option === "quicksearch") {
+      try {
+        const { data } = await axios.get(
+          `/users/quicksearch?type=${quickSearchType}`
+        );
+        this.setState(() => ({
+          searchMaidData: data
+        }));
+      } catch (err) {
+        console.error(err);
       }
     }
   };
@@ -47,7 +55,7 @@ export class SearchPage extends Component {
   };
 
   render() {
-    const { modalVisible } = this.state;
+    const { modalVisible, searchMaidData } = this.state;
     return (
       <>
         <Navbar />
@@ -76,42 +84,18 @@ export class SearchPage extends Component {
             </Col>
           </Row>
           <Row type="flex" justify="center" gutter={[16, 16]}>
-            <Col
-              span={12}
-              style={{
-                display: "flex",
-                justifyContent: "center"
-              }}
-            >
-              <MaidCard />
-            </Col>
-            <Col
-              span={12}
-              style={{
-                display: "flex",
-                justifyContent: "center"
-              }}
-            >
-              <MaidCard />
-            </Col>
-            <Col
-              span={12}
-              style={{
-                display: "flex",
-                justifyContent: "center"
-              }}
-            >
-              <MaidCard />
-            </Col>
-            <Col
-              span={12}
-              style={{
-                display: "flex",
-                justifyContent: "center"
-              }}
-            >
-              <MaidCard />
-            </Col>
+            {searchMaidData.map(maid => (
+              <Col
+                key={maid.id}
+                span={12}
+                style={{
+                  display: "flex",
+                  justifyContent: "center"
+                }}
+              >
+                <MaidCard maid={maid} />
+              </Col>
+            ))}
           </Row>
         </div>
         <ModalSearch
@@ -125,9 +109,9 @@ export class SearchPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    quickSearchType: state.search.quickSearchType,
+    quickSearchType: /*state.search.quickSearchType*/ "condo",
     filterSearch: state.search.filterSearch
   };
 };
 
-export default connect( mapStateToProps, null )(SearchPage);
+export default connect(mapStateToProps, null)(SearchPage);
