@@ -128,15 +128,9 @@ module.exports = (db) => {
 
     searchMaids: async (name, type_id, date, rating, price_hour) => {
       try {
-<<<<<<< HEAD
         let result = await repository.searchMaidsAllChoice(name, type_id, date, rating, price_hour);
         if(result.length === 0) {
           result = await repository.searchMaids(name, type_id, date, rating, price_hour)
-=======
-        let result = await repository.searchMaidsAllChoice(name, type_id, date, time, rating, price_hour);
-        if (result.length === 0) {
-          result = await repository.searchMaids(name, type_id, date, time, rating, price_hour)
->>>>>>> develop
           if (result.length === 0) {
             return { httpStatus: 204, message: result }
           } else {
