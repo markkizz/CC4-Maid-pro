@@ -27,9 +27,9 @@ module.exports = (db) => {
             try {
               const result = await repository.signUp(user);
               if (!result) {
-                resolve({ httpStatus: 204, message: result });
+                resolve({ httpStatus: 422, message: result });
               } else {
-                resolve({ httpStatus: 200, message: result });
+                resolve({ httpStatus: 201, message: result });
               }
               finalResult = result
             } catch (ex) {

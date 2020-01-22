@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   const user = sequelize.define('user', {
     username: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
       unique: true,
       validate: {
         is: ["^[a-z0-9]+$", 'i'],
@@ -18,14 +18,14 @@ module.exports = (sequelize, DataTypes) => {
 
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
       validate: {
         // len: 20
       }
     },
     id_card_no: {
       type: DataTypes.STRING(60),
-      allowNull: false,
+      // allowNull: false,
       validate: {
         // is: ['^\d{13}$']
         isInt: true,
@@ -34,14 +34,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     first_name: {
       type: DataTypes.STRING(60),
-      allowNull: false,
+      // allowNull: false,
       validate: {
         is: ['^[a-zA-Z-]+$', 'i'],
       }
     },
     last_name: {
       type: DataTypes.STRING(60),
-      allowNull: false,
+      // allowNull: false,
       validate: {
         is: ['^[a-zA-Z-]+$', 'i'],
       }
@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     phone_no: {
       type: DataTypes.STRING(10),
-      allowNull: false,
+      // allowNull: false,
       validate: {
         isInt: true,
         len: [10, 10]
