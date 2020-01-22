@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   const user = sequelize.define('user', {
     username: {
       type: DataTypes.STRING,
-      // allowNull: false,
+      allowNull: false,
       unique: true,
       validate: {
         is: ["^[a-z0-9]+$", 'i'],
