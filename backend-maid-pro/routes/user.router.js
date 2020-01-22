@@ -10,15 +10,15 @@ module.exports = (server, db) => {
 
   server.get('/users/maids', controller.findMaidsWithMaybeLimitOrderByAverageRatingDesc);
 
-  server.get('/users/search', controller.searchMaids);
+  server.get('/users/filter', controller.searchMaids);
 
   server.get(
     '/users/my-booking',
     passport.authenticate('jwt', {}, { session: false }),
     controller.getMyBooking
   );
+  server.get('/users/quicksearch', controller.findMaidsQuickSearch);
 
   server.get('/users/maids/:maidId', (req, res) => controller.findMaidByMaidId(req, res));
 
-  server.get('/users/maid/quicksearch', controller.findMaidsQuickSearch);
 };

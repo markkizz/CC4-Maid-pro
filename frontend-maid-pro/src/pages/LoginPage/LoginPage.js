@@ -6,6 +6,7 @@ import { Row, Col, Input, Icon, Button, Divider } from 'antd'
 import Logo from '../../images/maidProServiceLoginLogo.png'
 import { MdLockOutline } from "react-icons/md";
 import axios from "../../config/api.service";
+import { successLoginNotification, failLoginNotification } from './LoginNotification'
 
 export default class LoginPage extends Component {
   state = {
@@ -19,16 +20,18 @@ export default class LoginPage extends Component {
     })
   }
   handleLogin = (e) => {
-    axios.post(`/login`, {
-      username: this.state.username,
-      password: this.state.password,
+    const {username,password} = this.state
+    axios.post(`/users/sign-in`, {
+      username,password
     })
-      .then(result => {
-        console.log(result)
-      })
-      .catch(err => {
-        console.error(err)
-      })
+    .then(result => {
+      successLoginNotification(`Username ${username} is created`)
+      localStorage.setItem('ACCESS_TOKEN', result.data.token)
+      this.props.history.push("/")
+    })
+    .catch(err => {
+      failLoginNotification(`Username or Password is invalid`)
+    })
     this.setState({
       username: '',
       password: '',

@@ -2,9 +2,12 @@ const Sequelize = require("sequelize");
 const { Op } = require("sequelize");
 module.exports = db => {
   return {
-    signUp: user => {
+    signUp: async user => {
       const { username, password, email, type } = user;
-      return db.user.create({ username, password, type, email, status: "ACTIVE" });
+      console.log(username, password, email, type)
+      const result = await db.user.create({ username, password, type, email, status: "ACTIVE" });
+      console.info(result)
+      return result
     },
 
     findUserByUsername: username => {
@@ -21,7 +24,7 @@ module.exports = db => {
         order: [['average_rating', 'DESC']],
       })
     },
-    searchMaidsAllChoice: (name, type_id, date, time, rating, price_hour) => {
+    searchMaidsAllChoice: (name, type_id, date, rating, price_hour) => {
       return db.user.findAll({
         where: {
           type: "MAID",
@@ -36,6 +39,7 @@ module.exports = db => {
           holidays: {
             [Op.notIn]: [date]
           },
+          average_rating: rating,
           price_per_hour: {
             [Op.between]: [price_hour[0], price_hour[1]]
           }
@@ -54,7 +58,7 @@ module.exports = db => {
         ]
       });
     },
-    searchMaids: (name, type_id, date, time, rating, price_hour) => {
+    searchMaids: (name, type_id, date, rating, price_hour) => {
       return db.user.findAll({
         where: {
           type: "MAID",
@@ -63,7 +67,8 @@ module.exports = db => {
           },
           holidays: {
             [Op.notIn]: [date]
-          }
+          },
+          average_rating: rating
         },
         attributes: {
           exclude: ["password"]
@@ -103,6 +108,12 @@ module.exports = db => {
           through: {
             attributes: ['rating', 'content']
           },
+        }, {
+          model: db.building_type,
+          as: 'served_building_types',
+          attributes: {
+           include: ['type']
+          }
         }],
       });
     },

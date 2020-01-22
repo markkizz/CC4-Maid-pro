@@ -1,21 +1,17 @@
 import React from "react";
 import { Row, Col, Card, Rate } from "antd";
 import "./ReviewCard.css";
-
+import axios from "../../config/api.service"
 // ! Desc lenght cannot > 230 character
 
-function ReviewCard() {
-  const desc =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio aliquid commodi laborum non consequuntur, mollitia quod in repudiandae, ipsam, vel ratione sed voluptates quas amet voluptas exercitationem possimus suscipit porro.";
-  console.log(desc.length);
+function ReviewCard(props) {
   return (
     <Card className="ReviewCard-Card" bodyStyle={{ padding: "6px 16px" }}>
       <Row type="flex" align="bottom">
         <Col span={12}>
           <Rate
             allowHalf
-            disabled
-            defaultValue={5}
+            defaultValue={props.review ? props.review.rating : 0}
             className="ReviewCard-Rate"
           />
         </Col>
@@ -28,7 +24,7 @@ function ReviewCard() {
       </Row>
       <Row className="ReviewCard-desc">
         <Col>
-          <Card.Meta description={desc} />
+          <Card.Meta description={props.review ? props.review.content : ""} />
         </Col>
       </Row>
     </Card>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Booking.css";
 import { connect } from 'react-redux';
-import { Card,Row,Col,Input,Button,Icon,Form,Select,DatePicker,Upload,Modal } from "antd";
+import { Card, Row, Col, Input, Button, Icon, Form, Select, DatePicker, Upload, Modal } from "antd";
 import moment from "moment";
 import { FaClock, FaBook } from "react-icons/fa";
 import axios from '../../config/api.service'
@@ -16,7 +16,7 @@ class Booking extends Component {
   }
 
   handleChange = (label) => e => {
-console.log(e.target.value)
+    console.log(e.target.value)
     this.setState({
       [label]: e.target.value,
     })
@@ -44,26 +44,25 @@ console.log(e.target.value)
   }
 
   handleConfirm = (e) => {
-    axios.post(`/maid`, {
-      address: this.state.address,
-      category: this.state.category,
-      Date: this.state.Date,
-      hour: this.state.hour,
-    })
+    const { address, category, Date, hour } = this.state
+    const { id } = this.props
+    axios.post(`/bookings/maids/${id}`, { address, category, Date, hour })
       .then(result => {
         console.log(result)
+        
+        this.props.history.push("/maid")
       })
       .catch(err => {
         console.error(err)
       })
-      
+
   }
 
   render() {
     const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
     const { TextArea } = Input;
     return (
-      <Modal 
+      <Modal
         visible={this.props.visible}
         footer={null}
         onCancel={this.props.onCancel}
@@ -151,7 +150,7 @@ console.log(e.target.value)
               </Col>
               <Col span={16}>
                 <Select defaultValue="1" style={{ width: "100%" }}
-                onChange={this.handleSelectHour}
+                  onChange={this.handleSelectHour}
                 >
                   <Option value="1">1</Option>
                   <Option value="2">2</Option>
@@ -171,8 +170,8 @@ console.log(e.target.value)
                 Price
               </Col>
               <Col input span={16}>
-                <Input style={{ width: "100%" }} 
-                onChange={this.handleChange('price')}
+                <Input style={{ width: "100%" }}
+                  onChange={this.handleChange('price')}
                 />
               </Col>
             </Row>

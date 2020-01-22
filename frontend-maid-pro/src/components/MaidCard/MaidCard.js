@@ -13,6 +13,7 @@ function MaidCard(props) {
               alt="maid"
             />
           }
+          onClick={props.onSelectedMaid}
     >
       <h3>{maid.first_name} {maid.last_name}</h3>
       <Row className="MaidCard-Row" type="flex" align="bottom">

@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const faker = require("faker");
-const { numberOfUser } = require("./cons/constant");
+const { numberOfUser } = require("../utils/index");
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config.json")[env];
 
@@ -20,8 +20,7 @@ let userData = [];
 for (let i = 1; i <= numberOfUser; i++) {
   let user = {
     id: i,
-    username:
-      i === 1 ? "test" : i === 2 ? "testmaid" : faker.internet.userName(),
+    username: i === 1 ? "test" : i === 2 ? "testmaid" : faker.internet.userName(),
     password: hashedPassword("1234"),
     id_card_no: "1234567890123",
     first_name: faker.name.firstName(),

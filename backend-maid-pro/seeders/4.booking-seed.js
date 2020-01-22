@@ -1,5 +1,5 @@
 const faker = require("faker");
-const { numberOfUser } = require("./cons/constant");
+const { numberOfUser } = require("../utils/index");
 
 const status = [
   "WAIT_FOR_ACCEPTANCE",

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import "./MaidDescription.css";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
@@ -7,22 +7,30 @@ import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import { Row, Col, Button, Rate } from "antd";
 import { FaBuilding, FaHome } from "react-icons/fa";
 import Booking from "../Booking/Booking";
+import axios from "../../config/api.service"
 
 class MaidDescription extends Component {
   state = {
     maidData: [],
-    visible: false
+    visible: false,
+    maid: {
+      buildingServices: [],
+      type: '',
+      reviewedMaids: []
+    }
+
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     console.log(this.props)
-    // const maidID = this.props.maidId
-    // Axios.get('/users/maids/{maidId}')
-    // this.setState((state) => {
-    //   return {
-
-    //   }
-    // })
+    const maidId = this.props.maidId
+    // const result = await axios.get(`/users/maids/${maidId}`)
+    try {
+      const result = (await axios.get(`/users/maids/2`)).data
+      this.setState({ maid: result })
+    } catch (ex) {
+      console.error(ex.message)
+    }
   }
   showModal = () => {
     this.setState({
@@ -36,7 +44,10 @@ class MaidDescription extends Component {
       visible: false,
     });
   };
+
   render() {
+    const { maid } = this.state
+    console.log(maid.reviewedMaids)
     return (
       <div>
         <Navbar />
@@ -46,7 +57,7 @@ class MaidDescription extends Component {
               <Col span={11}>
                 <Row type="flex" justify="end">
                   <img
-                    src="JessicaSpencer.png"
+                    src={maid.profileImg}
                     alt=""
                     width="150"
                     className="MaidDescription-ProfilePicture"
@@ -54,16 +65,15 @@ class MaidDescription extends Component {
                 </Row>
               </Col>
               <Col span={13} className="MaidDescription-Name">
-                <h2>Jessica Spencer</h2>
+                <h2>{maid.firstName} {maid.lastName}</h2>
                 <h3>
                   <Rate
                     allowHalf
-                    disabled
-                    defaultValue={5}
+                    defaultValue={maid.averageRating}
                     className="MaidDescription-Rate"
                   />
                 </h3>
-                <h3>4.0</h3>
+                <h3>{maid.averageRating}</h3>
               </Col>
             </Row>
             <Row
@@ -74,11 +84,7 @@ class MaidDescription extends Component {
               <Col span={20} className="MaidDescription-Description">
                 <Row>Description</Row>
                 <Row>
-                  Jessica is an Austrian-American actor, filmmaker, businessman,
-                  author, and former professional bodybuilder and politician.[2]
-                  He served as the 38th Governor of California from 2003 to
-                  2011. As of 2019, he is the most recent Republican governor of
-                  California.
+                  {maid.aboutMaid}
                 </Row>
               </Col>
             </Row>
@@ -95,10 +101,11 @@ class MaidDescription extends Component {
                 <h5 className="MaidDescription-CondoText">Condo</h5>
               </Col>
               <Col span={12} className="MaidDescription-CondoType">
-                <h5>{"<"} 40 Sq.m.</h5>
-                <h5>{"<"} 50 Sq.m.</h5>
-                <h5>{"<"} 80 Sq.m.</h5>
-                <h5>{"<"} 100 Sq.m.</h5>
+                {maid.buildingServices.map(buildingService => (
+                  buildingService.type.startsWith("คอนโด") && (
+                    <h5 key={maid.id}>{"<"} {buildingService.type}</h5>
+                  )
+                ))}
               </Col>
             </Row>
             <Row>
@@ -107,14 +114,16 @@ class MaidDescription extends Component {
                 <h5 className="MaidDescription-HomeText">Home</h5>
               </Col>
               <Col span={12} className="MaidDescription-HomeType">
-                <h5>{"<"} 100 Sq.m.</h5>
-                <h5>{"<"} 100-200 Sq.m.</h5>
-                <h5>{"<"} 200 Sq.m.</h5>
+                {maid.buildingServices.map(buildingService => (
+                  buildingService.type.startsWith("บ้าน") && (
+                    <h5 key={maid.id}>{"<"} {buildingService.type}</h5>
+                  )
+                ))}
               </Col>
             </Row>
             <Row className="MaidDescription-BookingButtonforview">
               <Col span={24} className="MaidDescription-Booking">
-                Price 250 Price/Hour
+                Price {maid.pricePerHour} Price/Hour
               </Col>
               <Button
                 className="MaidDescription-BookingButton"
@@ -122,28 +131,20 @@ class MaidDescription extends Component {
               >
                 Booking
               </Button>
-              <Booking visible={this.state.visible} onCancel={this.handleCancel} />
+              <Booking id={2} visible={this.state.visible} onCancel={this.handleCancel} />
               <Col span={24} className="MaidDescription-Booking">
                 <h4>REVIEWS</h4>
               </Col>
             </Row>
           </Col>
         </Row>
-        <Row type="flex" justify="center">
-          <Col className="MaidDescription-center">
-            <ReviewCard />
-          </Col>
-        </Row>
-        <Row type="flex" justify="center">
-          <Col className="MaidDescription-center">
-            <ReviewCard />
-          </Col>
-        </Row>
-        <Row type="flex" justify="center">
-          <Col className="MaidDescription-center">
-            <ReviewCard />
-          </Col>
-        </Row>
+        {maid.reviewedMaids.map(review => (
+          <Row type="flex" justify="center">
+            <Col className="MaidDescription-center">
+              <ReviewCard review={review.review}/>
+            </Col>
+          </Row>
+        ))}
         <Footer />
       </div>
     );
