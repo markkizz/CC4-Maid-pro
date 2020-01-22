@@ -2,9 +2,12 @@ const Sequelize = require("sequelize");
 const { Op } = require("sequelize");
 module.exports = db => {
   return {
-    signUp: user => {
+    signUp: async user => {
       const { username, password, email, type } = user;
-      return db.user.create({ username, password, type, email, status: "ACTIVE" });
+      console.log(username, password, email, type)
+      const result = await db.user.create({ username, password, type, email, status: "ACTIVE" });
+      console.info(result)
+      return result
     },
 
     findUserByUsername: username => {

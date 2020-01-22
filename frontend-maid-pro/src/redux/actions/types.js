@@ -5,9 +5,13 @@ export const userTypes = {
 
 export const maidTypes = {
   SELECTED_MAID: "SELECTED_MAID"
-}
+};
+
+export const maidsTypes = {
+  FETCH_MAIDS: "FETCH_MAIDS"
+};
 
 export const searchTypes = {
   QUICK_SEARCH_TYPE: "QUICK_SEARCH_TYPE",
   FILTER_SEARCH: "FILTER_SEARCH"
-}
+};

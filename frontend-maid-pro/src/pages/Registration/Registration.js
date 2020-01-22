@@ -6,12 +6,14 @@ import { Row, Col, Input, Icon, Button } from 'antd';
 import { MdLockOutline } from "react-icons/md";
 import { AiOutlineMail } from "react-icons/ai";
 import axios from "../../config/api.service"
+import { failRegisterNotification, successRegisterNotification } from "./Registration.noti"
 
 export default class Registration extends Component {
   state = {
     username: '',
     password: '',
-    email: ''
+    email: '',
+    type: 'EMPLOYER'
   }
 
   handleChange = (label) => e => {
@@ -20,22 +22,21 @@ export default class Registration extends Component {
     })
   }
   handleSubmit = (e) => {
-    axios.post(`/register`, {
-      username: this.state.username,
-      password: this.state.password,
-      email: this.state.email
-    })
+    const { username, password, email, type } = this.state;
+
+    axios.post(`/users/register`, { username, password, email, type })
       .then(result => {
-        console.log(result)
+        successRegisterNotification(`Username ${username} is created`)
+        this.props.history.push("/")
       })
       .catch(err => {
-        console.error(err)
+        failRegisterNotification()
       })
-      this.setState({
-        username: '',
-        password: '',
-        email: ''
-      })
+    this.setState({
+      username: '',
+      password: '',
+      email: ''
+    })
   }
 
   render() {

@@ -17,12 +17,12 @@ export default class LoginPage extends Component {
     })
   }
   handleLogin = (e) => {
-    axios.post(`/login`, {
+    axios.post(`/users/sign-in`, {
       username: this.state.username,
       password: this.state.password,
     })
       .then(result => {
-        console.log(result)
+        // console.log(result)
       })
       .catch(err => {
         console.error(err)
