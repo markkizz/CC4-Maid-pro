@@ -27,8 +27,6 @@ export default class Registration extends Component {
     axios.post(`/users/register`, { username, password, email, type })
       .then(result => {
         successRegisterNotification(`Username ${username} is created`)
-        // 
-        localStorage.setItem('ACCESS_TOKEN', result.data.token)
         this.props.history.push("/")
       })
       .catch(err => {
