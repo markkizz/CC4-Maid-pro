@@ -23,7 +23,6 @@ export default class Registration extends Component {
   }
   handleSubmit = (e) => {
     const { username, password, email, type } = this.state;
-
     axios.post(`/users/register`, { username, password, email, type })
       .then(result => {
         successRegisterNotification(`Username ${username} is created`)

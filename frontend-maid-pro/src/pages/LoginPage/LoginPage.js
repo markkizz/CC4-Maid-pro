@@ -4,6 +4,7 @@ import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import { Row, Col, Input, Icon, Button, Divider } from 'antd'
 import axios from "../../config/api.service";
+import { successLoginNotification, failLoginNotification } from './LoginNotification'
 
 export default class LoginPage extends Component {
   state = {
@@ -17,16 +18,18 @@ export default class LoginPage extends Component {
     })
   }
   handleLogin = (e) => {
+    const {username,password} = this.state
     axios.post(`/users/sign-in`, {
-      username: this.state.username,
-      password: this.state.password,
+      username,password
     })
-      .then(result => {
-        // console.log(result)
-      })
-      .catch(err => {
-        console.error(err)
-      })
+    .then(result => {
+      successLoginNotification(`Username ${username} is created`)
+      localStorage.setItem('ACCESS_TOKEN', result.data.token)
+      this.props.history.push("/")
+    })
+    .catch(err => {
+      failLoginNotification(`Username or Password is invalid`)
+    })
     this.setState({
       username: '',
       password: '',
