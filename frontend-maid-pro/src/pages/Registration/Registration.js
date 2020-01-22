@@ -19,18 +19,19 @@ export default class Registration extends Component {
       [label]: e.target.value,
     })
   }
-  handleSubmit = (e) => {
-    axios.post(`/register`, {
+  handleSubmit = async (e) => {
+    const result = await axios.post(`/users/register`, {
       username: this.state.username,
       password: this.state.password,
       email: this.state.email
     })
-      .then(result => {
-        console.log(result)
-      })
-      .catch(err => {
-        console.error(err)
-      })
+    console.info('result', result)
+      // .then(result => {
+      //   console.log(result)
+      // })
+      // .catch(err => {
+      //   console.error(err)
+      // })
       this.setState({
         username: '',
         password: '',
