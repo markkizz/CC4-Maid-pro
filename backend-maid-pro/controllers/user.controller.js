@@ -59,12 +59,14 @@ module.exports = db => {
       }
     },
     // ? available time and total rating of maid not in database
+    // * argument can refactor
     searchMaids: async (req, res) => {
       try {
-        const { name, date, time, rating, price_hour } = req.query;
-        const arrPrice_hour = price_hour.split(",").map(price => Number(price));
+        console.log(req.body)
+        const { name, work_date, rating, price_hour } = req.query;
+        const arr_price_hour = price_hour.split(",").map(price => Number(price));
         let type_id = Number(req.query.type_id);
-        let result = await service.searchMaids(name, type_id, date, time, rating, arrPrice_hour);
+        let result = await service.searchMaids(name, type_id, work_date, rating, arr_price_hour);
         const { httpStatus, message, errorMessage } = result;
         if (!errorMessage) {
           res.status(httpStatus).json(message);

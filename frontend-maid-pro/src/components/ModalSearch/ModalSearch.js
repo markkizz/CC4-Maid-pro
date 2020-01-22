@@ -19,7 +19,7 @@ const { Option } = Select;
 class ModalSearch extends Component {
   state = {
     maidName: "",
-    typeOfPlaceId: 1,
+    typeId: 1,
     workDate: "",
     rating: 4,
     priceRange: ["250", "100"],
@@ -47,19 +47,11 @@ class ModalSearch extends Component {
     }));
   };
 
-  handleSelect = value => {
-    const { services } = this.state;
-    const typeId = services[value];
-    this.setState(() => ({
-      typeOfPlaceId: typeId
-    }));
-  };
-
   handleMultiChange = label => value => {
     const { services } = this.state;
     const typeId = services[value];
     this.setState(() => ({
-      [label]: label === "typeOfPlaceId" ? typeId : value
+      [label]: label === "typeId" ? typeId : value
     }));
   };
 
@@ -122,7 +114,7 @@ class ModalSearch extends Component {
                   <Select
                     defaultValue={Object.keys(services)[0]}
                     style={{ width: "100%" }}
-                    onChange={this.handleMultiChange("typeOfPlaceId")}
+                    onChange={this.handleMultiChange("typeId")}
                   >
                     {Object.keys(services).map((service, i) => (
                       <Option key={i + service} value={service}>

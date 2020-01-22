@@ -3,7 +3,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import MaidCard from "../../components/MaidCard/MaidCard";
 import ModalSearch from "../../components/ModalSearch/ModalSearch";
 import { ButtonFilter } from "../../shared/Button";
-import { Row, Col } from "antd";
+import { Row, Col, notification } from "antd";
 import { FaSlidersH } from "react-icons/fa";
 import axios from "../../config/api.service";
 import { dispatch } from "rxjs/internal/observable/pairs";
@@ -25,15 +25,25 @@ export class SearchPage extends Component {
   componentDidMount = async () => {
     const { option } = this.props.match.params;
     const { quickSearchType, filterSearch } = this.props;
+    const {maidName, typeId, workDate, rating} = filterSearch
+    const price_hour = filterSearch.priceRange.join(",");
     if (option === "filter") {
-      console.log(filterSearch);
-      // axios
-      //   .get(`/users/search`, )
-      //   .then(result => {
-      //     this.setState({
-      //       searchMaidData: result.data
-      //     });
-      //   });
+      try {
+        const { data } = await axios.get(`/users/filter?name=${maidName}&type_id=${typeId}&work_date=${workDate}&price_hour=${price_hour}&rating=${rating}`);
+        if(!data && data.length === 0) {
+          this.openNotificationWithIcon()
+          const {data} = await axios.get("/users/maids?limit=10")
+          this.setState({
+            searchMaidData: data
+          })
+        } else {
+          this.setState({
+            searchMaidData: data
+          })
+        }
+      } catch (err) {
+        console.error(err);
+      }
     }
     if (option === "quicksearch") {
       try {
@@ -52,6 +62,14 @@ export class SearchPage extends Component {
   handleClickMaid = maidId => {
     dispatch(selectedMaid(maidId));
     this.history.push(`/maid/${maidId}`);
+  };
+
+  openNotificationWithIcon = () => {
+    notification['warning']({
+      message: 'Maid Not Found',
+      description:
+        'Your search option not match maid services',
+    });
   };
 
   render() {

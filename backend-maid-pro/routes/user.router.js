@@ -10,7 +10,7 @@ module.exports = (server, db) => {
 
   server.get('/users/maids', controller.findMaidsWithMaybeLimitOrderByAverageRatingDesc);
 
-  server.get('/users/search', controller.searchMaids);
+  server.get('/users/filter', controller.searchMaids);
 
   server.get(
     '/users/my-booking',
