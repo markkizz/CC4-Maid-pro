@@ -124,14 +124,13 @@ module.exports = db => {
         })
       }
     },
-    findMaidByMaidId: async (maidId) => {
-      let result = await db.user.findOne({
+
+    findMaidByMaidId: (maidId) => {
+      return db.user.findOne({
         attributes: ['id', 'first_name', 'last_name', 'type', 'phone_no', 'email',
           'profile_img', 'address', 'status', 'bank_account_no', 'bank_name', 'price_per_hour', 'holidays', 'about_maid',
         ],
-        where: {
-          id: maidId
-        },
+        where: { id: maidId, type: 'maid' },
         include: [{
           model: db.user,
           as: 'reviewed_maids',
@@ -140,25 +139,8 @@ module.exports = db => {
           },
         }],
       });
-
-      let sum = 0;
-      for (let review of result.reviewed_maids) {
-        sum += parseFloat(review.review.rating);
-      }
-      const average = sum / (result.reviewed_maids.length || 1);
-
-      return {
-        firstName: result.first_name,
-        lastName: result.last_name,
-        type: result.type,
-        phoneNo: result.phone_no,
-        profileImg: result.profile_img,
-        pricePerHour: result.price_per_hour,
-        holidays: result.holidays,
-        aboutMaid: result.aboutMaid,
-        averageRating: average
-      }
     },
+
     findMaidsQuickSearch: async (serviceTypeId) => {
       return db.user.findAll({
         where: { type: 'MAID' },
