@@ -1,0 +1,12 @@
+.BookingCard-submit {
+  box-shadow: none;
+  border: none;
+  margin-right: 0.5rem;
+  background-color: #005792;
+  color: white;
+}
+
+.BookingCard-Cancel-Description {
+  margin-bottom: 10px;
+  margin-top: 20px;
+}

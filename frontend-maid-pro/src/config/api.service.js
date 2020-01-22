@@ -5,15 +5,14 @@ import store from "../redux/store/store";
 axios.defaults.baseURL = "http://localhost:3333";
 
 const TOKEN = "ACCESS_TOKEN";
-const PROTECTED_PATHS = ["review-create"];
+const PROTECTED_PATHS = ["/bookings/employers/"];
 
 const isProtectedPath = url => PROTECTED_PATHS.find(path => path === url);
 
 axios.interceptors.request.use(
   async config => {
     console.log(config);
-    let strUrl = config.url.split("/")[1];
-    if (isProtectedPath(strUrl)) {
+    if (isProtectedPath(config.url)) {
       console.log("pass auth");
       let token = localStorage.getItem(TOKEN);
       config.headers["Authorization"] = `Bearer ${token}`;
