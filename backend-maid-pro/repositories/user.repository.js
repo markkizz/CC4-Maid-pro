@@ -106,6 +106,12 @@ module.exports = db => {
           through: {
             attributes: ['rating', 'content']
           },
+        }, {
+          model: db.building_type,
+          as: 'served_building_types',
+          attributes: {
+           include: ['type']
+          }
         }],
       });
     },

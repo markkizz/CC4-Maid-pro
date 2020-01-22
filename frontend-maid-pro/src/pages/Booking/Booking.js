@@ -44,7 +44,8 @@ console.log(e.target.value)
   }
 
   handleConfirm = (e) => {
-    axios.post(`/maid`, {
+    axios.post(`/bookings/maids/:maidId`, {
+      // ${maid_id}
       address: this.state.address,
       category: this.state.category,
       Date: this.state.Date,

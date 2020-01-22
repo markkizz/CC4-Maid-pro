@@ -115,8 +115,10 @@ module.exports = (db) => {
             profileImg: result.profile_img,
             pricePerHour: result.price_per_hour,
             holidays: result.holidays,
-            aboutMaid: result.aboutMaid,
-            averageRating: average
+            aboutMaid: result.about_maid,
+            averageRating: average,
+            buildingServices: result.served_building_types,
+            reviewedMaids: result.reviewed_maids
           };
 
           return { httpStatus: 200, message: result };
