@@ -4,19 +4,20 @@ import './ModalBookingCancel.css'
 
 const {TextArea} = Input
 
-function ModalBookingCancel() {
+function ModalBookingCancel(props) {
+  const {cancelVisible, onShowModal, onSubmit, onChange, reason} = props
   return (
     <Modal
-      visible={visible}
+      visible={cancelVisible}
       title="Cancel Booing"
       style={{ top: 10 }}
-      onOk={this.handleOk}
-      onCancel={this.handleCancel}
+      onOk={onShowModal('cancelVisible')}
+      onCancel={onShowModal('cancelVisible')}
       footer={[
-        <Button key="1" type="danger" onClick={this.handleSubmit}>
+        <Button key="1" type="danger" onClick={onSubmit}>
           Send
         </Button>,
-        <Button key="2" onClick={this.handleCancel}>
+        <Button key="2" onClick={onShowModal('cancelVisible')}>
           Cancel
         </Button>
       ]}
@@ -70,12 +71,12 @@ function ModalBookingCancel() {
       <Col span={24} style={{ marginBottom: "10px" }}>
         <TextArea
           rows={3}
-          value={this.state.reason}
-          onChange={this.handleChange("reason")}
+          value={reason}
+          onChange={onChange("reason")}
         />
       </Col>
     </Modal>
   );
 }
 
-export default ModalBookingAccept;
+export default ModalBookingCancel;

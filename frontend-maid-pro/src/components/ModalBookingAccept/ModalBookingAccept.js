@@ -1,22 +1,25 @@
 import React from "react";
 import "./ModalBookingAccept.css";
-import { Modal, Button, Row, Col, Input } from "antd";
+import { Modal, Button, Row, Col, Input, Rate } from "antd";
 
-function ModalBookingAccept() {
+const { TextArea } = Input;
+
+function ModalBookingAccept(props) {
+  const {acceptVisible, onShowModal, onSubmit, onChange} = props
   return (
     <Modal
-      visible={this.state.modal1Visible}
+      visible={acceptVisible}
       title="REVIEW"
       style={{ top: 10 }}
-      onOk={() => this.setModal1Visible(false)}
-      onCancel={() => this.setModal1Visible(false)}
+      onOk={onShowModal('acceptVisible')}
+      onCancel={onShowModal('acceptVisible')}
       footer={[
         <Button
           type="flex"
           justify="center"
           key="1"
           className="BookingCard-submit"
-          onClick={this.handleSubmit}
+          onClick={onSubmit}
         >
           Submit
         </Button>
@@ -45,13 +48,13 @@ function ModalBookingAccept() {
             allowHalf
             defaultValue={5}
             className="ReviewCard-Rate"
-            onChange={this.handleChange("rating")}
+            onChange={onChange("rating")}
           />
         </Col>
       </Row>
       <Row className="BookingCard-Cancel-Description">
         <Col span={24}>
-          <TextArea rows={3} onChange={this.handleChange("content")} />
+          <TextArea rows={3} onChange={onChange("content")} />
         </Col>
       </Row>
     </Modal>
