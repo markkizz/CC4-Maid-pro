@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './Navbar.css'
-import {Row, Col, Icon, Drawer, Button} from 'antd'
+import { Row, Col, Icon, Drawer, Button } from 'antd'
 import Logo from '../../images/maidProServiceLogo.png'
 import { Link } from "react-router-dom";
 
@@ -77,7 +77,7 @@ export default class Navbar extends Component {
             </Row>
           </Col>
         </Row>
-        <Row className ="Navbar-Border"></Row>
+        <Row className="Navbar-Border" />
       </div>
     )
   }

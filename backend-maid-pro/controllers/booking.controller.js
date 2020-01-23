@@ -21,7 +21,8 @@ module.exports = db => {
           status: "WAIT_FOR_ACCEPTANCE",
           pay_slip_image: req.body.pay_slip_image,
           employer_id: req.user.id,
-          maid_id: maidId
+          maid_id: maidId,
+          // type_id: req.body.type_id
         });
         if (result.length === 0) {
           res.status(204).json({ result });
@@ -29,6 +30,7 @@ module.exports = db => {
           res.status(200).json({ result });
         }
       } catch (err) {
+        console.log(err)
         if (err.message.includes("ECONNREFUSED")) {
           res.status(500).json({ errorMessage: "Database server error" });
         }
