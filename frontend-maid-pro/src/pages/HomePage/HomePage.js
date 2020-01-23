@@ -18,19 +18,12 @@ export class HomePage extends Component {
     topMaids: []
   };
 
-  componentDidMount() {
-    this.setState({
-      // topMaids: this.props.fetchMaids()
-    });
-    console.log(this.state.topMaids);
-  }
+  componentDidMount = async () => {
+    this.setState({ topMaids: (await axios.get('/users/maids?limit=6')).data });
+  };
 
   handleClickQuickSearch = serviceType => {
     this.history.push(`/search/quicksearch`);
-  };
-
-  handleSelectedMaid = maidId => () => {
-    this.props.history.push(`/maid/${maidId}`);
   };
 
   render() {
@@ -51,7 +44,6 @@ export class HomePage extends Component {
                 </Carousel>
               </Col>
             </Row>
-
 
 
             <Row type="flex" justify="center">
@@ -89,13 +81,12 @@ export class HomePage extends Component {
                 <Col key={maid.id} span={12}>
                   <Row type="flex" justify="center" align="middle" style={{ marginBottom: "20px" }}>
                     <Col>
-                      <MaidCard onSelectedMaid={this.handleSelectedMaid} maid={maid} />
+                      <MaidCard maid={maid} />
                     </Col>
                   </Row>
                 </Col>
               ))}
             </Row>
-
 
 
           </Col>
