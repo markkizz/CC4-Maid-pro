@@ -26,10 +26,6 @@ export class HomePage extends Component {
     this.history.push(`/search/quicksearch`);
   };
 
-  handleSelectedMaid = maidId => () => {
-    this.props.history.push(`/maid/${maidId}`);
-  };
-
   render() {
     const { imageUrls, topMaids } = this.state;
     return (
@@ -85,7 +81,7 @@ export class HomePage extends Component {
                 <Col key={maid.id} span={12}>
                   <Row type="flex" justify="center" align="middle" style={{ marginBottom: "20px" }}>
                     <Col>
-                      <MaidCard onSelectedMaid={this.handleSelectedMaid} maid={maid} />
+                      <MaidCard maid={maid} />
                     </Col>
                   </Row>
                 </Col>
