@@ -42,6 +42,7 @@ const genDateWork = () => {
 const bookingData = [];
 for (let i = 1; i <= numberOfUser; i++) {
   const booking = {
+    id: i,
     work_at: genDateWork(),
     work_hour: 2,
     status: 'WAIT_FOR_ACCEPTANCE',
@@ -70,6 +71,7 @@ module.exports = {
     return queryInterface.bulkInsert("bookings",
     [
       {
+        id: 1,
         customer_location: genAddress(),
         work_date: genDateWork(),
         work_hour: 2,
@@ -82,6 +84,7 @@ module.exports = {
         reject_note: checkIfReject(stat)
       },
       {
+        id: 2,
         customer_location: genAddress(),
         work_date: genDateWork(),
         work_hour: 2,
@@ -94,6 +97,7 @@ module.exports = {
         reject_note: checkIfReject(stat)
       },
       {
+        id: 3,
         customer_location: genAddress(),
         work_date: genDateWork(),
         work_hour: 2,
@@ -106,6 +110,7 @@ module.exports = {
         reject_note: checkIfReject(stat)
       },
       {
+        id: 4,
         customer_location: genAddress(),
         work_date: genDateWork(),
         work_hour: 2,
@@ -118,6 +123,7 @@ module.exports = {
         reject_note: checkIfReject(stat)
       },
       {
+        id: 5,
         customer_location: genAddress(),
         work_date: genDateWork(),
         work_hour: 2,
@@ -130,6 +136,7 @@ module.exports = {
         reject_note: checkIfReject(stat)
       },
       {
+        id: 6,
         customer_location: genAddress(),
         work_date: genDateWork(),
         work_hour: 2,
@@ -142,6 +149,7 @@ module.exports = {
         reject_note: checkIfReject(stat)
       },
       {
+        id: 7,
         customer_location: genAddress(),
         work_date: genDateWork(),
         work_hour: 2,
@@ -154,6 +162,7 @@ module.exports = {
         reject_note: checkIfReject(stat)
       },
       {
+        id: 8,
         customer_location: genAddress(),
         work_date: genDateWork(),
         work_hour: 2,
@@ -166,6 +175,7 @@ module.exports = {
         reject_note: checkIfReject(stat)
       },
       {
+        id: 9,
         customer_location: genAddress(),
         work_date: genDateWork(),
         work_hour: 2,
@@ -178,6 +188,7 @@ module.exports = {
         reject_note: checkIfReject(stat)
       },
       {
+        id: 10,
         customer_location: genAddress(),
         work_date: genDateWork(),
         work_hour: 2,
@@ -190,6 +201,7 @@ module.exports = {
         reject_note: checkIfReject(stat)
       },
       {
+        id: 11,
         customer_location: genAddress(),
         work_date: genDateWork(),
         work_hour: 2,
