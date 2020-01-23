@@ -8,13 +8,16 @@ import { FaBuilding, FaHome } from "react-icons/fa";
 import axios from "../../config/api.service";
 import { fetchMaids, quickSearchType, selectedMaid } from "../../redux/actions/actions";
 import { connect } from "react-redux";
+import Carousel1 from '../../images/Carousel1.jpeg'
+import Carousel2 from '../../images/Carousel2.jpg'
 
 export class HomePage extends Component {
   state = {
 
     imageUrls: [
-      "https://architecturesideas.com/wp-content/uploads/2019/12/Housekeeper2.jpg",
-      "https://architecturesideas.com/wp-content/uploads/2019/12/Housekeeper2.jpg"
+      Carousel1,
+      Carousel2
+      // "https://architecturesideas.com/wp-content/uploads/2019/12/Housekeeper2.jpg"
     ],
     topMaids: []
   };
@@ -47,9 +50,9 @@ export class HomePage extends Component {
               <Col span={24}>
                 <Carousel autoplay>
                   {imageUrls.map((url, i) => (
-                    <div key={i + " Carousel"}>
+                    <Row key={i + "Carousel"} className="HomePage-CarouselDiv">
                       <img src={url} alt="Carousel" className="HomePage-Carousel" />
-                    </div>
+                    </Row>
                   ))}
                 </Carousel>
               </Col>
