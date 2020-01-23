@@ -70,7 +70,7 @@ class MaidDescription extends Component {
                 <h3>
                   <Rate
                     allowHalf
-                    defaultValue={maid.averageRating}
+                    value={maid.averageRating}
                     className="MaidDescription-Rate"
                   />
                 </h3>
@@ -132,7 +132,7 @@ class MaidDescription extends Component {
               >
                 Booking
               </Button>
-              <Booking id={2} visible={this.state.visible} onCancel={this.handleCancel} />
+              <Booking maidId={maid.id} visible={this.state.visible} onCancel={this.handleCancel} />
               <Col span={24} className="MaidDescription-Booking">
                 <h4>REVIEWS</h4>
               </Col>

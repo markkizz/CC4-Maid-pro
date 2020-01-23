@@ -106,6 +106,7 @@ module.exports = (db) => {
           const average = sum / (result.reviewed_maids.length || 1);
 
           result = {
+            id: result.id,
             firstName: result.first_name,
             lastName: result.last_name,
             type: result.type,
