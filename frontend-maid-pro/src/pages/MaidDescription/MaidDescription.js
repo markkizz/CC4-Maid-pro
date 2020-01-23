@@ -32,7 +32,7 @@ class MaidDescription extends Component {
     } catch (ex) {
       console.error(ex.message);
     }
-  }
+  };
   showModal = () => {
     this.setState({
       visible: true
@@ -47,8 +47,7 @@ class MaidDescription extends Component {
   };
 
   render() {
-    const { maid } = this.state
-    console.log(maid.reviewedMaids)
+    const { maid } = this.state;
     return (
       <div>
         <Navbar />
@@ -96,19 +95,19 @@ class MaidDescription extends Component {
             >
               <h3>Type Of Place</h3>
             </Row>
-              <Row>
-                <Col span={12} className="MaidDescription-Type">
-                  <FaBuilding className="MaidDescription-icon" />
-                  <h5 className="MaidDescription-CondoText">Condo</h5>
-                </Col>
-                <Col span={12} className="MaidDescription-CondoType">
-                  {maid.buildingServices.map(buildingService => (
-                    buildingService.type.startsWith("คอนโด") && (
-                      <h5 key={maid.id}><GiBroom /> {buildingService.type}</h5>
-                    )
-                  ))}
-                </Col>
-              </Row>
+            <Row>
+              <Col span={12} className="MaidDescription-Type">
+                <FaBuilding className="MaidDescription-icon" />
+                <h5 className="MaidDescription-CondoText">Condo</h5>
+              </Col>
+              <Col span={12} className="MaidDescription-CondoType">
+                {maid.buildingServices.map(buildingService => (
+                  buildingService.type.startsWith("คอนโด") && (
+                    <h5 key={maid.id}><GiBroom /> {buildingService.type}</h5>
+                  )
+                ))}
+              </Col>
+            </Row>
             <Row>
               <Col span={12} className="MaidDescription-Type">
                 <FaHome className="MaidDescription-icon" />
@@ -157,7 +156,6 @@ const mapStateToProps = (state) => {
     maidId: state.maid.selectedMaid
   }
 }
-
 
 
 const connectMaidDescription = connect(mapStateToProps, null)(MaidDescription)
