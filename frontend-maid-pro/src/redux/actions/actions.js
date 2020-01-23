@@ -7,7 +7,7 @@ export const USER_LOGOUT = 'USER_LOGOUT';
 
 export const login = (user, token) => {
   localStorage.setItem(TOKEN, token);
-  const { iat, ...userData } = user;
+  const { iat, exp, ...userData } = user;
   return {
     type: userTypes.USER_LOGIN,
     payload: userData

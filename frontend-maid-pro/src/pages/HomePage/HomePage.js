@@ -13,7 +13,6 @@ import Carousel2 from '../../images/Carousel2.jpg'
 
 export class HomePage extends Component {
   state = {
-
     imageUrls: [
       Carousel1,
       Carousel2
@@ -22,21 +21,12 @@ export class HomePage extends Component {
     topMaids: []
   };
 
-  componentDidMount() {
-    this.setState({
-      // topMaids: this.props.fetchMaids()
-    });
-    console.log(this.state.topMaids);
-  }
-
-  handleClickQuickSearch = serviceType => {
-    // dispatch(quickSearchType(serviceType));
-    this.history.push(`/search/quicksearch`);
+  componentDidMount = async () => {
+    this.setState({ topMaids: (await axios.get('/users/maids?limit=6')).data });
   };
 
-  handleSelectedMaid = maidId => () => {
-    // dispatch(selectedMaid(maidId));
-    this.props.history.push(`/maid/${maidId}`);
+  handleClickQuickSearch = serviceType => {
+    this.history.push(`/search/quicksearch`);
   };
 
   render() {
@@ -57,7 +47,6 @@ export class HomePage extends Component {
                 </Carousel>
               </Col>
             </Row>
-
 
 
             <Row type="flex" justify="center">
@@ -95,13 +84,12 @@ export class HomePage extends Component {
                 <Col key={maid.id} span={12}>
                   <Row type="flex" justify="center" align="middle" style={{ marginBottom: "20px" }}>
                     <Col>
-                      <MaidCard onSelectedMaid={this.handleSelectedMaid} maid={maid} />
+                      <MaidCard maid={maid} />
                     </Col>
                   </Row>
                 </Col>
               ))}
             </Row>
-
 
 
           </Col>

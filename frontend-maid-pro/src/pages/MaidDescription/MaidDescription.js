@@ -7,7 +7,9 @@ import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import { Row, Col, Button, Rate } from "antd";
 import { FaBuilding, FaHome } from "react-icons/fa";
 import Booking from "../Booking/Booking";
-import axios from "../../config/api.service"
+import axios from "../../config/api.service";
+import { withRouter } from 'react-router-dom';
+import { GiBroom } from "react-icons/gi";
 
 class MaidDescription extends Component {
   state = {
@@ -18,20 +20,19 @@ class MaidDescription extends Component {
       type: '',
       reviewedMaids: []
     }
-
   }
 
   componentDidMount = async () => {
-    console.log(this.props)
-    const maidId = this.props.maidId
-    // const result = await axios.get(`/users/maids/${maidId}`)
+
+    const { match } = this.props;
+    const { maidId } = match.params;
     try {
-      const result = (await axios.get(`/users/maids/2`)).data
+      const result = (await axios.get(`/users/maids/${maidId}`)).data
       this.setState({ maid: result })
     } catch (ex) {
-      console.error(ex.message)
+      console.error(ex.message);
     }
-  }
+  };
   showModal = () => {
     this.setState({
       visible: true
@@ -46,8 +47,7 @@ class MaidDescription extends Component {
   };
 
   render() {
-    const { maid } = this.state
-    console.log(maid.reviewedMaids)
+    const { maid } = this.state;
     return (
       <div>
         <Navbar />
@@ -103,7 +103,7 @@ class MaidDescription extends Component {
               <Col span={12} className="MaidDescription-CondoType">
                 {maid.buildingServices.map(buildingService => (
                   buildingService.type.startsWith("คอนโด") && (
-                    <h5 key={maid.id}>{"<"} {buildingService.type}</h5>
+                    <h5 key={maid.id}><GiBroom /> {buildingService.type}</h5>
                   )
                 ))}
               </Col>
@@ -116,7 +116,7 @@ class MaidDescription extends Component {
               <Col span={12} className="MaidDescription-HomeType">
                 {maid.buildingServices.map(buildingService => (
                   buildingService.type.startsWith("บ้าน") && (
-                    <h5 key={maid.id}>{"<"} {buildingService.type}</h5>
+                    <h5 key={maid.id}><GiBroom /> {buildingService.type}</h5>
                   )
                 ))}
               </Col>
@@ -141,7 +141,7 @@ class MaidDescription extends Component {
         {maid.reviewedMaids.map(review => (
           <Row type="flex" justify="center">
             <Col className="MaidDescription-center">
-              <ReviewCard review={review.review}/>
+              <ReviewCard review={review.review} />
             </Col>
           </Row>
         ))}
@@ -157,4 +157,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(MaidDescription)
+
+const connectMaidDescription = connect(mapStateToProps, null)(MaidDescription)
+
+export default withRouter(connectMaidDescription);

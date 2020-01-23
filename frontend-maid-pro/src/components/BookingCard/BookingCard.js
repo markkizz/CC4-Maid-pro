@@ -1,72 +1,72 @@
-import React, { Component } from 'react'
-import './BookingCard.css'
-import { Row, Col, Divider, Button, Modal, Input, Rate } from 'antd'
+import React, { Component } from "react";
+import "./BookingCard.css";
+import { Row, Col, Divider, Button } from "antd";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import axios from "../../config/api.service"
-const { TextArea } = Input;
+import axios from "../../config/api.service";
+import ModalAccept from "../ModalBookingAccept/ModalBookingAccept";
+import ModalCancel from "../ModalBookingCancel/ModalBookingCancel";
+
 export default class BookingCard extends Component {
   state = {
-    loading: false,
-    visible: false,
-    modal1Visible: false,
-    rating: '',
-    content: '',
-    reason: ''
+    acceptVisible: false,
+    cancelVisible: false,
+    rating: "",
+    content: "",
+    reason: ""
   };
 
-  handleChange = (label) => e => {
-    this.setState({
-      [label]: e.target.value,
-    })
-  }
-  handleSubmit = (e) => {
-    axios.post(`/mybooking`, {
-      rating: this.state.username,
-      content: this.state.password,
-      reason: this.state.reason
-    })
+  handleChange = label => ({target: {value}}) => {
+    this.setState(() => ({
+      [label]: value
+    }), () => console.log(this.state) );
+  };
+
+  handleSubmit = () => {
+    axios
+      .post(`/mybooking`, {
+        rating: this.state.username,
+        content: this.state.password,
+        reason: this.state.reason
+      })
       .then(result => {
-        console.log(result)
+        console.log(result);
       })
       .catch(err => {
-        console.error(err)
-      })
+        console.error(err);
+      });
     this.setState({
-      rating: '',
-      content: '',
-      reason: ''
-      })
-  }
-
-  showModal = () => {
-    this.setState({
-      visible: true,
+      rating: "",
+      content: "",
+      reason: ""
     });
   };
-  setModal1Visible(modal1Visible) {
-    this.setState({ modal1Visible });
+
+  showModal = label => () => {
+    this.setState(state => ({
+      [label]: !state[label]
+    }));
+  };
+
+  handleRating = value => {
+    this.setState({
+      rating: value
+    })
   }
 
-  handleOk = () => {
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false, visible: false });
-    }, 3000);
-  };
-
-  handleCancel = () => {
-    this.setState({ visible: false });
-  };
-
   render() {
-    const { visible } = this.state;
+    const { acceptVisible, cancelVisible, reason } = this.state;
     return (
-      <div>
+      <>
         <Row className="BookingCard-Body">
           <Col>
             <Row type="flex" align="middle" className="BookingCard-BodyTop">
               <Col span={7}>
-                <Row type="flex" justify="center" align="middle" className="BookingCard-Date">
+                <Row
+                  type="flex"
+                  justify="center"
+                  align="middle"
+                  className="BookingCard-Date"
+                >
                   <Col className="BookingCard-Month">January</Col>
                   <Col className="BookingCard-Day">10</Col>
                 </Row>
@@ -75,96 +75,53 @@ export default class BookingCard extends Component {
                 <Row className="BookingCard-Details">
                   <Col className="BookingCard-Customer">Customer</Col>
                   <Col className="BookingCard-Time">10:00 - 11:00 am</Col>
-                  <Col className="BookingCard-Address"><FaMapMarkerAlt /> Phetchaburi Rd, Thanon Phaya Thai, Ratchathewi</Col>
+                  <Col className="BookingCard-Address">
+                    <FaMapMarkerAlt /> Phetchaburi Rd, Thanon Phaya Thai,
+                    Ratchathewi
+                  </Col>
                 </Row>
               </Col>
               <Col span={8}>
-                <img src="JessicaSpencer.png" alt="" className="BookingCard-MaidPhoto" />
+                <img
+                  src="JessicaSpencer.png"
+                  alt=""
+                  className="BookingCard-MaidPhoto"
+                />
               </Col>
             </Row>
             <Divider className="BookingCard-HorizontalDivider" />
             <Row type="flex" justify="end" className="BookingCard-BodyBottom">
-              <Button className="BookingCard-Cancel" onClick={this.showModal}>Cancel</Button>
-              <Button className="BookingCard-Accept" onClick={() => this.setModal1Visible(true)}>Accept</Button>
+              <Button
+                className="BookingCard-Cancel"
+                onClick={this.showModal("cancelVisible")}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="BookingCard-Accept"
+                onClick={this.showModal("acceptVisible")}
+              >
+                Accept
+              </Button>
             </Row>
           </Col>
-          <Modal
-            visible={visible}
-            title="Cancel Booing"
-            style={{ top: 10 }}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-            footer={[
-              <Button key="1" type="danger" onClick={this.handleSubmit} >Send</Button>,
-              <Button key="2" onClick={this.handleCancel}>Cancel</Button>,
-            ]}
-          >
-            <Row type='flex' justify='center' >
-              <Col><p><img src="JessicaSpencer.png" alt='' width='150' className='BookingCard-CancelBooking' /></p></Col>
-            </Row>
-            <Row type='flex' justify='center'>
-              <Col><h2>Jessica Spencer</h2></Col>
-            </Row>
-            <Row >
-              <Col span={8} className='BookingCard-Cancel-Detial'>
-                <h3>ประเภทบ้าน :</h3>
-              </Col>
-              <Col span={12} className='BookingCard-Cancel-Detial'>
-                <h3>คอนโด 1 ห้องนอน  (ไม่เกิน 40 ตร.ม.)</h3>
-              </Col>
-            </Row>
-            <Row >
-              <Col span={8} className='BookingCard-Cancel-Hour'>
-                <h3>ชั่วโมง :</h3>
-              </Col>
-              <Col span={12} className='BookingCard-Cancel-Hour'>
-                <h3>2</h3>
-              </Col>
-            </Row>
-            <Row >
-              <Col span={8} className='BookingCard-Cancel-Hour'>
-                <h3>สถานที่ :</h3>
-              </Col>
-              <Col span={12} className='BookingCard-Cancel-Hour'>
-                <h3>472/10 ถนนรองเมือง แขวงรองเมือง เขตปทุมวัน กทม 10330</h3>
-              </Col>
-            </Row>
-            <Row type='flex' justify='center'>
-              <Col ><h3>Description</h3></Col>
-            </Row><Col span={24} style={{ marginBottom: '10px' }}><TextArea rows={3} value={this.state.reason} onChange={this.handleChange('reason')} /></Col>
-          </Modal>
-          <Modal
-            visible={this.state.modal1Visible}
-            title="REVIEW"
-            style={{ top: 10 }}
-            onOk={() => this.setModal1Visible(false)}
-            onCancel={() => this.setModal1Visible(false)}
-            footer={[
-              <Button type='flex' justify='center' key="1" className="BookingCard-submit" onClick={this.handleSubmit}>Submit</Button>
-            ]}
-          >
-            <Row type='flex' justify='center' >
-              <Col><p><img src="JessicaSpencer.png" alt='' width='150' className='BookingCard-CancelBooking' /></p></Col>
-            </Row>
-            <Row type='flex' justify='center'>
-              <Col><h2>Jessica Spencer</h2></Col>
-            </Row>
-            <Row type='flex' justify='center'>
-              <Col>
-                <Rate
-                  allowHalf
-                  defaultValue={5}
-                  className="ReviewCard-Rate"
-                  onChange={this.handleChange('rating')}
-                />
-              </Col>
-            </Row>
-            <Row className={'BookingCard-Cancel-Description'}>
-              <Col span={24} ><TextArea rows={3} onChange={this.handleChange('content')} /></Col>
-            </Row>
-          </Modal>
         </Row>
-      </div>
-    )
+
+        <ModalAccept
+          visible={acceptVisible}
+          onShowModal={this.showModal}
+          onSubmit={this.handleSubmit}
+          onChange={this.handleChange}
+          onChangeRate={this.handleRating}
+        />
+        <ModalCancel
+          visible={cancelVisible}
+          onShowModal={this.showModal}
+          onSubmit={this.handleSubmit}
+          textAreaValue={reason}
+          onChange={this.handleChange}
+        />
+      </>
+    );
   }
 }
