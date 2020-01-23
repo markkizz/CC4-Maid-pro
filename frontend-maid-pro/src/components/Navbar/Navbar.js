@@ -1,14 +1,6 @@
 import React, { Component } from 'react'
 import './Navbar.css'
 import {Row, Col, Icon, Drawer, Button} from 'antd'
-import { AiFillHome } from "react-icons/ai";
-import { FaSearch } from "react-icons/fa";
-import { MdPayment } from "react-icons/md";
-import { MdPerson } from "react-icons/md";
-import { FiLogIn } from "react-icons/fi";
-import { TiPlus } from "react-icons/ti";
-import { GiBroom } from "react-icons/gi";
-import { IoIosDocument } from "react-icons/io";
 import Logo from '../../images/maidProServiceLogo.png'
 
 export default class Navbar extends Component {
@@ -46,14 +38,30 @@ export default class Navbar extends Component {
                 onClose={this.onClose}
                 visible={this.state.visible}
               >
-                <p><AiFillHome /> Home</p>
-                <p><FaSearch /> Search Maid</p>
-                <p><MdPayment /> Payment</p>
-                <p><MdPerson /> About Us</p>
-                <p><FiLogIn /> Login</p>
-                <p><TiPlus /> Register</p>
-                <p><GiBroom /> Join As Maid With Us</p>
-                <p><IoIosDocument /> Policy</p>
+                <Col>
+                  <Button icon="home" className="Navbar-DrawerButtons">Home</Button>
+                </Col>
+                <Col>
+                  <Button icon="search" className="Navbar-DrawerButtons">Search Maid</Button>
+                </Col>
+                <Col>
+                  <Button icon="credit-card" className="Navbar-DrawerButtons">Payment</Button>
+                </Col>
+                <Col>
+                  <Button icon="user" className="Navbar-DrawerButtons">About Us</Button>
+                </Col>
+                <Col>
+                  <Button icon="login" className="Navbar-DrawerButtons">Login</Button>
+                </Col>
+                <Col>
+                  <Button icon="user-add" className="Navbar-DrawerButtons">Register</Button>
+                </Col>
+                <Col>
+                  <Button icon="usergroup-add" className="Navbar-DrawerButtons">Join As Maid</Button>
+                </Col>
+                <Col>
+                  <Button icon="file-text" className="Navbar-DrawerButtons">Policy</Button>
+                </Col>
               </Drawer>
             </Row>
             <Row type="flex" justify="end" className="Navbar-Menu">

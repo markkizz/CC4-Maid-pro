@@ -3,10 +3,15 @@ import './LoginPage.css'
 import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import { Row, Col, Input, Icon, Button, Divider } from 'antd'
+import Logo from '../../images/maidProServiceLoginLogo.png'
+import { MdLockOutline } from "react-icons/md";
 import axios from "../../config/api.service";
 import { successLoginNotification, failLoginNotification } from './LoginNotification'
+import { connect } from "react-redux";
+import { login } from "../../redux/actions/actions";
+import jwtDecode from 'jwt-decode'
 
-export default class LoginPage extends Component {
+class LoginPage extends Component {
   state = {
     username: '',
     password: '',
@@ -17,19 +22,21 @@ export default class LoginPage extends Component {
       [label]: e.target.value,
     })
   }
-  handleLogin = (e) => {
-    const {username,password} = this.state
+  handleLogin = () => {
+    const { username, password } = this.state
     axios.post(`/users/sign-in`, {
-      username,password
+      username, password
     })
-    .then(result => {
-      successLoginNotification(`Username ${username} is created`)
-      localStorage.setItem('ACCESS_TOKEN', result.data.token)
-      this.props.history.push("/")
-    })
-    .catch(err => {
-      failLoginNotification(`Username or Password is invalid`)
-    })
+      .then(({ data }) => {
+        const token = data.token
+        const user = jwtDecode(token)
+        this.props.login(user, token)
+        successLoginNotification(`Login successfully`)
+        this.props.history.push("/")
+      })
+      .catch(err => {
+        failLoginNotification(`Username or Password is invalid`)
+      })
     this.setState({
       username: '',
       password: '',
@@ -39,25 +46,25 @@ export default class LoginPage extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <Navbar/>
         <Row type="flex" justify="center">
           <Col>
             <Row type="flex" justify="center">
-              <img src="maidProServiceLoginLogo.png" alt="" width="200" className="LoginPage-Logo" />
+              <img src={Logo} alt="" width="200" className="LoginPage-Logo" />
             </Row>
             <Row className="LoginPage-Input">
               <Input
                 value={this.state.username}
                 placeholder="username"
-                prefix={<Icon type="user" className="LoginPage-UsernamePrefix" />}
+                prefix={<Icon type="user" className="LoginPage-UsernamePrefix"/>}
                 onChange={this.handleChange('username')}
               />
             </Row>
             <Row className="LoginPage-Input">
               <Input.Password placeholder="password"
+                prefix={<MdLockOutline className="LoginPage-PasswordPrefix" />}
                 value={this.state.password}
                 onChange={this.handleChange('password')} />
-
             </Row>
             <Row type="flex" justify="end" className="LoginPage-ForgetPassword">
               <a href="http://localhost:3000/">forget password?</a>
@@ -74,9 +81,15 @@ export default class LoginPage extends Component {
           </Col>
         </Row>
         <div className="LoginPage-Footer">
-          <Footer />
+          <Footer/>
         </div>
       </div>
     )
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  login: (user, token) => dispatch(login(user, token))
+})
+
+export default connect(null, mapDispatchToProps)(LoginPage)

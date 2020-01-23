@@ -69,6 +69,7 @@ module.exports = (db) => {
           } else {
             const token = jwt.sign({
                 id: user.id,
+                username: user.username,
                 type: user.type,
                 first_name: user.first_name,
                 last_name: user.last_name
