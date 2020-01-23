@@ -49,7 +49,6 @@ class Booking extends Component {
     axios.post(`/bookings/maids/${id}`, { address, category, Date, hour })
       .then(result => {
         console.log(result)
-        
         this.props.history.push("/maid")
       })
       .catch(err => {

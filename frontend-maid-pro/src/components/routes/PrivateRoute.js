@@ -9,6 +9,7 @@ export class PrivateRoute extends Component {
   }
 
   componentDidMount = () => {
+    console.log(this.props,this.props,this.props,this.props)
     const role = this.props.role;
     this.setState(() => ({
       allowRoutes: rolesConfig[role].routes

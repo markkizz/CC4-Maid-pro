@@ -7,7 +7,8 @@ import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import { Row, Col, Button, Rate } from "antd";
 import { FaBuilding, FaHome } from "react-icons/fa";
 import Booking from "../Booking/Booking";
-import axios from "../../config/api.service"
+import axios from "../../config/api.service";
+import { withRouter } from 'react-router-dom';
 
 class MaidDescription extends Component {
   state = {
@@ -18,18 +19,17 @@ class MaidDescription extends Component {
       type: '',
       reviewedMaids: []
     }
-
   }
 
   componentDidMount = async () => {
-    console.log(this.props)
-    const maidId = this.props.maidId
-    // const result = await axios.get(`/users/maids/${maidId}`)
+
+    const { match } = this.props;
+    const { maidId } = match.params;
     try {
-      const result = (await axios.get(`/users/maids/2`)).data
+      const result = (await axios.get(`/users/maids/${maidId}`)).data
       this.setState({ maid: result })
     } catch (ex) {
-      console.error(ex.message)
+      console.error(ex.message);
     }
   }
   showModal = () => {
@@ -141,7 +141,7 @@ class MaidDescription extends Component {
         {maid.reviewedMaids.map(review => (
           <Row type="flex" justify="center">
             <Col className="MaidDescription-center">
-              <ReviewCard review={review.review}/>
+              <ReviewCard review={review.review} />
             </Col>
           </Row>
         ))}
@@ -157,4 +157,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(MaidDescription)
+
+
+const connectMaidDescription = connect(mapStateToProps, null)(MaidDescription)
+
+export default withRouter(connectMaidDescription);

@@ -4,6 +4,7 @@ import "./MaidCard.css";
 import { Row, Col, Card, Rate } from "antd";
 
 function MaidCard(props) {
+
   const { maid } = props;
   return (
     <Card className="MaidCard-card" bodyStyle={{ padding: "6px 10px" }}

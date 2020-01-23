@@ -11,7 +11,6 @@ import { connect } from "react-redux";
 
 export class HomePage extends Component {
   state = {
-
     imageUrls: [
       "https://architecturesideas.com/wp-content/uploads/2019/12/Housekeeper1.jpg",
       "https://architecturesideas.com/wp-content/uploads/2019/12/Housekeeper2.jpg"
@@ -27,12 +26,10 @@ export class HomePage extends Component {
   }
 
   handleClickQuickSearch = serviceType => {
-    // dispatch(quickSearchType(serviceType));
     this.history.push(`/search/quicksearch`);
   };
 
   handleSelectedMaid = maidId => () => {
-    // dispatch(selectedMaid(maidId));
     this.props.history.push(`/maid/${maidId}`);
   };
 
