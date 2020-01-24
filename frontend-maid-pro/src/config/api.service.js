@@ -1,13 +1,26 @@
 import axios from "axios";
 import { USER_LOGOUT } from "../redux/actions/actions";
 import store from "../redux/store/store";
+import parse from "less/lib/less/parse";
 
 axios.defaults.baseURL = "http://localhost:3333";
 
 const TOKEN = "ACCESS_TOKEN";
-const PROTECTED_PATHS = ["/bookings/employers/"];
+const PROTECTED_PATHS = ["/bookings/employers", "/bookings/maids"];
 
-const isProtectedPath = url => PROTECTED_PATHS.find(path => path === url);
+const parseUrl = url => {
+  const arrUrl = url.split("/");
+  const numUrl = Number(arrUrl[arrUrl.length - 1]);
+  if (isNaN(numUrl)) {
+    return arrUrl.join("/");
+  } else {
+    arrUrl.pop();
+    const newUrl = arrUrl.join("/");
+    return newUrl;
+  }
+};
+
+const isProtectedPath = url => PROTECTED_PATHS.find(path => path === parseUrl(url));
 
 axios.interceptors.request.use(
   async config => {

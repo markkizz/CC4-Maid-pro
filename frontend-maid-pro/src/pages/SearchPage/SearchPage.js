@@ -26,9 +26,9 @@ export class SearchPage extends Component {
     const { option } = this.props.match.params;
     const { quickSearchType, filterSearch } = this.props;
     const {maidName, typeId, workDate, rating} = filterSearch
-    const price_hour = filterSearch.priceRange.join(",");
     if (option === "filter") {
       try {
+        const price_hour = filterSearch.priceRange.join(",");
         const { data } = await axios.get(`/users/filter?name=${maidName}&type_id=${typeId}&work_date=${workDate}&price_hour=${price_hour}&rating=${rating}`);
         if(!data && data.length === 0) {
           this.openNotificationWithIcon()

@@ -1,0 +1,23 @@
+.DisplayStatus-Wait {
+  color: yellow;
+  font-size: 18px;
+  margin-top: 5px;
+}
+
+.DisplayStatus-Complete {
+  color: #24EC3C;
+  font-size: 18px;
+  margin-top: 5px;
+}
+
+.DisplayStatus-Cancel {
+  color: red;
+  font-size: 18px;
+  margin-top: 5px;
+}
+
+.DisplayStatus-p {
+  width: fit-content;
+  font-size: 16px;
+  font-weight: 600;
+}

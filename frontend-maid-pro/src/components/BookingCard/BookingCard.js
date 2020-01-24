@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import "./BookingCard.css";
 import { Row, Col, Divider, Button } from "antd";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { FaMapMarkerAlt, FaRegClock, FaRegCheckCircle } from "react-icons/fa";
 import axios from "../../config/api.service";
 import ModalAccept from "../ModalBookingAccept/ModalBookingAccept";
 import ModalCancel from "../ModalBookingCancel/ModalBookingCancel";
+import DisplayStatus from "./DisplayStatus/DisplayStatus";
 
 export default class BookingCard extends Component {
   state = {
@@ -15,10 +16,13 @@ export default class BookingCard extends Component {
     reason: ""
   };
 
-  handleChange = label => ({target: {value}}) => {
-    this.setState(() => ({
-      [label]: value
-    }), () => console.log(this.state) );
+  handleChange = label => ({ target: { value } }) => {
+    this.setState(
+      () => ({
+        [label]: value
+      }),
+      () => console.log(this.state)
+    );
   };
 
   handleSubmit = () => {
@@ -50,11 +54,12 @@ export default class BookingCard extends Component {
   handleRating = value => {
     this.setState({
       rating: value
-    })
-  }
+    });
+  };
 
   render() {
     const { acceptVisible, cancelVisible, reason } = this.state;
+
     return (
       <>
         <Row className="BookingCard-Body">
@@ -90,19 +95,10 @@ export default class BookingCard extends Component {
               </Col>
             </Row>
             <Divider className="BookingCard-HorizontalDivider" />
-            <Row type="flex" justify="end" className="BookingCard-BodyBottom">
-              <Button
-                className="BookingCard-Cancel"
-                onClick={this.showModal("cancelVisible")}
-              >
-                Cancel
-              </Button>
-              <Button
-                className="BookingCard-Accept"
-                onClick={this.showModal("acceptVisible")}
-              >
-                Accept
-              </Button>
+            <Row type="flex" align="middle" className="BookingCard-Status" >
+              <Col style={{width: "100%"}}>
+                <DisplayStatus />
+              </Col>
             </Row>
           </Col>
         </Row>

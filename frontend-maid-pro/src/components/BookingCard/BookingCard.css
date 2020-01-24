@@ -80,3 +80,9 @@
 .BookingCard-type {
   padding: 78px 16px;
 }
+
+.BookingCard-Status {
+  width: 100%;
+  height: 50px;
+  margin-left: 8px;
+}
