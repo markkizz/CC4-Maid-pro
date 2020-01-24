@@ -2,12 +2,12 @@ const faker = require("faker");
 const { numberOfUser } = require("../utils/index");
 
 const reviewData = [];
-for (let i = 1, id = 1; i <= numberOfUser; i += 2, id++) {
-  for (let j = 2; j <= numberOfUser; j += 2) {
+for (let i = 1, id = 1; i <= numberOfUser; i += 2) {
+  for (let j = 2; j <= numberOfUser; j += 2, id++) {
 
     let data = {
       id,
-      content: faker.lorem.line(),
+      content: faker.lorem.words(),
       rating: Math.floor(Math.random() * 5) + 1,
       employer_id: i,
       maid_id: j,
@@ -15,7 +15,6 @@ for (let i = 1, id = 1; i <= numberOfUser; i += 2, id++) {
       updatedAt: new Date()
     };
 
-    console.log(data);
     reviewData.push(data)
   }
 }
