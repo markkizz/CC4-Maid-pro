@@ -1,5 +1,13 @@
-.HomePage-Carousel {
+.HomePage-Carousel {}
+
+.HomePage-CarouselImage {
   width: 100%;
+  height: 100%;
+
+}
+
+.HomePage-HeaderText {
+  margin-top: 10.5px;
 }
 
 .HomePage-ServiceButtons {
@@ -23,21 +31,8 @@
   padding-top: 10%;
 }
 
-
-
-/* @media screen and (min-width: 700px) {
-  div.HomePage-Carousel-container {
-    min-width: 100%;
-    height: 400px;
+@media only screen and (min-width: 845px) {
+  .HomePage-Carousel {
+    /* display: none; */
   }
-
-  .HomePage-Carousel-img {
-    width: 550px;
-    margin: 0 auto
-  }
-
-  .Homepage-justify-center {
-    display: flex;
-    justify-content: center;
-  }
-} */
+}
