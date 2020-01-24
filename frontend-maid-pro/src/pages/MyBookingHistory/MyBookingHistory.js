@@ -18,35 +18,49 @@ class MyBookingHistory extends Component {
     history: []
   };
 
+  filterUserStatus = users => {
+    const history = [];
+    const upcomming = [];
+    users.forEach(user => {
+      user.status === "REJECT" ||
+      user.status === "CANCEL" ||
+      user.status === "FINISHED"
+        ? history.push(user)
+        : upcomming.push(user);
+    });
+    this.setState(
+      () => ({
+        upcomming,
+        history
+      }),
+      () => console.log(this.state)
+    );
+    console.log("history", history);
+    console.log("upcomming", upcomming);
+  };
+
   componentDidMount = async () => {
-    const { id, username, type } = this.props.user;
+    const {type } = this.props.user;
     if (type === "EMPLOYER") {
       try {
         const { data } = await axios.get("/bookings/employers");
-        const history = [];
-        const upcomming = [];
-        data.forEach(maid => {
-          maid.status === "REJECT" ||
-          maid.status === "CANCEL" ||
-          maid.status === "FINISHED"
-            ? history.push(maid)
-            : upcomming.push(maid);
-        });
-        console.log('history', history)
-        console.log('upcomming', upcomming)
-        // const upcomming = data.map(maid => )
+        this.filterUserStatus(data);
       } catch (e) {
         console.error(e);
       }
     } else if (type === "MAID") {
-      axios
-        .get("/bookings/maids/")
-        .then(({ data }) => console.log(data))
-        .catch(err => console.error(err));
+      try {
+        const { data } = await axios.get("/bookings/maids/");
+        this.filterUserStatus(data)
+      } catch (err) {
+        console.error(err)
+      }
     }
   };
 
   render() {
+    const { history, upcomming } = this.state;
+    const { type } = this.props.user;
     return (
       <div className="MyBookingHistory-Body">
         <Navbar />
@@ -59,14 +73,23 @@ class MyBookingHistory extends Component {
             >
               {/* Upcomming tab for accept, cancel and complete for user both employer and maid */}
               <TabPane tab="Upcoming" key="1">
-                <Row>
-                  <Col>
-                    <BookingCard />
-                  </Col>
-                </Row>
+                {/* month, day, name, workHourToTime, location, status* */}
+                {upcomming.map((bookingUser, i) => (
+                  <Row key={i}>
+                    <Col>
+                      <BookingCard bookingUser={bookingUser} type={type} />
+                    </Col>
+                  </Row>
+                ))}
               </TabPane>
               <TabPane tab="History" key="2">
-                Content of Tab Pane 2
+                {history.map((bookingUser, i) => (
+                  <Row key={i}>
+                    <Col>
+                      <BookingCard bookingUser={bookingUser} type={type} />
+                    </Col>
+                  </Row>
+                ))}
               </TabPane>
             </Tabs>
           </Col>

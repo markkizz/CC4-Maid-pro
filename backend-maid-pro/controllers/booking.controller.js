@@ -59,7 +59,7 @@ module.exports = db => {
         }
         const newResult = result.map((maid, i) => ({
           ...maid.dataValues,
-          maid_data: maidData[i]
+          target_data: maidData[i]
         }));
         if (newResult.length === 0) {
           res.status(204).json(newResult);
@@ -96,7 +96,7 @@ module.exports = db => {
         }
         const newResult = result.map((em, i) => ({
           ...em.dataValues,
-          employer_data: employerData[i]
+          target_data: employerData[i]
         }));
         if (newResult.length === 0) {
           res.status(204).json(newResult);

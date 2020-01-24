@@ -4,14 +4,29 @@ import { FaRegClock, FaRegCheckCircle, FaRegTimesCircle } from "react-icons/fa";
 import './DisplayStatus.css';
 
 function MainComponent(props) {
+  let Component
+  const {status, type} = props
+  if(status === "WAIT_FOR_ACCEPTANCE" && type === 'EMPLOYER'){
+    Component = RenderWaitingForAccept
+  } else if(status === "WAIT_FOR_ACCEPTANCE" && type === 'MAID') {
+    Component = RenderCustomerRequest
+  } else if(status === "ACCEPT" && type==='MAID') {
+    Component = RenderAccept
+  } else if(status === "ACCEPT" && type==='EMPLOYER') {
+    Component = RenderIsCleaningComplete
+  } else if(status === "REJECT") {
+    Component = RenderReject
+  } else if(status === "FINISHED") {
+    Component = RenderComplete
+  }
   return (
-    <RenderIsCleaningComplete />
+    <Component />
   );
 }
 
 export default MainComponent;
 
-// customer
+// employer
 // * CanRefactor
 const RenderWaitingForAccept = () => (
   <Row type="flex" align="middle" gutter={[8, 16]}>
@@ -55,7 +70,7 @@ const RenderReject = () => (
       <FaRegTimesCircle className="DisplayStatus-Cancel" />
     </Col>
     <Col className="DisplayStatus-p">
-      <p>Reject your booking</p>
+      <p>Reject Booking</p>
     </Col>
   </Row>
 )
