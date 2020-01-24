@@ -12,22 +12,25 @@ module.exports = db => {
             maid_id: maidId
           }
         });
-        if (userBooking && userBooking.dataValues.status !== "ACCEPT")
+        if (userBooking && userBooking.dataValues.status !== "ACCEPT") {
+          console.log(userBooking.dataValues.status)
           res.status(400).json({ errorMessage: "User already booked" });
-        const result = await db.booking.create({
-          customer_location: req.body.customer_location,
-          work_date: req.body.work_date,
-          work_hour: req.body.work_hour,
-          status: "WAIT_FOR_ACCEPTANCE",
-          pay_slip_image: req.body.pay_slip_image,
-          employer_id: req.user.id,
-          maid_id: maidId,
-          // type_id: req.body.type_id
-        });
-        if (result.length === 0) {
-          res.status(204).json({ result });
         } else {
-          res.status(200).json({ result });
+          const result = await db.booking.create({
+            customer_location: req.body.customer_location,
+            work_date: req.body.work_date,
+            work_hour: req.body.work_hour,
+            status: "WAIT_FOR_ACCEPTANCE",
+            pay_slip_image: req.body.pay_slip_image,
+            employer_id: req.user.id,
+            maid_id: maidId,
+            // type_id: req.body.type_id
+          });
+          if (result.length === 0) {
+            res.status(204).json({ result });
+          } else {
+            res.status(200).json({ result });
+          }
         }
       } catch (err) {
         console.log(err)
@@ -87,8 +90,7 @@ module.exports = db => {
         const resultEmployerId = result.map(em => em.dataValues.employer_id);
         let employerData = [];
         for (let i = 0; i < resultEmployerId.length; i++) {
-          let employer = await db
-            .user.findOne({
+          let employer = await db.user.findOne({
             where: { id: resultEmployerId[i] },
             attributes: ["username", "first_name", "last_name", "profile_img"]
           });
