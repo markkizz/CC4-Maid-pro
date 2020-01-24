@@ -6,7 +6,7 @@ import Footer from "../../components/Footer/Footer";
 import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import { Row, Col, Button, Rate } from "antd";
 import { FaBuilding, FaHome } from "react-icons/fa";
-import Booking from "../Booking/Booking";
+import Booking from "../../components/ModalBooking/ModalBooking";
 import axios from "../../config/api.service";
 import { withRouter } from 'react-router-dom';
 import { GiBroom } from "react-icons/gi";

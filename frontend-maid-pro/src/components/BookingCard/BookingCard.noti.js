@@ -3,7 +3,7 @@ import React from 'react'
 
 const openBookingSuccessNotification = (message) => {
   notification.open({
-    message: 'Booking Successful',
+    message: 'ModalBooking Successful',
     description: message,
     icon: <Icon type="check-circle" style={{ color: '#69c0ff' }} />,
   });
@@ -11,7 +11,7 @@ const openBookingSuccessNotification = (message) => {
 
 const openBookingFailedNotification = (message) => {
   notification.open({
-    message: 'Booking Failed',
+    message: 'ModalBooking Failed',
     description: message,
     icon: <Icon type="close-circle" style={{ color: '#cf1322' }} />,
   });

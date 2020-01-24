@@ -5,6 +5,7 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import axios from "../../config/api.service";
 import ModalAccept from "../ModalBookingAccept/ModalBookingAccept";
 import ModalCancel from "../ModalBookingCancel/ModalBookingCancel";
+import { openBookingSuccessNotification, openBookingFailedNotification } from './BookingCard.noti';
 
 export default class BookingCard extends Component {
   state = {
@@ -15,10 +16,10 @@ export default class BookingCard extends Component {
     reason: ""
   };
 
-  handleChange = label => ({target: {value}}) => {
+  handleChange = label => ({ target: { value } }) => {
     this.setState(() => ({
       [label]: value
-    }), () => console.log(this.state) );
+    }), () => console.log(this.state));
   };
 
   handleSubmit = () => {
@@ -51,7 +52,7 @@ export default class BookingCard extends Component {
     this.setState({
       rating: value
     })
-  }
+  };
 
   render() {
     const { acceptVisible, cancelVisible, reason } = this.state;

@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import "./Booking.css";
+import "./ModalBooking.css";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Card, Row, Col, Input, Button, Icon, Form, Select, DatePicker, Upload, Modal } from "antd";
 // import moment from "moment";
 import { FaClock, FaBook } from "react-icons/fa";
 import axios from '../../config/api.service'
+
 const { Option } = Select;
 
-class Booking extends Component {
+class ModalBooking extends Component {
   state = {
     visible: false,
     customer_location: '',
@@ -16,51 +17,50 @@ class Booking extends Component {
     work_date: '',
     work_hour: '1',
     pay_slip_image: "gooo"
-  }
+  };
 
   handleChange = (label) => e => {
-    console.log(e.target.value)
+    console.log(e.target.value);
     this.setState({
       [label]: e.target.value,
     })
-  }
+  };
 
   handleSelectCondo = (value) => {
-    console.log(value)
+    console.log(value);
     this.setState({
       type_id: value,
     })
-  }
+  };
 
   handleSelectHour = (value) => {
-    console.log(value)
+    console.log(value);
     this.setState({
       work_hour: value
     })
-  }
+  };
 
   handleDatePicker = (value) => {
-    console.log(value)
+    console.log(value);
     this.setState({
       work_date: value,
     })
-  }
+  };
 
   handleConfirm = (e) => {
     // , type_id
     const { customer_location, work_date, work_hour, pay_slip_image } = this.state
-    const { maidId } = this.props
+    const { maidId } = this.props;
     console.log({ customer_location, work_date, work_hour, pay_slip_image })
     axios.post(`/bookings/maids/${maidId}`, { customer_location, work_date, work_hour, pay_slip_image })
       .then(result => {
-        console.log(result)
-        this.props.history.push(`/maid/${maidId}`)
-        this.props.onCancel(false)
+        this.props.history.push(`/maid/${maidId}`);
+        this.props.onCancel(false);
       })
       .catch(err => {
-        console.error(err)
-      })
-  }
+        console.error(err);
+      });
+  };
 
   render() {
     const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
@@ -70,31 +70,31 @@ class Booking extends Component {
         visible={this.props.visible}
         footer={null}
         onCancel={this.props.onCancel}
-        className="Booking-Top"
+        className="ModalBooking-Top"
       >
         <Row type="flex" justify="center">
-          <Card className="Booking-Card">
-            <Row className="Booking-Margin" style={{ width: "100%" }}>
+          <Card className="ModalBooking-Card">
+            <Row className="ModalBooking-Margin" style={{ width: "100%" }}>
               <Col>
-                <FaBook className="Booking-icon" />
-                <span className="Booking-icon_font"> Booking </span>
+                <FaBook className="ModalBooking-icon" />
+                <span className="ModalBooking-icon_font"> ModalBooking </span>
               </Col>
             </Row>
 
-            <Row className="Booking-Margin2" style={{ width: "100%" }}>
+            <Row className="ModalBooking-Margin2" style={{ width: "100%" }}>
               <Col>
-                <FaClock className="Booking-iconClock" />
-                <span className="Booking_font"> Wait confirm from Maid</span>
+                <FaClock className="ModalBooking-iconClock" />
+                <span className="ModalBooking_font"> Wait confirm from Maid</span>
               </Col>
             </Row>
 
             <Row
-              className="Booking-Margin"
+              className="ModalBooking-Margin"
               type="flex"
               justify="center"
               align="middle"
             >
-              <Col className="Booking_font" span={7} offset={1}>
+              <Col className="ModalBooking_font" span={7} offset={1}>
                 Category
               </Col>
               <Col span={16}>
@@ -125,12 +125,12 @@ class Booking extends Component {
             </Row>
 
             <Row
-              className="Booking-Margin"
+              className="ModalBooking-Margin"
               type="flex"
               justify="center"
               align="middle"
             >
-              <Col className="Booking_font" span={7} offset={1}>
+              <Col className="ModalBooking_font" span={7} offset={1}>
                 Date
               </Col>
               <Col span={16}>
@@ -145,12 +145,12 @@ class Booking extends Component {
             </Row>
 
             <Row
-              className="Booking-Margin"
+              className="ModalBooking-Margin"
               type="flex"
               justify="center"
               align="middle"
             >
-              <Col className="Booking_font" span={7} offset={1}>
+              <Col className="ModalBooking_font" span={7} offset={1}>
                 Hour
               </Col>
               <Col span={16}>
@@ -168,12 +168,12 @@ class Booking extends Component {
             </Row>
 
             <Row
-              className="Booking-Margin"
+              className="ModalBooking-Margin"
               type="flex"
               justify="center"
               align="middle"
             >
-              <Col className="Booking_font" span={7} offset={1}>
+              <Col className="ModalBooking_font" span={7} offset={1}>
                 Price
               </Col>
               <Col input span={16}>
@@ -183,21 +183,21 @@ class Booking extends Component {
             </Row>
 
             <Row
-              className="Booking-Margin"
+              className="ModalBooking-Margin"
               type="flex"
               justify="center"
               align="middle"
             >
-              <Col className="Booking_font" span={7} offset={1}>
+              <Col className="ModalBooking_font" span={7} offset={1}>
                 location
               </Col>
-              <Col className="Booking_font" span={16}>
+              <Col className="ModalBooking_font" span={16}>
                 Current address
               </Col>
             </Row>
 
             <Row
-              className="Booking-Margin2"
+              className="ModalBooking-Margin2"
               type="flex"
               justify="center"
               align="middle"
@@ -212,15 +212,15 @@ class Booking extends Component {
                 />
               </Col>
             </Row>
-            <Row className="Booking-Margin">
-              <Col className="Booking3_font" span={16} offset={8}>
+            <Row className="ModalBooking-Margin">
+              <Col className="ModalBooking3_font" span={16} offset={8}>
                 **โอนเงินเข้าบัญชี ธนาคารเอบี สาขาราชเทวี เลขที่บัญชี
                 012-3-99999-0**
               </Col>
             </Row>
 
-            <Row className="Booking-Margin3">
-              <Col className="Booking_font" span={7} offset={1}>
+            <Row className="ModalBooking-Margin3">
+              <Col className="ModalBooking_font" span={7} offset={1}>
                 pay
               </Col>
               <Col span={16} style={{ width: "10%" }}>
@@ -232,31 +232,32 @@ class Booking extends Component {
               </Col>
             </Row>
 
-            <Row className="Booking-Margin2">
+            <Row className="ModalBooking-Margin2">
               <Col
                 span={12}
                 style={{ display: "flex", justifyContent: "center" }}
               >
-                <Button onClick={() => this.props.onCancel(false)} className="Booking-CancelButton">Cancel</Button>
+                <Button onClick={() => this.props.onCancel(false)} className="ModalBooking-CancelButton">Cancel</Button>
               </Col>
               <Col
                 span={12}
                 style={{ display: "flex", justifyContent: "center" }}
               >
-                <Button className="Booking-ConfirmButton" onClick={this.handleConfirm}  >confirm</Button>
+                <Button className="ModalBooking-ConfirmButton" onClick={this.handleConfirm}>confirm</Button>
               </Col>
             </Row>
           </Card>
         </Row>
         <div
-          className="Booking-Footer"
+          className="ModalBooking-Footer"
           type="flex"
           justify="center"
           align="middle"
-        ></div>
+        >
+        </div>
       </Modal>
     );
   }
 }
 
-export default withRouter(Form.create({})(Booking));
+export default withRouter(Form.create({})(ModalBooking));
