@@ -10,13 +10,14 @@ import { fetchMaids, quickSearchType, selectedMaid } from "../../redux/actions/a
 import { connect } from "react-redux";
 import Carousel1 from '../../images/Carousel1.jpeg'
 import Carousel2 from '../../images/Carousel2.jpg'
+import Carousel3 from '../../images/Carousel3.jpg'
 
 export class HomePage extends Component {
   state = {
     imageUrls: [
       Carousel1,
-      Carousel2
-      // "https://architecturesideas.com/wp-content/uploads/2019/12/Housekeeper2.jpg"
+      Carousel2,
+      Carousel3
     ],
     topMaids: []
   };
@@ -37,20 +38,16 @@ export class HomePage extends Component {
         <Row>
           <Col>
             <Row type="flex" justify="center">
-              <Col span={24}>
+              <Col span={24} className="HomePage-Carousel">
                 <Carousel autoplay>
                   {imageUrls.map((url, i) => (
-                    <Row key={i + "Carousel"} className="HomePage-CarouselDiv">
-                      <img src={url} alt="Carousel" className="HomePage-Carousel" />
-                    </Row>
+                    <img key={i + "Carousel"} src={url} alt="Carousel" className="HomePage-CarouselImage" />
                   ))}
                 </Carousel>
               </Col>
             </Row>
-
-
             <Row type="flex" justify="center">
-              <h2>Services</h2>
+              <h2 className="HomePage-HeaderText">Services</h2>
             </Row>
             <Row>
               <Col span={12}>
@@ -75,7 +72,7 @@ export class HomePage extends Component {
               </Col>
             </Row>
             <Row type="flex" justify="center">
-              <h2> Maid Recommended For You </h2>
+              <h2 className="HomePage-HeaderText">Maid Recommended For You</h2>
             </Row>
 
 
