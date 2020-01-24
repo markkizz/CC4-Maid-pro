@@ -39,41 +39,73 @@ export default class Navbar extends Component {
                 onClose={this.onClose}
                 visible={this.state.visible}
               >
-                <Col>
-                  <Button icon="home" className="Navbar-DrawerButtons">Home</Button>
-                </Col>
-                <Col>
-                  <Button icon="search" className="Navbar-DrawerButtons">Search Maid</Button>
-                </Col>
-                <Col>
-                  <Button icon="credit-card" className="Navbar-DrawerButtons">Payment</Button>
-                </Col>
-                <Col>
-                  <Button icon="user" className="Navbar-DrawerButtons">About Us</Button>
-                </Col>
-                <Col>
-                  <Button icon="login" className="Navbar-DrawerButtons">Login</Button>
-                </Col>
-                <Col>
-                  <Button icon="user-add" className="Navbar-DrawerButtons">Register</Button>
-                </Col>
-                <Col>
-                  <Button icon="usergroup-add" className="Navbar-DrawerButtons">Join As Maid</Button>
-                </Col>
-                <Col>
-                  <Button icon="file-text" className="Navbar-DrawerButtons">Policy</Button>
-                </Col>
+                <Link to="/">
+                  <Col>
+                    <Button icon="home" className="Navbar-DrawerButtons">Home</Button>
+                  </Col>
+                </Link>
+                <Link to="/search/:option">
+                  <Col>
+                    <Button icon="search" className="Navbar-DrawerButtons">Search Maid</Button>
+                  </Col>
+                </Link>
+                <Link to="/">
+                  <Col>
+                    <Button icon="credit-card" className="Navbar-DrawerButtons">Payment</Button>
+                  </Col>
+                </Link>
+                <Link to="/">
+                  <Col>
+                    <Button icon="user" className="Navbar-DrawerButtons">About Us</Button>
+                  </Col>
+                </Link>
+                <Link to="/login">
+                  <Col>
+                    <Button icon="login" className="Navbar-DrawerButtons">Login</Button>
+                  </Col>
+                </Link>
+                <Link to="/register">
+                  <Col>
+                    <Button icon="user-add" className="Navbar-DrawerButtons">Register</Button>
+                  </Col>
+                </Link>
+                <Link to="/register/maid">
+                  <Col>
+                    <Button icon="usergroup-add" className="Navbar-DrawerButtons">Join As Maid</Button>
+                  </Col>
+                </Link>
+                <Link to="/">
+                  <Col>
+                    <Button icon="file-text" className="Navbar-DrawerButtons">Policy</Button>
+                  </Col>
+                </Link>
               </Drawer>
             </Row>
             <Row type="flex" justify="end" className="Navbar-Menu">
-              <Button className="Navbar-MenuButton">Home</Button>
-              <Button className="Navbar-MenuButton">Search</Button>
-              <Button className="Navbar-MenuButton">Payment</Button>
-              <Button className="Navbar-MenuButton">About Us</Button>
-              <Button className="Navbar-MenuButton">Login</Button>
-              <Button className="Navbar-MenuButton">Register</Button>
-              <Button className="Navbar-MenuButton">Join As Maid</Button>
-              <Button className="Navbar-MenuButton">Policy</Button>
+              <Link to="/">
+                <Button className="Navbar-MenuButton">Home</Button>
+              </Link>
+              <Link to="/search/:option">
+                <Button className="Navbar-MenuButton">Search</Button>
+              </Link>
+              <Link to="/">
+                <Button className="Navbar-MenuButton">Payment</Button>
+              </Link>
+              <Link to="/">
+                <Button className="Navbar-MenuButton">About Us</Button>
+              </Link>
+              <Link to="/login">
+                <Button className="Navbar-MenuButton">Login</Button>
+              </Link>
+              <Link to="/register">
+                <Button className="Navbar-MenuButton">Register</Button>
+              </Link>
+              <Link to="/register/maid">
+                <Button className="Navbar-MenuButton">Join As Maid</Button>
+              </Link>
+              <Link to="/">
+                <Button className="Navbar-MenuButton">Policy</Button>
+              </Link>
             </Row>
           </Col>
         </Row>
