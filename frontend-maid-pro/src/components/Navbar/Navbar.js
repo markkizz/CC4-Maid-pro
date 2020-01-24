@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import './Navbar.css'
-import {Row, Col, Icon, Drawer, Button} from 'antd'
+import { Row, Col, Icon, Drawer, Button } from 'antd'
 import Logo from '../../images/maidProServiceLogo.png'
+import { Link } from "react-router-dom";
 
 export default class Navbar extends Component {
   state = { visible: false };
@@ -23,9 +24,9 @@ export default class Navbar extends Component {
       <div>
         <Row type="flex" align="middle" className="Navbar-Body">
           <Col span={4}>
-            <a href="http://localhost:3000/">
+            <Link to="/">
               <img src={Logo} alt="" width="125" />
-            </a>
+            </Link>
           </Col>
           <Col span={20}>
             <Row type="flex" justify="end">
@@ -76,7 +77,7 @@ export default class Navbar extends Component {
             </Row>
           </Col>
         </Row>
-        <Row className ="Navbar-Border"></Row>
+        <Row className="Navbar-Border" />
       </div>
     )
   }

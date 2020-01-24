@@ -5,6 +5,7 @@ import axios from "../../config/api.service"
 // ! Desc lenght cannot > 230 character
 
 function ReviewCard(props) {
+
   return (
     <Card className="ReviewCard-Card" bodyStyle={{ padding: "6px 16px" }}>
       <Row type="flex" align="bottom">

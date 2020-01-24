@@ -55,6 +55,7 @@ module.exports = db => {
           res.status(httpStatus).json({ errorMessage: errorMessage });
         }
       } catch (err) {
+        console.log(err)
         res.status(400).json({ errorMessage: err.message });
       }
     },

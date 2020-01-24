@@ -21,7 +21,7 @@ const pageComponents = {
   },
   maidDescription: {
     component: "MaidDescription",
-    path: "/maid"
+    path: "/maid/:maidId"
   },
   mybooking: {
     component: "MyBookingHistory",

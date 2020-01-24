@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import "./Booking.css";
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Card, Row, Col, Input, Button, Icon, Form, Select, DatePicker, Upload, Modal } from "antd";
-import moment from "moment";
+// import moment from "moment";
 import { FaClock, FaBook } from "react-icons/fa";
 import axios from '../../config/api.service'
 const { Option } = Select;
@@ -10,9 +11,11 @@ const { Option } = Select;
 class Booking extends Component {
   state = {
     visible: false,
-    address: '',
-    category: '',
-    Date: '',
+    customer_location: '',
+    // type_id: '1',
+    work_date: '',
+    work_hour: '1',
+    pay_slip_image: "gooo"
   }
 
   handleChange = (label) => e => {
@@ -25,37 +28,38 @@ class Booking extends Component {
   handleSelectCondo = (value) => {
     console.log(value)
     this.setState({
-      category: value,
+      type_id: value,
     })
   }
 
   handleSelectHour = (value) => {
     console.log(value)
     this.setState({
-      hour: value
+      work_hour: value
     })
   }
 
   handleDatePicker = (value) => {
     console.log(value)
     this.setState({
-      Date: value,
+      work_date: value,
     })
   }
 
   handleConfirm = (e) => {
-    const { address, category, Date, hour } = this.state
-    const { id } = this.props
-    axios.post(`/bookings/maids/${id}`, { address, category, Date, hour })
+    // , type_id
+    const { customer_location, work_date, work_hour, pay_slip_image } = this.state
+    const { maidId } = this.props
+    console.log({ customer_location, work_date, work_hour, pay_slip_image })
+    axios.post(`/bookings/maids/${maidId}`, { customer_location, work_date, work_hour, pay_slip_image })
       .then(result => {
         console.log(result)
-        
-        this.props.history.push("/maid")
+        this.props.history.push(`/maid/${maidId}`)
+        this.props.onCancel(false)
       })
       .catch(err => {
         console.error(err)
       })
-
   }
 
   render() {
@@ -96,7 +100,7 @@ class Booking extends Component {
               <Col span={16}>
                 <Select
                   onChange={this.handleSelectCondo}
-                  defaultValue="คอนโด 1 ห้องนอน (ไม่เกิน 40 ตร.ม.)"
+                  value={this.state.type_id}
                   style={{ width: "100%" }}
                 >
                   <Option value="1">
@@ -131,7 +135,8 @@ class Booking extends Component {
               </Col>
               <Col span={16}>
                 <DatePicker
-                  defaultValue={moment("01/01/2015", dateFormatList[0])}
+                  Format={'DD/MM/YYYY'}
+                  Value={this.handleDatePicker}
                   format={dateFormatList}
                   style={{ width: "100%" }}
                   onChange={this.handleDatePicker}
@@ -149,7 +154,9 @@ class Booking extends Component {
                 Hour
               </Col>
               <Col span={16}>
-                <Select defaultValue="1" style={{ width: "100%" }}
+                <Select
+                  value={this.state.work_hour}
+                  style={{ width: "100%" }}
                   onChange={this.handleSelectHour}
                 >
                   <Option value="1">1</Option>
@@ -171,7 +178,6 @@ class Booking extends Component {
               </Col>
               <Col input span={16}>
                 <Input style={{ width: "100%" }}
-                  onChange={this.handleChange('price')}
                 />
               </Col>
             </Row>
@@ -206,7 +212,6 @@ class Booking extends Component {
                 />
               </Col>
             </Row>
-
             <Row className="Booking-Margin">
               <Col className="Booking3_font" span={16} offset={8}>
                 **โอนเงินเข้าบัญชี ธนาคารเอบี สาขาราชเทวี เลขที่บัญชี
@@ -238,7 +243,7 @@ class Booking extends Component {
                 span={12}
                 style={{ display: "flex", justifyContent: "center" }}
               >
-                <Button className="Booking-ConfirmButton" onClick={this.handleConfirm}>confirm</Button>
+                <Button className="Booking-ConfirmButton" onClick={this.handleConfirm}  >confirm</Button>
               </Col>
             </Row>
           </Card>
@@ -254,4 +259,4 @@ class Booking extends Component {
   }
 }
 
-export default Form.create({})(Booking);
+export default withRouter(Form.create({})(Booking));
