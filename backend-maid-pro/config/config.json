@@ -1,11 +1,7 @@
 {
   "development": {
     "username": "root",
-<<<<<<< HEAD
     "password": "Mark4869",
-=======
-    "password": "f03Yl1jF9X",
->>>>>>> develop
     "database": "cc4_maid_pro",
     "host": "127.0.0.1",
     "dialect": "mysql",
