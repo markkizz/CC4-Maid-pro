@@ -40,6 +40,7 @@ module.exports = db => {
         res.status(400).json({ errorMessage: err.message });
       }
     },
+
     // employer history
     findBookingsByEmployerId: async (req, res) => {
       try {
