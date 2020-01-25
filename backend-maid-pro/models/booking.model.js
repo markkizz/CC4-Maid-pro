@@ -1,6 +1,15 @@
 module.exports = (sequelize, DataTypes) => {
   const booking = sequelize.define("booking", {
-    work_at: {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    customer_location: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    work_date: {
       type: DataTypes.DATE,
       allowNull: false
     },
@@ -15,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     pay_slip_image: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    reject_note: {
+      type: DataTypes.STRING
     }
   });
 

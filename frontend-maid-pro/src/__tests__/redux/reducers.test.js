@@ -27,15 +27,16 @@ describe("User Reducer", () => {
     const user = {
       id: 0,
       username: "markkizz",
-      phone: "084721xxxx",
-      role: "user"
+      first_name: 'mark',
+      last_name: 'kriz',
+      type: 'MAID'
     };
     it("Should return user data when user Login to website", () => {
       const newState = userReducer(initialState, {
         type: userTypes.USER_LOGIN,
         payload: user
       });
-      expect(newState).toEqual(user);
+      expect(newState).toEqual({...user, role: 'maid'});
     });
 
     it("Should return guest role when user Logout", () => {

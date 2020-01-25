@@ -7,97 +7,33 @@ module.exports = db => {
     signUp: async (req, res) => {
       try {
         const result = await service.signUp(req, req.body);
-        const {
-          httpStatus,
-          message,
-          errorMessage
-        } = result;
+        const { httpStatus, message, errorMessage } = result;
         if (!errorMessage) {
           res.status(httpStatus).json(message);
         } else {
-          res.status(httpStatus).json({
-            errorMessage
-          });
+          res.status(httpStatus).json({ errorMessage });
         }
       } catch (ex) {
-        res.status(400).json({
-          errorMessage: ex
-        });
+        res.status(400).json({ errorMessage: ex });
       }
     },
 
     signIn: async (req, res, next) => {
-      const {
-        httpStatus,
-        message,
-        errorMessage
-      } = await service.signIn(req, res, next);
+      const { httpStatus, message, errorMessage } = await service.signIn(req, res, next);
       try {
         if (!errorMessage) {
           res.status(httpStatus).json(message);
         } else {
-          res.status(httpStatus).json({
-            errorMessage: errorMessage
-          });
+          res.status(httpStatus).json({ errorMessage: errorMessage });
         }
       } catch (ex) {
-        res.status(400).json({
-          errorMessage: ex.message
-        });
+        res.status(400).json({ errorMessage: ex.message });
       }
     },
 
-    findMaids: async (req, res) => {
+    findMaidsWithMaybeLimitOrderByAverageRatingDesc: async (req, res) => {
       try {
-        const result = await service.findMaids(req.query.type)
-        const {
-          httpStatus,
-          message,
-          errorMessage
-        } = result
-        if (!errorMessage) {
-          res.status(httpStatus).json(message)
-        } else {
-          res.status(httpStatus).json({
-            errorMessage: errorMessage
-          })
-        }
-      } catch (err) {
-        res.status(400).json({
-          errorMessage: errorMessage
-        })
-      }
-    },
-
-    findMaidByMaidId: async (req, res) => {
-
-      try {
-        let result = await service.findMaidByMaidId(req.params.maidId);
-        const {
-          httpStatus,
-          message,
-          errorMessage
-        } = result
-        if (!errorMessage) {
-          res.status(httpStatus).json(message)
-        } else {
-          res.status(httpStatus).json({
-            errorMessage: errorMessage
-          })
-        }
-      } catch (err) {
-        res.status(400).json({
-          errorMessage: err.message
-        })
-      }
-    },
-    // ? available time and total rating of maid not in database
-    searchMaids: async (req, res) => {
-      try {
-        const { name, date, time, rating, price_hour } = req.query;
-        const arrPrice_hour = price_hour.split(",").map(price => Number(price))
-        let type_id = Number(req.query.type_id);
-        let result = await service.searchMaids(name, type_id, date, time, rating, arrPrice_hour);
+        const result = await service.findMaidsWithMaybeLimitOrderByAverageRatingDesc(req.query.limit);
         const { httpStatus, message, errorMessage } = result;
         if (!errorMessage) {
           res.status(httpStatus).json(message);
@@ -105,58 +41,77 @@ module.exports = db => {
           res.status(httpStatus).json({ errorMessage: errorMessage });
         }
       } catch (err) {
-        console.log('err', err)
+        res.status(400).json({ errorMessage: err.message });
+      }
+    },
+
+    findMaidByMaidId: async (req, res) => {
+      try {
+        let result = await service.findMaidByMaidId(req.params.maidId);
+        const { httpStatus, message, errorMessage } = result;
+        if (!errorMessage) {
+          res.status(httpStatus).json(message);
+        } else {
+          res.status(httpStatus).json({ errorMessage: errorMessage });
+        }
+      } catch (err) {
+        console.log(err)
+        res.status(400).json({ errorMessage: err.message });
+      }
+    },
+    // ? available time and total rating of maid not in database
+    // * argument can refactor
+    searchMaids: async (req, res) => {
+      try {
+        console.log(req.body)
+        const { name, work_date, rating, price_hour } = req.query;
+        const arr_price_hour = price_hour.split(",").map(price => Number(price));
+        let type_id = Number(req.query.type_id);
+        let result = await service.searchMaids(name, type_id, work_date, rating, arr_price_hour);
+        const { httpStatus, message, errorMessage } = result;
+        if (!errorMessage) {
+          res.status(httpStatus).json(message);
+        } else {
+          res.status(httpStatus).json({ errorMessage: errorMessage });
+        }
+      } catch (err) {
+        console.log('err', err);
         res.status(400).json({ errorMessage: err });
       }
     },
 
     getMyBooking: async (req, res) => {
       try {
-        const result = await service.getMyBooking(req.user.id, req.user.type)
-        const { httpStatus, message, errorMessage } = result
+        const result = await service.getMyBooking(req.user.id, req.user.type);
+        const { httpStatus, message, errorMessage } = result;
         if (!errorMessage) {
-          res.status(httpStatus).json(message)
+          res.status(httpStatus).json(message);
         } else {
-          res.status(httpStatus).json({ errorMessage: errorMessage })
+          res.status(httpStatus).json({ errorMessage: errorMessage });
         }
       } catch (err) {
         console.error(err);
-        res.status(400).json({ errorMessage: errorMessage })
-      }
-    },
-
-    findMaidTop: async (req, res) => {
-      try {
-        const result = await service.findMaidTop(req.params.amount);
-        const { httpStatus, message, errorMessage } = result
-        if (!errorMessage) {
-          res.status(httpStatus).json(message)
-        } else {
-          res.status(httpStatus).json({ errorMessage: errorMessage })
-        }
-      } catch (err) {
-        console.error(err);
-        res.status(400).json({ errorMessage: errorMessage })
+        res.status(400).json({ errorMessage: err.message });
       }
     },
 
     findMaidsQuickSearch: async (req, res) => {
       try {
-        const {type} = req.query
+        const { type } = req.query;
         let serviceTypeId
-        if(type === 'condo') serviceTypeId = [1,4]
-        else if(type === 'house') serviceTypeId = [5,7]
-        else res.status(400).json({errorMessage: 'invalid service type'})
-        const result = await service.findMaidsQuickSearch(serviceTypeId)
-        const { httpStatus, message, errorMessage } = result
+        if (type === 'condo') serviceTypeId = [1, 4];
+        else if (type === 'house') serviceTypeId = [5, 7];
+        else res.status(400).json({ errorMessage: 'invalid service type' });
+        const result = await service.findMaidsQuickSearch(serviceTypeId);
+        const { httpStatus, message, errorMessage } = result;
         if (!errorMessage) {
-          res.status(httpStatus).json(message)
+          res.status(httpStatus).json(message);
         } else {
-          res.status(httpStatus).json({ errorMessage: errorMessage })
+          res.status(httpStatus).json({ errorMessage: errorMessage });
         }
       } catch (err) {
         console.error(err);
-        res.status(400).json({ errorMessage: errorMessage })
+        res.status(400).json({ errorMessage: err.message });
       }
     }
   };

@@ -1,54 +1,67 @@
 const pageComponents = {
-  loginMobile: {
-    component: "LoginMobile",
-    path: "/m.login"
+  login: {
+    component: "LoginPage",
+    path: "/login"
   },
-  registerMobile: {
-    component: "RegisterMobile",
-    path: "/m.register"
+  register: {
+    component: "Registration",
+    path: "/register"
+  },
+  maidRegister: {
+    component: "RegistrationMaid",
+    path: "/register/maid"
   },
   homepage: {
     component: "HomePage",
     path: "/"
   },
-  profile: {
-    component: "Profile",
-    path: "/profile"
-  },
   search: {
-    component: "Search",
-    path: "/search/:option?"
+    component: "SearchPage",
+    path: "/search/:option"
   },
-  restaurantDetail: {
-    component: "RestaurantDetail",
-    path: "/restaurant-detail/:restaurantName/:id?"
+  maidDescription: {
+    component: "MaidDescription",
+    path: "/maid/:maidId"
   },
-  writeReview: {
-    component: "WriteReview",
-    path: "/write-review/:restaurantName?"
+  mybooking: {
+    component: "MyBookingHistory",
+    path: "/mybooking"
   }
 };
 
 export default {
   admin: {
-    routes: [...Object.values(pageComponents)]
+    routes: [...Object.values(pageComponents)],
+    redirect: '/admin'
   },
   user: {
     routes: [
       pageComponents.homepage,
-      pageComponents.profile,
       pageComponents.search,
-      pageComponents.restaurantDetail,
-      pageComponents.writeReview
-    ]
+      pageComponents.maidDescription,
+      pageComponents.mybooking,
+    ],
+    redirect: '/'
   },
-  guest: {
+  maid: {
     routes: [
       pageComponents.homepage,
       pageComponents.search,
-      pageComponents.restaurantDetail,
-      pageComponents.loginMobile,
-      pageComponents.registerMobile
-    ]
+      pageComponents.maidDescription,
+      pageComponents.mybooking,
+    ],
+    redirect: '/'
+  },
+  guest: {
+    routes: [
+      pageComponents.login,
+      pageComponents.register,
+      pageComponents.maidRegister,
+      pageComponents.homepage,
+      pageComponents.search,
+      pageComponents.maidDescription,
+      pageComponents.mybooking,
+    ],
+    redirect: '/login'
   }
 };

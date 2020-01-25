@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     id_card_no: {
       type: DataTypes.STRING(60),
-      allowNull: false,
+      // allowNull: false,
       validate: {
         // is: ['^\d{13}$']
         isInt: true,
@@ -34,14 +34,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     first_name: {
       type: DataTypes.STRING(60),
-      allowNull: false,
+      // allowNull: false,
       validate: {
         is: ['^[a-zA-Z-]+$', 'i'],
       }
     },
     last_name: {
       type: DataTypes.STRING(60),
-      allowNull: false,
+      // allowNull: false,
       validate: {
         is: ['^[a-zA-Z-]+$', 'i'],
       }
@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     phone_no: {
       type: DataTypes.STRING(10),
-      allowNull: false,
+      // allowNull: false,
       validate: {
         isInt: true,
         len: [10, 10]
@@ -101,7 +101,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT
     }
   }, {
-    
+
     getterMethods: {
       full_name() {
         return `${this.first_name} ${this.last_name}`
@@ -130,14 +130,20 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
 
-    user.belongsToMany(user, {
+    user.belongsToMany(models.user, {
       as: 'maid_bookings',
-      through: models.booking,
+      through: {
+        model: models.booking,
+        unique: false
+      },
       foreignKey: {
         name: 'employer_id',
         allowNull: false
       },
-      otherKey: 'maid_id'
+      otherKey: {
+        name: 'maid_id',
+        allowNull: false
+      }
     });
 
     user.belongsToMany(models.user, {
