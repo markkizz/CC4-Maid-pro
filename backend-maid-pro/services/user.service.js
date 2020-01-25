@@ -31,8 +31,10 @@ module.exports = (db) => {
               resolve({ httpStatus: 201, message: result });
             }
           } catch (ex) {
-            if (ex.message.includes('ECONNREFUSED')) {
+            if (ex.errors[0].message.includes('ECONNREFUSED')) {
               resolve({ httpStatus: 500, errorMessage: 'Database server error' });
+            } else if (ex.errors[0].message.includes('username must be unique')) {
+              resolve({ httpStatus: 400, errorMessage: 'Username has already taken' });
             }
             resolve({ httpStatus: 400, errorMessage: ex.errors[0].message });
           }

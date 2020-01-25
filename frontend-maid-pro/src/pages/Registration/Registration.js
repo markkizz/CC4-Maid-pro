@@ -7,7 +7,7 @@ import Logo from '../../images/maidProServiceLoginLogo.png'
 import { MdLockOutline } from "react-icons/md";
 import { AiOutlineMail } from "react-icons/ai";
 import axios from "../../config/api.service"
-import { failRegisterNotification, successRegisterNotification } from "./Registration.noti"
+import { openFailedRegisterNotification, openSuccessRegisterNotification } from "./Registration.noti"
 
 export default class Registration extends Component {
   state = {
@@ -27,11 +27,12 @@ export default class Registration extends Component {
     const { username, password, email, type } = this.state;
     axios.post(`/users/register`, { username, password, email, type })
       .then(result => {
-        successRegisterNotification(`Username ${username} is created`);
+        openSuccessRegisterNotification(`User ${username} is created`);
         this.props.history.push("/")
       })
       .catch(err => {
-        failRegisterNotification()
+        console.error(`Error ❌`, err.response.status, err.response.data.errorMessage);
+        openFailedRegisterNotification(err.response.data.errorMessage);
       });
     this.setState({
       username: '',
