@@ -25,7 +25,6 @@ class LoginPage extends Component {
   };
 
   handleLogin = (e) => {
-    // const { username, password } = this.state;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((error, values) => {
       const { username, password } = values;
@@ -51,7 +50,6 @@ class LoginPage extends Component {
       }
     })
   };
-
 
   render() {
 
