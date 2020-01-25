@@ -6,8 +6,7 @@ module.exports = db => {
       const { username, password, email, type } = user;
       console.log(username, password, email, type)
       const result = await db.user.create({ username, password, type, email, status: "ACTIVE" });
-      console.info(result)
-      return result
+      return result;
     },
 
     findUserByUsername: username => {
@@ -99,42 +98,43 @@ module.exports = db => {
     findMaidByMaidId: (maidId) => {
       return db.user.findOne({
         attributes: ['id', 'first_name', 'last_name', 'type', 'phone_no', 'email',
-          'profile_img', 'address', 'status', 'bank_account_no', 'bank_name', 'price_per_hour', 'holidays', 'about_maid',
+          'profile_img', 'address', 'status', 'bank_account_no', 'bank_name', 'price_per_hour', 'holidays', 'about_maid'
         ],
         where: { id: maidId, type: 'maid' },
-        include: [{
-          model: db.user,
-          as: 'reviewed_maids',
-          through: {
-            attributes: ['rating', 'content']
+        include: [
+          {
+            model: db.user,
+            as: 'reviewed_maids',
+            through: {
+              attributes: ['rating', 'content']
+            },
           },
-        }, {
-          model: db.building_type,
-          as: 'served_building_types',
-          attributes: {
-           include: ['type']
+          {
+            model: db.building_type,
+            as: 'served_building_types',
+            attributes: {
+              include: ['type']
+            }
           }
-        }],
+        ],
       });
     },
 
-    findMaidsQuickSearch: async (serviceTypeId) => {
+    findMaidsByBuildingTypeIds: async (buildingTypeIds) => {
       return db.user.findAll({
         where: { type: 'MAID' },
         attributes: {
           exclude: ["password"]
         },
-        include: [
-          {
-            as: "served_building_types",
-            model: db.building_type,
-            where: {
-              id: {
-                [Op.between]: serviceTypeId
-              }
-            }
+        order: [['average_rating', 'DESC']],
+        include: [{
+          as: "served_building_types",
+          model: db.building_type,
+          attributes: ['type'],
+          where: {
+            id: { [Op.between]: buildingTypeIds }
           }
-        ]
+        }]
       })
     }
   }

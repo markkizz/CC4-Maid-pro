@@ -95,14 +95,10 @@ module.exports = db => {
       }
     },
 
-    findMaidsQuickSearch: async (req, res) => {
+    findMaidsByBuildingType: async (req, res) => {
       try {
-        const { type } = req.query;
-        let serviceTypeId
-        if (type === 'condo') serviceTypeId = [1, 4];
-        else if (type === 'house') serviceTypeId = [5, 7];
-        else res.status(400).json({ errorMessage: 'invalid service type' });
-        const result = await service.findMaidsQuickSearch(serviceTypeId);
+        const { buildingType } = req.query;
+        const result = await service.findMaidsByBuildingType(buildingType);
         const { httpStatus, message, errorMessage } = result;
         if (!errorMessage) {
           res.status(httpStatus).json(message);
