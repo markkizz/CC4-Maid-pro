@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { Card, Row, Col, Input, Button, Icon, Form, Select, DatePicker, Upload, Modal } from "antd";
 import { FaClock, FaBook } from "react-icons/fa";
 import axios from '../../config/api.service'
+import { openBookingSuccessNotification, openBookingFailedNotification } from './ModalBooking.noti';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -18,8 +19,7 @@ class ModalBooking extends Component {
     pay_slip_image: "gooo"
   };
 
-  handleChange = (label) => e => {
-    console.log(e.target.value);
+  handleChange = label => e => {
     this.setState({
       [label]: e.target.value,
     })
@@ -47,15 +47,17 @@ class ModalBooking extends Component {
   };
 
   handleConfirm = (e) => {
-    const { customer_location, work_date, work_hour, pay_slip_image } = this.state
+    const { customer_location, work_date, work_hour, pay_slip_image } = this.state;
     const { maidId } = this.props;
-    console.log({ customer_location, work_date, work_hour, pay_slip_image })
     axios.post(`/bookings/maids/${maidId}`, { customer_location, work_date, work_hour, pay_slip_image })
       .then(result => {
         this.props.history.push(`/maid/${maidId}`);
         this.props.onCancel(false);
+        openBookingSuccessNotification('Your booking is successfully');
       })
       .catch(err => {
+        console.log(err.response.data);
+        openBookingFailedNotification(err.response.data.errorMessage);
         console.error(err);
       });
   };
@@ -191,7 +193,7 @@ class ModalBooking extends Component {
                   className="Bookbank_font"
                   rows={2}
                   placeholder="or not current address please enter your address"
-                  onChange={this.handleChange('address')}
+                  onChange={this.handleChange('customer_location')}
                 />
               </Col>
             </Row>

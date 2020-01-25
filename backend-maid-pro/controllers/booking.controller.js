@@ -13,7 +13,6 @@ module.exports = db => {
           }
         });
         if (userBooking && userBooking.dataValues.status !== "ACCEPT") {
-          console.log(userBooking.dataValues.status)
           res.status(400).json({ errorMessage: "User already booked" });
         } else {
           const result = await db.booking.create({
@@ -24,7 +23,6 @@ module.exports = db => {
             pay_slip_image: req.body.pay_slip_image,
             employer_id: req.user.id,
             maid_id: maidId,
-            // type_id: req.body.type_id
           });
           if (result.length === 0) {
             res.status(204).json({ result });
@@ -33,7 +31,7 @@ module.exports = db => {
           }
         }
       } catch (err) {
-        console.log(err)
+        console.log(err);
         if (err.message.includes("ECONNREFUSED")) {
           res.status(500).json({ errorMessage: "Database server error" });
         }

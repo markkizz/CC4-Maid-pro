@@ -141,7 +141,7 @@ class MaidDescription extends Component {
               >
                 Booking
               </Button>
-              <ModalBooking buildingServices={maid.buildingServices} visible={this.state.visible} onCancel={this.handleCancel} />
+              <ModalBooking buildingServices={maid.buildingServices} maidId={maid.id} visible={this.state.visible} onCancel={this.handleCancel} />
               <Col span={24} className="MaidDescription-Booking">
                 <h4>REVIEWS</h4>
               </Col>

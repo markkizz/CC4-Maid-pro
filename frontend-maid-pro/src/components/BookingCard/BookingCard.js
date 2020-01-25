@@ -7,7 +7,6 @@ import ModalAccept from "../ModalBookingAccept/ModalBookingAccept";
 import ModalCancel from "../ModalBookingCancel/ModalBookingCancel";
 import DisplayStatus from "./DisplayStatus/DisplayStatus";
 import moment from "moment";
-import { openBookingSuccessNotification, openBookingFailedNotification } from './BookingCard.noti';
 
 export default class BookingCard extends Component {
   state = {
