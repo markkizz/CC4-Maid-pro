@@ -83,7 +83,7 @@ class LoginPage extends Component {
                     rules: [
                       { required: true, message: 'Please input Password' }
                     ]
-                  })(<Input
+                  })(<Input.Password
                     placeholder="password"
                     prefix={<MdLockOutline className="LoginPage-PasswordPrefix" />}
                   />)}
