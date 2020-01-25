@@ -14,7 +14,7 @@ module.exports = db => {
           res.status(httpStatus).json({ errorMessage });
         }
       } catch (ex) {
-        res.status(400).json({ errorMessage: ex });
+        res.status(400).json({ errorMessage: ex.message });
       }
     },
 
@@ -24,7 +24,7 @@ module.exports = db => {
         if (!errorMessage) {
           res.status(httpStatus).json(message);
         } else {
-          res.status(httpStatus).json({ errorMessage: errorMessage });
+          res.status(httpStatus).json({ errorMessage });
         }
       } catch (ex) {
         res.status(400).json({ errorMessage: ex.message });
@@ -76,7 +76,7 @@ module.exports = db => {
         }
       } catch (err) {
         console.log('err', err);
-        res.status(400).json({ errorMessage: err });
+        res.status(400).json({ errorMessage: err.message });
       }
     },
 
