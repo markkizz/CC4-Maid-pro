@@ -2,11 +2,10 @@ const Sequelize = require("sequelize");
 const { Op } = require("sequelize");
 module.exports = db => {
   return {
-    signUp: async user => {
+    signUp: user => {
       const { username, password, email, type } = user;
-      console.log(username, password, email, type)
-      const result = await db.user.create({ username, password, type, email, status: "ACTIVE" });
-      return result;
+      return db.user.create({ username, password, type, email, status: "ACTIVE" });
+
     },
 
     findUserByUsername: username => {
@@ -23,6 +22,7 @@ module.exports = db => {
         order: [['average_rating', 'DESC']],
       })
     },
+
     searchMaidsAllChoice: (name, type_id, date, rating, price_hour) => {
       return db.user.findAll({
         where: {
@@ -57,6 +57,7 @@ module.exports = db => {
         ]
       });
     },
+
     searchMaids: (name, type_id, date, rating, price_hour) => {
       return db.user.findAll({
         where: {
@@ -83,6 +84,7 @@ module.exports = db => {
         ]
       });
     },
+
     getMyBooking: (user_id, type) => {
       if (type === "MAID") {
         return db.booking.findAll({
@@ -137,5 +139,6 @@ module.exports = db => {
         }]
       })
     }
+
   }
 };

@@ -28,17 +28,13 @@ export default class Registration extends Component {
     axios.post(`/users/register`, { username, password, email, type })
       .then(result => {
         openSuccessRegisterNotification(`User ${username} is created`);
+        this.setState({ username: '', password: '', email: '' });
         this.props.history.push("/")
       })
       .catch(err => {
         console.error(`Error ❌`, err.response.status, err.response.data.errorMessage);
         openFailedRegisterNotification(err.response.data.errorMessage);
       });
-    this.setState({
-      username: '',
-      password: '',
-      email: ''
-    });
   };
 
   render() {
