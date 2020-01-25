@@ -132,12 +132,18 @@ module.exports = (sequelize, DataTypes) => {
 
     user.belongsToMany(models.user, {
       as: 'maid_bookings',
-      through: models.booking,
+      through: {
+        model: models.booking,
+        unique: false
+      },
       foreignKey: {
         name: 'employer_id',
         allowNull: false
       },
-      otherKey: 'maid_id'
+      otherKey: {
+        name: 'maid_id',
+        allowNull: false
+      }
     });
 
     user.belongsToMany(models.user, {
