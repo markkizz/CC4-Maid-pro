@@ -81,7 +81,7 @@ export default class Registration extends Component {
               <Button className="Registration-LoginButton" onClick={this.handleSubmit}>Submit</Button>
             </Row>
             <Row type="flex" justify="center">
-              <Button className="Registration-CancelButton">Cancel</Button>
+              <Button onClick={this.props.history.goBack} className="Registration-CancelButton">Cancel</Button>
             </Row>
           </Col>
         </Row>
