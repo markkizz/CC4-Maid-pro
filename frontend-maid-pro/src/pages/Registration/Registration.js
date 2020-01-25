@@ -15,29 +15,30 @@ export default class Registration extends Component {
     password: '',
     email: '',
     type: 'EMPLOYER'
-  }
+  };
 
   handleChange = (label) => e => {
     this.setState({
       [label]: e.target.value,
     })
-  }
+  };
+
   handleSubmit = (e) => {
     const { username, password, email, type } = this.state;
     axios.post(`/users/register`, { username, password, email, type })
       .then(result => {
-        successRegisterNotification(`Username ${username} is created`)
+        successRegisterNotification(`Username ${username} is created`);
         this.props.history.push("/")
       })
       .catch(err => {
         failRegisterNotification()
-      })
+      });
     this.setState({
       username: '',
       password: '',
       email: ''
-    })
-  }
+    });
+  };
 
   render() {
     return (
