@@ -97,12 +97,6 @@ export class HomePage extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    topMaids: state.maids
-  }
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     quickSearchType: (serviceType) => dispatch(quickSearchType(serviceType)),

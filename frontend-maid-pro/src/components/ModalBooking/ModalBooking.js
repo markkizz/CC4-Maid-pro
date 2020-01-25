@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import "./ModalBooking.css";
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Card, Row, Col, Input, Button, Icon, Form, Select, DatePicker, Upload, Modal } from "antd";
-// import moment from "moment";
 import { FaClock, FaBook } from "react-icons/fa";
 import axios from '../../config/api.service'
 
@@ -163,8 +161,7 @@ class ModalBooking extends Component {
                 Price
               </Col>
               <Col input span={16}>
-                <Input style={{ width: "100%" }}
-                />
+                <Input style={{ width: "100%" }} />
               </Col>
             </Row>
 

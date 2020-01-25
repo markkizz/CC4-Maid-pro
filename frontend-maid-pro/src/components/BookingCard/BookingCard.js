@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import "./BookingCard.css";
 import { Row, Col, Divider, Button } from "antd";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { FaMapMarkerAlt, FaRegClock, FaRegCheckCircle } from "react-icons/fa";
 import axios from "../../config/api.service";
 import ModalAccept from "../ModalBookingAccept/ModalBookingAccept";
 import ModalCancel from "../ModalBookingCancel/ModalBookingCancel";
+import DisplayStatus from "./DisplayStatus/DisplayStatus";
+import moment from "moment";
 import { openBookingSuccessNotification, openBookingFailedNotification } from './BookingCard.noti';
 
 export default class BookingCard extends Component {
@@ -51,11 +53,20 @@ export default class BookingCard extends Component {
   handleRating = value => {
     this.setState({
       rating: value
-    })
+    });
   };
 
   render() {
     const { acceptVisible, cancelVisible, reason } = this.state;
+    const { bookingUser, type } = this.props;
+    const workDate = moment(bookingUser.work_date);
+    const month = workDate.format("LL").split(" ")[0];
+    const day = workDate.format("DD");
+    const workStart = workDate.format("h:mm");
+    const workEnd = workDate
+      .add(bookingUser.work_hour, "hours")
+      .format("h:mm a");
+
     return (
       <>
         <Row className="BookingCard-Body">
@@ -68,42 +79,42 @@ export default class BookingCard extends Component {
                   align="middle"
                   className="BookingCard-Date"
                 >
-                  <Col className="BookingCard-Month">January</Col>
-                  <Col className="BookingCard-Day">10</Col>
+                  <Col className="BookingCard-Month">{month}</Col>
+                  <Col className="BookingCard-Day">{day}</Col>
                 </Row>
               </Col>
               <Col span={9}>
                 <Row className="BookingCard-Details">
-                  <Col className="BookingCard-Customer">Customer</Col>
-                  <Col className="BookingCard-Time">10:00 - 11:00 am</Col>
+                  <Col className="BookingCard-Customer">
+                    {bookingUser.target_data.first_name +
+                      " " +
+                      bookingUser.target_data.last_name}
+                  </Col>
+                  <Col className="BookingCard-Time">
+                    {workStart + " - " + workEnd}
+                  </Col>
                   <Col className="BookingCard-Address">
-                    <FaMapMarkerAlt /> Phetchaburi Rd, Thanon Phaya Thai,
-                    Ratchathewi
+                    <FaMapMarkerAlt /> {bookingUser.customer_location}
                   </Col>
                 </Row>
               </Col>
               <Col span={8}>
                 <img
-                  src="JessicaSpencer.png"
+                  src={bookingUser.target_data.profile_img}
                   alt=""
                   className="BookingCard-MaidPhoto"
                 />
               </Col>
             </Row>
             <Divider className="BookingCard-HorizontalDivider" />
-            <Row type="flex" justify="end" className="BookingCard-BodyBottom">
-              <Button
-                className="BookingCard-Cancel"
-                onClick={this.showModal("cancelVisible")}
-              >
-                Cancel
-              </Button>
-              <Button
-                className="BookingCard-Accept"
-                onClick={this.showModal("acceptVisible")}
-              >
-                Accept
-              </Button>
+            <Row type="flex" align="middle" className="BookingCard-Status">
+              <Col style={{ width: "100%" }}>
+                <DisplayStatus
+                  type={type}
+                  status={bookingUser.status}
+                  onShowModal={this.showModal}
+                />
+              </Col>
             </Row>
           </Col>
         </Row>

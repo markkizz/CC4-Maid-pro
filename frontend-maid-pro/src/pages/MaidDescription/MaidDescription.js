@@ -108,9 +108,9 @@ class MaidDescription extends Component {
                 </Col>
               )}
               <Col span={12} className="MaidDescription-CondoType">
-                {maid.buildingServices.map(buildingService => (
+                {maid.buildingServices.map((buildingService, idx) => (
                   buildingService.type.startsWith("คอนโด") && (
-                    <h5 key={maid.id}><GiBroom /> {buildingService.type}</h5>
+                    <h5 key={idx}><GiBroom /> {buildingService.type}</h5>
                   )
                 ))}
               </Col>

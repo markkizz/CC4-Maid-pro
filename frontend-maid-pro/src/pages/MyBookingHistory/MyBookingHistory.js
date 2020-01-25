@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import './MyBookingHistory.css'
-import Navbar from '../../components/Navbar/Navbar'
-import BookingCard from '../../components/BookingCard/BookingCard'
-import { Row, Col, Tabs, BackTop } from 'antd';
+import "./MyBookingHistory.css";
+import Navbar from "../../components/Navbar/Navbar";
+import BookingCard from "../../components/BookingCard/BookingCard";
+import { Row, Col, Tabs, BackTop } from "antd";
 
 const { TabPane } = Tabs;
 
@@ -13,47 +13,95 @@ function callback(key) {
 }
 
 class MyBookingHistory extends Component {
-  state = {}
+  state = {
+    upcomming: [],
+    history: []
+  };
 
-   componentDidMount () {
-    const { id, username, type } = this.props.user
-    if (type === 'EMPLOYER') {
-      axios.get('/bookings/employers/')
-        .then(({data}) => console.log(data))
-        .catch(err => console.error(err))
+  filterUserStatus = users => {
+    const history = [];
+    const upcomming = [];
+    users.forEach(user => {
+      user.status === "REJECT" ||
+      user.status === "CANCEL" ||
+      user.status === "FINISHED"
+        ? history.push(user)
+        : upcomming.push(user);
+    });
+    this.setState(
+      () => ({
+        upcomming,
+        history
+      }),
+      () => console.log(this.state)
+    );
+    console.log("history", history);
+    console.log("upcomming", upcomming);
+  };
+
+  componentDidMount = async () => {
+    const {type } = this.props.user;
+    if (type === "EMPLOYER") {
+      try {
+        const { data } = await axios.get("/bookings/employers");
+        this.filterUserStatus(data);
+      } catch (e) {
+        console.error(e);
+      }
+    } else if (type === "MAID") {
+      try {
+        const { data } = await axios.get("/bookings/maids/");
+        this.filterUserStatus(data)
+      } catch (err) {
+        console.error(err)
+      }
     }
-  }
+  };
 
   render() {
+    const { history, upcomming } = this.state;
+    const { type } = this.props.user;
     return (
       <div className="MyBookingHistory-Body">
-        <Navbar/>
+        <Navbar />
         <Row type="flex" justify="center">
           <Col>
-            <Tabs defaultActiveKey="1" onChange={callback} className="MyBookingHistory-Tabs">
-              {/* Upcomming tab for accept cencel and complete for user both employer and maid */}
+            <Tabs
+              defaultActiveKey="1"
+              onChange={callback}
+              className="MyBookingHistory-Tabs"
+            >
+              {/* Upcomming tab for accept, cancel and complete for user both employer and maid */}
               <TabPane tab="Upcoming" key="1">
-                <Row>
-                  <Col style={{ marginBottom: 20 }}>
-                    <BookingCard/>
-                  </Col>
-                </Row>
+                {/* month, day, name, workHourToTime, location, status* */}
+                {upcomming.map((bookingUser, i) => (
+                  <Row key={i}>
+                    <Col>
+                      <BookingCard bookingUser={bookingUser} type={type} />
+                    </Col>
+                  </Row>
+                ))}
               </TabPane>
               <TabPane tab="History" key="2">
-                Content of Tab Pane 2
+                {history.map((bookingUser, i) => (
+                  <Row key={i}>
+                    <Col>
+                      <BookingCard bookingUser={bookingUser} type={type} />
+                    </Col>
+                  </Row>
+                ))}
               </TabPane>
             </Tabs>
           </Col>
         </Row>
-        <BackTop/>
+        <BackTop />
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = state => ({
   user: state.user
-})
+});
 
-
-export default connect(mapStateToProps, null)(MyBookingHistory)
+export default connect(mapStateToProps, null)(MyBookingHistory);
