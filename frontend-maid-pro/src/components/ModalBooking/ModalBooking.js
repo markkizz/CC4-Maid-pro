@@ -8,12 +8,13 @@ import { FaClock, FaBook } from "react-icons/fa";
 import axios from '../../config/api.service'
 
 const { Option } = Select;
+const { TextArea } = Input;
+const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 class ModalBooking extends Component {
   state = {
     visible: false,
     customer_location: '',
-    // type_id: '1',
     work_date: '',
     work_hour: '1',
     pay_slip_image: "gooo"
@@ -48,7 +49,6 @@ class ModalBooking extends Component {
   };
 
   handleConfirm = (e) => {
-    // , type_id
     const { customer_location, work_date, work_hour, pay_slip_image } = this.state
     const { maidId } = this.props;
     console.log({ customer_location, work_date, work_hour, pay_slip_image })
@@ -63,8 +63,6 @@ class ModalBooking extends Component {
   };
 
   render() {
-    const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
-    const { TextArea } = Input;
     return (
       <Modal
         visible={this.props.visible}
@@ -102,25 +100,13 @@ class ModalBooking extends Component {
                   onChange={this.handleSelectCondo}
                   value={this.state.type_id}
                   style={{ width: "100%" }}
-                >
-                  <Option value="1">
-                    คอนโด 1 ห้องนอน (ไม่เกิน 40 ตร.ม.)
-                  </Option>
-                  <Option value="2">
-                    คอนโด 1 ห้องนอน (ไม่เกิน 50 ตร.ม.)
-                  </Option>
-                  <Option value="3">
-                    คอนโด 2 ห้องนอน (ไม่เกิน 80 ตร.ม.)
-                  </Option>
-                  <Option value="4">
-                    คอนโด 3 ห้องนอน (ไม่เกิน 100 ตร.ม.)
-                  </Option>
-                  <Option value="5">
-                    บ้าน 1 ชั้น (ไม่เกิน 100 ตร.ม.)
-                  </Option>
-                  <Option value="6">บ้าน 2-3 ชั้น (100-200 ตร.ม.)</Option>
-                  <Option value="7">บ้าน 200 ตร.ม. ขึ้นไป</Option>
-                </Select>
+                >{
+                  this.props.buildingServices.map(service => (
+                    <Option key={service.id} value={service.id}>
+                      {service.type}
+                    </Option>
+                  ))
+                }</Select>
               </Col>
             </Row>
 
