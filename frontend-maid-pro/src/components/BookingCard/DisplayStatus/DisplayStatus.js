@@ -5,7 +5,7 @@ import './DisplayStatus.css';
 
 function MainComponent(props) {
   let Component
-  const {status, type} = props
+  const {status, type, onShowModal} = props
   if(status === "WAIT_FOR_ACCEPTANCE" && type === 'EMPLOYER'){
     Component = RenderWaitingForAccept
   } else if(status === "WAIT_FOR_ACCEPTANCE" && type === 'MAID') {
@@ -20,7 +20,7 @@ function MainComponent(props) {
     Component = RenderComplete
   }
   return (
-    <Component />
+    <Component onShowModal={onShowModal} />
   );
 }
 
@@ -39,7 +39,7 @@ const RenderWaitingForAccept = () => (
   </Row>
 );
 
-const RenderIsCleaningComplete = () => (
+const RenderIsCleaningComplete = (props) => (
   <Row type="flex">
     <Col span={12}>
       <Row type="flex" align="middle">
@@ -55,7 +55,7 @@ const RenderIsCleaningComplete = () => (
       <Row type="flex" justify="end" style={{marginRight: 10}}>
         <Button
           className="BookingCard-Accept"
-          // onClick={this.showModal("acceptVisible")}
+          onClick={props.onShowModal("acceptVisible")}
         >
           Complete
         </Button>
@@ -76,17 +76,17 @@ const RenderReject = () => (
 )
 
 // maid
-const RenderCustomerRequest = () => (
+const RenderCustomerRequest = (props) => (
   <Row type="flex" justify="end" className="BookingCard-BodyBottom" style={{marginRight: 10}}>
     <Button
       className="BookingCard-Cancel"
-      // onClick={this.showModal("cancelVisible")}
+      onClick={props.onShowModal("cancelVisible")}
     >
       Cancel
     </Button>
     <Button
       className="BookingCard-Accept"
-      // onClick={this.showModal("acceptVisible")}
+      onClick={props.onShowModal("acceptVisible")}
     >
       Accept
     </Button>

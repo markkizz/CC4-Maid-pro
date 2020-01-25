@@ -65,7 +65,9 @@ export default class BookingCard extends Component {
     const month = workDate.format("LL").split(" ")[0];
     const day = workDate.format("DD");
     const workStart = workDate.format("h:mm");
-    const workEnd = workDate.add(bookingUser.work_hour, "hours").format("h:mm a");
+    const workEnd = workDate
+      .add(bookingUser.work_hour, "hours")
+      .format("h:mm a");
 
     return (
       <>
@@ -85,8 +87,14 @@ export default class BookingCard extends Component {
               </Col>
               <Col span={9}>
                 <Row className="BookingCard-Details">
-                  <Col className="BookingCard-Customer">{bookingUser.target_data.first_name + ' ' + bookingUser.target_data.last_name}</Col>
-                  <Col className="BookingCard-Time">{workStart + ' - ' + workEnd}</Col>
+                  <Col className="BookingCard-Customer">
+                    {bookingUser.target_data.first_name +
+                      " " +
+                      bookingUser.target_data.last_name}
+                  </Col>
+                  <Col className="BookingCard-Time">
+                    {workStart + " - " + workEnd}
+                  </Col>
                   <Col className="BookingCard-Address">
                     <FaMapMarkerAlt /> {bookingUser.customer_location}
                   </Col>
@@ -103,7 +111,11 @@ export default class BookingCard extends Component {
             <Divider className="BookingCard-HorizontalDivider" />
             <Row type="flex" align="middle" className="BookingCard-Status">
               <Col style={{ width: "100%" }}>
-                <DisplayStatus type={type} status={bookingUser.status}/>
+                <DisplayStatus
+                  type={type}
+                  status={bookingUser.status}
+                  onShowModal={this.showModal}
+                />
               </Col>
             </Row>
           </Col>
