@@ -41,7 +41,8 @@ class LoginPage extends Component {
             this.props.history.push("/");
           })
           .catch(err => {
-            openFailedLoginNotification(`Username or Password is invalid`);
+            console.error(`Error ❌`, err.response.status, err.response.data);
+            openFailedLoginNotification(err.response.data);
           });
         this.setState({
           username: "",
