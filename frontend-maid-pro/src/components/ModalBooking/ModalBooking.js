@@ -13,10 +13,10 @@ const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 class ModalBooking extends Component {
   state = {
     visible: false,
-    customer_location: '',
-    work_date: '',
-    work_hour: '1',
-    pay_slip_image: "gooo"
+    customerLocation: '',
+    workDate: '',
+    workHour: '1',
+    paySlipImage: "gooo"
   };
 
   handleChange = label => e => {
@@ -35,21 +35,21 @@ class ModalBooking extends Component {
   handleSelectHour = (value) => {
     console.log(value);
     this.setState({
-      work_hour: value
+      workHour: value
     })
   };
 
   handleDatePicker = (value) => {
     console.log(value);
     this.setState({
-      work_date: value,
+      workDate: value,
     })
   };
 
   handleConfirm = (e) => {
-    const { customer_location, work_date, work_hour, pay_slip_image } = this.state;
+    const { customerLocation, workDate, workHour, paySlipImage } = this.state;
     const { maidId } = this.props;
-    axios.post(`/bookings/maids/${maidId}`, { customer_location, work_date, work_hour, pay_slip_image })
+    axios.post(`/bookings/maids/${maidId}`, { customerLocation, workDate, workHour, paySlipImage })
       .then(result => {
         this.props.history.push(`/maid/${maidId}`);
         this.props.onCancel(false);
@@ -141,7 +141,7 @@ class ModalBooking extends Component {
               </Col>
               <Col span={16}>
                 <Select
-                  value={this.state.work_hour}
+                  value={this.state.workHour}
                   style={{ width: "100%" }}
                   onChange={this.handleSelectHour}
                 >
@@ -193,7 +193,7 @@ class ModalBooking extends Component {
                   className="Bookbank_font"
                   rows={2}
                   placeholder="or not current address please enter your address"
-                  onChange={this.handleChange('customer_location')}
+                  onChange={this.handleChange('customerLocation')}
                 />
               </Col>
             </Row>
