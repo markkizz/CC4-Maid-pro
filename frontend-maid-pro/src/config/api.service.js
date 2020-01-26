@@ -1,7 +1,6 @@
 import axios from "axios";
 import { USER_LOGOUT } from "../redux/actions/actions";
 import store from "../redux/store/store";
-import parse from "less/lib/less/parse";
 
 axios.defaults.baseURL = "http://localhost:3333";
 

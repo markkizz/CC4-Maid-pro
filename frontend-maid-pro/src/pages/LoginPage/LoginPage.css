@@ -31,7 +31,7 @@
   width: 130px;
 }
 
-.LoginPage-CancelButton {
+.LoginPage-CreateAccountButton {
   box-shadow: none;
   border-radius: 11px;
   border-color: #005792;
@@ -44,4 +44,17 @@
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+.ant-form-item {
+  margin-bottom: 8px !important;
+}
+
+@media only screen and (max-width: 360px) {
+  .LoginPage-Input {
+    line-height: 0;
+  }
+  .LoginPage-Divider {
+    display: none;
+  }
 }

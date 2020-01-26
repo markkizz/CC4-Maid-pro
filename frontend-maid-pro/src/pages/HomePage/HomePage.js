@@ -26,8 +26,10 @@ export class HomePage extends Component {
     this.setState({ topMaids: (await axios.get('/users/maids?limit=6')).data });
   };
 
-  handleClickQuickSearch = serviceType => {
-    this.history.push(`/search/quicksearch`);
+  handleClickQuickSearch = async serviceType => {
+    // this.history.push(`/search/quicksearch`);
+    const result = (await axios.get(`/users/maids/quick-search?buildingType=${serviceType}`)).data;
+    this.setState({ topMaids: result });
   };
 
   render() {
@@ -52,7 +54,7 @@ export class HomePage extends Component {
             <Row>
               <Col span={12}>
                 <Row type="flex" justify="end">
-                  <Button className="HomePage-ServiceButtons">
+                  <Button onClick={() => this.handleClickQuickSearch('condo')} className="HomePage-ServiceButtons">
                     <Col className="HomePage-ButtonIconColumn">
                       <FaBuilding className="HomePage-ButtonColumnIcon" />
                     </Col>
@@ -62,7 +64,7 @@ export class HomePage extends Component {
               </Col>
               <Col span={12}>
                 <Row type="flex" justify="start">
-                  <Button className="HomePage-ServiceButtons">
+                  <Button onClick={() => this.handleClickQuickSearch('home')} className="HomePage-ServiceButtons">
                     <Col className="HomePage-ButtonIconColumn">
                       <FaHome className="HomePage-ButtonColumnIcon" />
                     </Col>
@@ -87,8 +89,6 @@ export class HomePage extends Component {
                 </Col>
               ))}
             </Row>
-
-
           </Col>
         </Row>
         <Footer />
@@ -96,12 +96,6 @@ export class HomePage extends Component {
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    topMaids: state.maids
-  }
-};
 
 const mapDispatchToProps = dispatch => {
   return {

@@ -6,25 +6,25 @@ module.exports = db => {
     createBooking: async (req, res) => {
       try {
         const { maidId } = req.params;
-        const userBooking = await db.booking.findOne({
+        const bookedUsers = await db.booking.findAll({
           where: {
             employer_id: req.user.id,
             maid_id: maidId
-          }
+          },
+          order: [['id', 'DESC']],
+          limit: 1
         });
-        if (userBooking && userBooking.dataValues.status !== "ACCEPT") {
-          console.log(userBooking.dataValues.status)
+        if (bookedUsers && bookedUsers[0].dataValues.status !== "ACCEPT") {
           res.status(400).json({ errorMessage: "User already booked" });
         } else {
           const result = await db.booking.create({
-            customer_location: req.body.customer_location,
-            work_date: req.body.work_date,
-            work_hour: req.body.work_hour,
+            customer_location: req.body.customerLocation,
+            work_date: req.body.workDate,
+            work_hour: req.body.workHour,
             status: "WAIT_FOR_ACCEPTANCE",
-            pay_slip_image: req.body.pay_slip_image,
+            pay_slip_image: req.body.paySlipImage,
             employer_id: req.user.id,
             maid_id: maidId,
-            // type_id: req.body.type_id
           });
           if (result.length === 0) {
             res.status(204).json({ result });
@@ -33,13 +33,14 @@ module.exports = db => {
           }
         }
       } catch (err) {
-        console.log(err)
+        console.error(err);
         if (err.message.includes("ECONNREFUSED")) {
           res.status(500).json({ errorMessage: "Database server error" });
         }
         res.status(400).json({ errorMessage: err.message });
       }
     },
+
     // employer history
     findBookingsByEmployerId: async (req, res) => {
       try {

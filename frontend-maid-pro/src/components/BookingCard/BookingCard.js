@@ -18,12 +18,9 @@ export default class BookingCard extends Component {
   };
 
   handleChange = label => ({ target: { value } }) => {
-    this.setState(
-      () => ({
-        [label]: value
-      }),
-      () => console.log(this.state)
-    );
+    this.setState(() => ({
+      [label]: value
+    }), () => console.log(this.state));
   };
 
   handleSubmit = () => {

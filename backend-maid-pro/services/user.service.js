@@ -31,13 +31,15 @@ module.exports = (db) => {
               resolve({ httpStatus: 201, message: result });
             }
           } catch (ex) {
-            if (ex.message.includes('ECONNREFUSED')) {
+            if (ex.errors[0].message.includes('ECONNREFUSED')) {
               resolve({ httpStatus: 500, errorMessage: 'Database server error' });
+            } else if (ex.errors[0].message.includes('username must be unique')) {
+              resolve({ httpStatus: 400, errorMessage: 'Username has already taken' });
             }
             resolve({ httpStatus: 400, errorMessage: ex.errors[0].message });
           }
           // }
-        })(req)
+        })(req);
       });
     },
 
@@ -87,7 +89,7 @@ module.exports = (db) => {
             };
           }
           resolve(result);
-        })(req, res, next)
+        })(req, res, next);
       });
     },
 
@@ -133,19 +135,19 @@ module.exports = (db) => {
     searchMaids: async (name, type_id, date, rating, price_hour) => {
       try {
         let result = await repository.searchMaidsAllChoice(name, type_id, date, rating, price_hour);
-        if(result.length === 0) {
-          result = await repository.searchMaids(name, type_id, date, rating, price_hour)
+        if (result.length === 0) {
+          result = await repository.searchMaids(name, type_id, date, rating, price_hour);
           if (result.length === 0) {
-            return { httpStatus: 204, message: result }
+            return { httpStatus: 204, message: result };
           } else {
-            return { httpStatus: 200, message: result }
+            return { httpStatus: 200, message: result };
           }
         }
       } catch (err) {
         if (err.message.includes('ECONNREFUSED')) {
           return { httpStatus: 500, errorMessage: 'Database server error' };
         }
-        return { httpStatus: 400, errorMessage: err.message }
+        return { httpStatus: 400, errorMessage: err.message };
       }
     },
 
@@ -153,15 +155,15 @@ module.exports = (db) => {
       try {
         const result = await repository.getMyBooking(id, type);
         if (result.length === 0) {
-          return { httpStatus: 204, message: result }
+          return { httpStatus: 204, message: result };
         } else {
-          return { httpStatus: 200, message: result }
+          return { httpStatus: 200, message: result };
         }
       } catch (err) {
         if (err.message.includes('ECONNREFUSED')) {
           return { httpStatus: 500, errorMessage: 'Database server error' };
         }
-        return { httpStatus: 400, errorMessage: err.message }
+        return { httpStatus: 400, errorMessage: err.message };
       }
     },
 
@@ -169,33 +171,37 @@ module.exports = (db) => {
       try {
         const result = await repository.findMaidsWithMaybeLimitOrderByAverageRatingDesc(parseInt(limit));
         if (result.length === 0) {
-          return { httpStatus: 204, message: result }
+          return { httpStatus: 204, message: result };
         } else {
-          return { httpStatus: 200, message: result }
+          return { httpStatus: 200, message: result };
         }
       } catch (err) {
         console.error(err);
         if (err.message.includes('ECONNREFUSED')) {
           return { httpStatus: 500, errorMessage: 'Database server error' };
         }
-        return { httpStatus: 400, errorMessage: err.message }
+        return { httpStatus: 400, errorMessage: err.message };
       }
     },
 
-    findMaidsQuickSearch: async (serviceTypeId) => {
+    findMaidsByBuildingType: async (buildingType) => {
       try {
-        const result = await repository.findMaidsQuickSearch(serviceTypeId);
+        let buildingTypeIds;
+        if (buildingType === 'condo') buildingTypeIds = [1, 4];
+        else if (buildingType === 'home') buildingTypeIds = [5, 7];
+        else return { httpStatus: 400, errorMessage: 'invalid service type' };
+        const result = await repository.findMaidsByBuildingTypeIds(buildingTypeIds);
         if (result.length === 0) {
-          return { httpStatus: 204, message: result }
+          return { httpStatus: 204, message: result };
         } else {
-          return { httpStatus: 200, message: result }
+          return { httpStatus: 200, message: result };
         }
       } catch (err) {
         console.error(err);
         if (err.message.includes('ECONNREFUSED')) {
           return { httpStatus: 500, errorMessage: 'Database server error' };
         }
-        return { httpStatus: 400, errorMessage: err.message }
+        return { httpStatus: 400, errorMessage: err.message };
       }
     }
   }

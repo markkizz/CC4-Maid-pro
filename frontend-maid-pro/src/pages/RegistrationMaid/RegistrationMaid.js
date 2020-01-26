@@ -42,7 +42,7 @@ export default class RegistrationMaid extends Component {
               <Button className="RegistrationMaid-LoginButton">Submit</Button>
             </Row>
             <Row type="flex" justify="center">
-              <Button className="RegistrationMaid-CancelButton">Cancel</Button>
+              <Button onClick={this.props.history.goBack} className="RegistrationMaid-CancelButton">Cancel</Button>
             </Row>
           </Col>
         </Row>

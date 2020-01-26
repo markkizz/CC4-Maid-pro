@@ -1,18 +1,18 @@
 import { notification, Icon } from 'antd'
 import React from 'react'
 
-const successRegisterNotification = (message) => {
+const openSuccessRegisterNotification = (message) => {
   notification.open({
-    message: 'Registration Successful',
+    message: 'Register Successfully',
     description: message ,
     icon: <Icon type="check-circle" style={{ color: '#69c0ff' }} />,
   });
 };
-const failRegisterNotification = (message) => {
+const openFailedRegisterNotification = (message) => {
   notification.open({
-    message: 'Registration Failed',
+    message: 'Register Failed',
     description: message,
     icon: <Icon type="close-circle" style={{ color: '#cf1322' }} />,
   });
 };
-export { failRegisterNotification, successRegisterNotification }
+export { openFailedRegisterNotification, openSuccessRegisterNotification }

@@ -66,7 +66,7 @@ module.exports = {
     const genstatus = () => {
       stat = status[Math.floor(Math.random() * 5)]
       return stat
-    }
+    };
     const checkIfReject = status => status === 'REJECT' ? 'uvuvwevwevwe onyetenyevwe ugwemubwem ossas' : null
     return queryInterface.bulkInsert("bookings",
     [
