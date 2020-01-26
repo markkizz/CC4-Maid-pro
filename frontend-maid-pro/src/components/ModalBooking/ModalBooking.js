@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./ModalBooking.css";
 import { withRouter } from 'react-router-dom';
-import { Card, Row, Col, Input, Button, Icon, Form, Select, DatePicker, Upload, Modal } from "antd";
+import { Card, Row, Col, Input, Button, Icon, Form, Select, DatePicker, Upload, Modal, message } from "antd";
 import { FaClock, FaBook } from "react-icons/fa";
 import axios from '../../config/api.service'
 import { openBookingSuccessNotification, openBookingFailedNotification } from './ModalBooking.noti';
@@ -20,30 +20,31 @@ class ModalBooking extends Component {
   };
 
   handleChange = label => e => {
-    this.setState({
-      [label]: e.target.value,
-    })
+    this.setState({ [label]: e.target.value });
   };
 
   handleSelectCondo = (value) => {
-    console.log(value);
-    this.setState({
-      type_id: value,
-    })
+    this.setState({ type_id: value });
   };
 
   handleSelectHour = (value) => {
-    console.log(value);
-    this.setState({
-      workHour: value
-    })
+    this.setState({ workHour: value });
   };
 
   handleDatePicker = (value) => {
-    console.log(value);
-    this.setState({
-      workDate: value,
-    })
+    this.setState({ workDate: value });
+  };
+
+  handleBrowseImage = info =>  e => {
+    console.log(e.target.value);
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
   };
 
   handleConfirm = (e) => {
@@ -58,10 +59,10 @@ class ModalBooking extends Component {
       .catch(err => {
         console.error(err);
         if (err.response.data === 'Unauthorized') {
-          openBookingFailedNotification('Log in Session is Expiration. Please Login again');
+          openBookingFailedNotification('Please login before create booking');
           localStorage.removeItem('ACCESS_TOKEN');
           localStorage.removeItem('store');
-          setTimeout(() => this.props.history.push('/login'),1000);
+          setTimeout(() => this.props.history.push('/login'), 1000);
           return;
         }
         openBookingFailedNotification(err.response.data.errorMessage);
@@ -69,7 +70,7 @@ class ModalBooking extends Component {
   };
 
   render() {
-    const { form } = this.props;
+    const { form, buildingServices, dataset } = this.props;
     return (
       <Modal
         visible={this.props.visible}
@@ -109,7 +110,7 @@ class ModalBooking extends Component {
                     value={this.state.type_id}
                     style={{ width: "100%" }}
                   >{
-                    this.props.buildingServices.map(service => (
+                    buildingServices && buildingServices.map(service => (
                       <Option key={service.id} value={service.id}>
                         {service.type}
                       </Option>
@@ -214,15 +215,27 @@ class ModalBooking extends Component {
 
               <Row className="ModalBooking-Margin3">
                 <Col className="ModalBooking_font" span={7} offset={1}>
-                  pay
+                  Pay Slip Image
                 </Col>
-                <Col span={16} style={{ width: "10%" }}>
-                  <Upload>
-                    <Button>
-                      <Icon type="upload" /> Click to Upload
-                    </Button>
-                  </Upload>
-                </Col>
+                <Form.Item>
+                  {form.getFieldDecorator('file', {
+                    initialValue: dataset && dataset.filename ? dataset.filename : [],
+                    valuePropName: 'fileList',
+                    getValueFromEvent: this.normFile
+                  })(
+                    <Col span={16} style={{ width: "10%" }}>
+                      <Upload name="file" accept=".png,.jpg,.jpeg"
+                              onChange={(info) => this.handleBrowseImage(info)}
+                              headers={{ authorization: 'authorization-text' }}
+                              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                      >
+                        <Button>
+                          <Icon type="upload" /> Click to Upload
+                        </Button>
+                      </Upload>
+                    </Col>
+                  )}
+                </Form.Item>
               </Row>
 
               <Row className="ModalBooking-Margin2">
