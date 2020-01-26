@@ -14,7 +14,9 @@ module.exports = db => {
           order: [['id', 'DESC']],
           limit: 1
         });
-        if (bookedUsers && bookedUsers[0].dataValues.status !== "ACCEPT") {
+
+        const bookingStatus = bookedUsers && bookedUsers[0].dataValues.status;
+        if (bookingStatus === 'WAIT_FOR_ACCEPTANCE') {
           res.status(400).json({ errorMessage: "User already booked" });
         } else {
           const result = await db.booking.create({
