@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { selectedMaid } from '../../redux/actions/actions'
 import axios from "axios";
 import "./MyBookingHistory.css";
 import Navbar from "../../components/Navbar/Navbar";

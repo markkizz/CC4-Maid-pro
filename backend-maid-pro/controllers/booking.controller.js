@@ -174,6 +174,38 @@ module.exports = db => {
         }
         res.status(400).json({ errorMessage: err.message });
       }
+    },
+
+    maidCompleteCleaning: async (req, res) => {
+      try {
+        const { maidId } = req.params;
+        const employer = req.user;
+        if (employer.type !== "EMPLOYER")
+          res.status(401).json({ errorMessage: "Unauthorized" });
+        const employerBooking = await db.booking.findOne({
+          where: { employer_id: employer.id, maid_id: maidId }
+        });
+        console.log(employerBooking)
+        if (
+          Object.keys(employerBooking).length === 0 &&
+          maidBooking.constructor === Object
+        ) {
+          res.status(204).json({ errorMessage: "no booking" });
+        }
+        if (employerBooking.dataValues.status === "ACCEPT") {
+          await employerBooking.update({ status: "FINISHED"});
+          res.status(200).json({ message: "cleaing complete" });
+        } else {
+          res
+            .status(406)
+            .json({ message: "Already complete" });
+        }
+      } catch (err) {
+        if (err.message.includes("ECONNREFUSED")) {
+          res.status(500).json({ errorMessage: "Database server error" });
+        }
+        res.status(400).json({ errorMessage: err.message });
+      }
     }
   };
 };
