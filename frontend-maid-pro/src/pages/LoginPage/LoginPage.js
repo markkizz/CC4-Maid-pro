@@ -101,7 +101,7 @@ class LoginPage extends Component {
                   </Button>
                 </Row>
               </Form.Item>
-              <Row>
+              <Row className="LoginPage-Divider">
                 <Divider>or</Divider>
               </Row>
               <Row type="flex" justify="center">
