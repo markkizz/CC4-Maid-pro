@@ -8,10 +8,6 @@ import { Row, Col, Tabs, BackTop } from "antd";
 
 const { TabPane } = Tabs;
 
-function callback(key) {
-  console.log(key);
-}
-
 class MyBookingHistory extends Component {
   state = {
     upcomming: [],
@@ -73,7 +69,6 @@ class MyBookingHistory extends Component {
   render() {
     const { history, upcomming } = this.state;
     const { type } = this.props.user;
-    console.log(this.state);
     return (
       <div className="MyBookingHistory-Body">
         <Navbar />
@@ -81,7 +76,6 @@ class MyBookingHistory extends Component {
           <Col>
             <Tabs
               defaultActiveKey="1"
-              onChange={callback}
               className="MyBookingHistory-Tabs"
             >
               {/* Upcomming tab for accept, cancel and complete for user both employer and maid */}
