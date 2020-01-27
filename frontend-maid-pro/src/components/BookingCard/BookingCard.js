@@ -52,7 +52,9 @@ export default class BookingCard extends Component {
       .catch(err => console.error(err));
   };
 
-  handleRejectMaid = () => {};
+  handleRejectMaid = employerId => ()=> {
+    console.log(employerId)
+  };
 
   showModal = label => () => {
     this.setState(state => ({
@@ -140,9 +142,10 @@ export default class BookingCard extends Component {
         />
 
         <ModalCancel
+          bookingUser={bookingUser}
           visible={cancelVisible}
           onShowModal={this.showModal}
-          // onSubmit={this.handleSubmit}
+          onMaidClickReject={this.handleRejectMaid}
           textAreaValue={reason}
           onChange={this.handleChange}
         />

@@ -37,6 +37,8 @@ const store = createStore(
 );
 
 store.subscribe(() => {
+  const {role} = store.getState().user
+  console.log(role)
   saveState(store.getState());
 });
 

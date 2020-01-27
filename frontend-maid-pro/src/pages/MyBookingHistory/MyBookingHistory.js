@@ -15,9 +15,7 @@ function callback(key) {
 class MyBookingHistory extends Component {
   state = {
     upcomming: [],
-    upcommingStatus: [],
-    history: [],
-    historyStatus: []
+    history: []
   };
 
   compareTwoArray = (arr1, arr2) => {
@@ -44,12 +42,12 @@ class MyBookingHistory extends Component {
     ) {
       this.setState({
         upcomming,
-        history,
+        history
       });
     }
   };
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     this.handleFetchBooking();
   };
 
@@ -75,6 +73,7 @@ class MyBookingHistory extends Component {
   render() {
     const { history, upcomming } = this.state;
     const { type } = this.props.user;
+    console.log(this.state);
     return (
       <div className="MyBookingHistory-Body">
         <Navbar />
@@ -88,30 +87,32 @@ class MyBookingHistory extends Component {
               {/* Upcomming tab for accept, cancel and complete for user both employer and maid */}
               <TabPane tab="Upcoming" key="1">
                 {/* month, day, name, workHourToTime, location, status* */}
-                {upcomming.map((bookingUser, i) => (
-                  <Row key={i}>
-                    <Col>
-                      <BookingCard
-                        bookingUser={bookingUser}
-                        type={type}
-                        handleFetchBooking={this.handleFetchBooking}
-                      />
-                    </Col>
-                  </Row>
-                ))}
+                {upcomming.length > 0 &&
+                  upcomming.map((bookingUser, i) => (
+                    <Row key={i}>
+                      <Col>
+                        <BookingCard
+                          bookingUser={bookingUser}
+                          type={type}
+                          handleFetchBooking={this.handleFetchBooking}
+                        />
+                      </Col>
+                    </Row>
+                  ))}
               </TabPane>
               <TabPane tab="History" key="2">
-                {history.map((bookingUser, i) => (
-                  <Row key={i}>
-                    <Col>
-                      <BookingCard
-                        bookingUser={bookingUser}
-                        type={type}
-                        handleFetchBooking={this.handleFetchBooking}
-                      />
-                    </Col>
-                  </Row>
-                ))}
+                {history.length > 0 &&
+                  history.map((bookingUser, i) => (
+                    <Row key={i}>
+                      <Col>
+                        <BookingCard
+                          bookingUser={bookingUser}
+                          type={type}
+                          handleFetchBooking={this.handleFetchBooking}
+                        />
+                      </Col>
+                    </Row>
+                  ))}
               </TabPane>
             </Tabs>
           </Col>
