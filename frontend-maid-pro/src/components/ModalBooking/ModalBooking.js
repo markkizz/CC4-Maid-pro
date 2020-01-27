@@ -97,6 +97,7 @@ class ModalBooking extends Component {
           workDate: '',
           workHour: '',
           fileList: [],
+          checkedCurrentAddress: false
         });
         form.resetFields();
       }
