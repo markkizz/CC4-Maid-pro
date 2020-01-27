@@ -51,14 +51,8 @@ axios.interceptors.response.use(
       store.dispatch(logout())
     }
 
-<<<<<<< HEAD
     if (error.request.status === 401) {
       throw error;
-=======
-      store.dispatch({ type: USER_LOGOUT });
-      localStorage.removeItem(TOKEN);
-      localStorage.removeItem('store');
->>>>>>> develop
     }
 
     throw error;
