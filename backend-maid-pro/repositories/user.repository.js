@@ -13,14 +13,33 @@ module.exports = db => {
     },
 
     findMaidsWithMaybeLimitOrderByAverageRatingDesc: limit => {
-      return db.user.findAll({
-        where: { type: "MAID" },
-        limit,
-        attributes: {
-          exclude: ['password']
-        },
-        order: [['average_rating', 'DESC']],
-      })
+      return db.sequelize.query(
+        `SELECT
+        u1.id,
+        u1.username,
+        u1.first_name,
+        u1.last_name,
+        u1.type,
+        u1.phone_no,
+        u1.email,
+        u1.profile_img,
+        u1.address,
+        u1.status,
+        u1.price_per_hour,
+        u1.average_rating,
+        u1.about_maid,
+        count(*) as number_of_reviews
+        FROM users u1 JOIN reviews rv ON u1.id = rv.maid_id JOIN users u2 ON
+        u2.id = rv.employer_id GROUP BY u1.id ORDER BY u1.average_rating DESC LIMIT ${limit};`
+      );
+      // return db.user.findAll({
+      //   where: { type: "MAID" },
+      //   limit,
+      //   attributes: {
+      //     exclude: ['password']
+      //   },
+      //   order: [['average_rating', 'DESC']],
+      // })
     },
 
     searchMaidsAllChoice: (name, type_id, date, rating, price_hour) => {

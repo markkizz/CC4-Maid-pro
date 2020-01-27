@@ -11,6 +11,7 @@ import { FaBuilding, FaHome } from "react-icons/fa";
 import Carousel1 from '../../images/Carousel1.jpeg'
 import Carousel2 from '../../images/Carousel2.jpg'
 import Carousel3 from '../../images/Carousel3.jpg'
+import MaidCardWeb from '../../components/MaidCardWeb/MaidCardWeb'
 
 export class HomePage extends Component {
   state = {
@@ -19,10 +20,13 @@ export class HomePage extends Component {
       Carousel2,
       Carousel3
     ],
-    topMaids: []
+    topMaids: [],
+    mobileScreen: false
   };
 
   componentDidMount = async () => {
+    window.addEventListener("resize", this.resize.bind(this));
+    this.resize();
     try {
       const {data} = await axios.get('/users/maids?limit=6')
       this.setState({ topMaids: data });
@@ -36,8 +40,17 @@ export class HomePage extends Component {
     this.props.history.push(`/search/quicksearch`);
   };
 
+  resize = () => {
+    let isMobileScreen = window.innerWidth <= 767;
+    if (isMobileScreen !== this.state.mobileScreen) {
+      this.setState({
+        mobileScreen: isMobileScreen,
+      });
+    }
+  };
+
   render() {
-    const { imageUrls, topMaids } = this.state;
+    const { imageUrls, topMaids, mobileScreen } = this.state;
     return (
       <div>
         <Navbar />
@@ -80,14 +93,12 @@ export class HomePage extends Component {
             <Row type="flex" justify="center">
               <h2 className="HomePage-HeaderText">Maid Recommended For You</h2>
             </Row>
-
-
             <Row>
               {topMaids.map(maid => (
-                <Col key={maid.id} span={12}>
+                <Col key={maid.id} xs={12} xl={8} >
                   <Row type="flex" justify="center" align="middle" style={{ marginBottom: "20px" }}>
                     <Col>
-                      <MaidCard maid={maid} />
+                      {mobileScreen ? <MaidCard maid={maid} /> : <MaidCardWeb maid={maid} /> }
                     </Col>
                   </Row>
                 </Col>

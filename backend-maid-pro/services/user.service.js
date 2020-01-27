@@ -74,7 +74,8 @@ module.exports = (db) => {
                 username: user.username,
                 type: user.type,
                 first_name: user.first_name,
-                last_name: user.last_name
+                last_name: user.last_name,
+                address: user.address
               },
               jwtOptions.secretOrKey, {
                 expiresIn: 3600
@@ -169,7 +170,8 @@ module.exports = (db) => {
 
     findMaidsWithMaybeLimitOrderByAverageRatingDesc: async (limit) => {
       try {
-        const result = await repository.findMaidsWithMaybeLimitOrderByAverageRatingDesc(parseInt(limit));
+        let result = await repository.findMaidsWithMaybeLimitOrderByAverageRatingDesc(parseInt(limit));
+        result = result[0]
         if (result.length === 0) {
           return { httpStatus: 204, message: result };
         } else {
