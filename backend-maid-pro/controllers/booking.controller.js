@@ -42,7 +42,6 @@ module.exports = db => {
         if (err.message.includes("ECONNREFUSED")) {
           res.status(500).json({ errorMessage: "Database server error" });
         }
-        console.log(err)
         res.status(400).json({ errorMessage: err.message });
       }
     },
