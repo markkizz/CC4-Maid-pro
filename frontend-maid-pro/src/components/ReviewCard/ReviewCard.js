@@ -1,7 +1,6 @@
 import React from "react";
 import { Row, Col, Card, Rate } from "antd";
 import "./ReviewCard.css";
-import axios from "../../config/api.service"
 // ! Desc lenght cannot > 230 character
 
 function ReviewCard(props) {

@@ -1,13 +1,13 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchMaids, quickSearchType, selectedMaid } from "../../redux/actions/actions";
+import axios from "../../config/api.service";
 import "./HomePage.css";
 import Navbar from "../../components/Navbar/Navbar";
 import MaidCard from "../../components/MaidCard/MaidCard";
 import Footer from "../../components/Footer/Footer";
 import { Carousel, Row, Col, Button } from "antd";
 import { FaBuilding, FaHome } from "react-icons/fa";
-import axios from "../../config/api.service";
-import { fetchMaids, quickSearchType, selectedMaid } from "../../redux/actions/actions";
-import { connect } from "react-redux";
 import Carousel1 from '../../images/Carousel1.jpeg'
 import Carousel2 from '../../images/Carousel2.jpg'
 import Carousel3 from '../../images/Carousel3.jpg'
@@ -23,13 +23,17 @@ export class HomePage extends Component {
   };
 
   componentDidMount = async () => {
-    this.setState({ topMaids: (await axios.get('/users/maids?limit=6')).data });
+    try {
+      const {data} = await axios.get('/users/maids?limit=6')
+      this.setState({ topMaids: data });
+    } catch (err) {
+      console.error(err)
+    }
   };
 
   handleClickQuickSearch = async serviceType => {
-    // this.history.push(`/search/quicksearch`);
-    const result = (await axios.get(`/users/maids/quick-search?buildingType=${serviceType}`)).data;
-    this.setState({ topMaids: result });
+    this.props.quickSearchType(serviceType)
+    this.props.history.push(`/search/quicksearch`);
   };
 
   render() {

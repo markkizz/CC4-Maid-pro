@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./BookingCard.css";
-import { Row, Col, Divider, Button } from "antd";
-import { FaMapMarkerAlt, FaRegClock, FaRegCheckCircle, FaBuilding, FaHome } from "react-icons/fa";
+import { Row, Col, Divider } from "antd";
+import { FaMapMarkerAlt, FaBuilding, FaHome } from "react-icons/fa";
 import axios from "../../config/api.service";
 import ModalAccept from "../ModalBookingAccept/ModalBookingAccept";
 import ModalCancel from "../ModalBookingCancel/ModalBookingCancel";
@@ -12,35 +12,56 @@ export default class BookingCard extends Component {
   state = {
     acceptVisible: false,
     cancelVisible: false,
-    rating: "",
+    rating: 5,
     content: "",
     reason: ""
   };
 
   handleChange = label => ({ target: { value } }) => {
-    this.setState(() => ({
+    this.setState({
       [label]: value
-    }), () => console.log(this.state));
+    });
   };
 
-  handleSubmit = () => {
-    axios
-      .post(`/mybooking`, {
-        rating: this.state.username,
-        content: this.state.password,
-        reason: this.state.reason
-      })
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => {
-        console.error(err);
+  handleEmployerClickComplete = maidId => async () => {
+    try {
+      await axios.post(`/add-review/${maidId}`, {
+        rating: this.state.rating,
+        content: this.state.content
       });
-    this.setState({
-      rating: "",
-      content: "",
-      reason: ""
-    });
+    } catch (err) {
+      console.error(err);
+    }
+    try {
+      await axios.put(`/bookings/maid/complete/${maidId}`);
+      this.setState({
+        rating: "",
+        content: "",
+        acceptVisible: false
+      });
+      this.props.handleFetchBooking();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  handelMaidAcceptJob = employerId => () => {
+    axios
+      .put(`/bookings/maid/accept/${employerId}`)
+      .then(() => this.props.handleFetchBooking())
+      .catch(err => console.error(err));
+  };
+
+  handleRejectMaid = employerId => async () => {
+    try {
+      await axios.put(`/bookings/maid/reject/${employerId}`, { reject_note: this.state.reason })
+      this.setState({
+        cancelVisible: false
+      })
+      this.props.handleFetchBooking()
+    } catch (err) {
+      console.error(err)
+    }
   };
 
   showModal = label => () => {
@@ -65,7 +86,6 @@ export default class BookingCard extends Component {
     const workEnd = workDate
       .add(bookingUser.work_hour, "hours")
       .format("h:mm a");
-
     return (
       <>
         <Row className="BookingCard-Body">
@@ -94,7 +114,7 @@ export default class BookingCard extends Component {
                     <FaMapMarkerAlt /> {bookingUser.customer_location}
                   </Col>
                   <Col className="BookingCard-BuildingType">
-                    {bookingUser.buildingType.startsWith('คอนโด') ? <FaBuilding /> : <FaHome />} {bookingUser.buildingType}
+                    {bookingUser.building_type.startsWith('คอนโด') ? <FaBuilding /> : <FaHome />} {bookingUser.building_type}
                   </Col>
                 </Row>
               </Col>
@@ -112,6 +132,8 @@ export default class BookingCard extends Component {
                 <DisplayStatus type={type}
                   status={bookingUser.status}
                   onShowModal={this.showModal}
+                  onClickMaidAcceptJob={this.handelMaidAcceptJob}
+                  bookingUser={bookingUser.target_data}
                 />
               </Col>
             </Row>
@@ -119,16 +141,19 @@ export default class BookingCard extends Component {
         </Row>
 
         <ModalAccept
+          bookingUser={bookingUser}
           visible={acceptVisible}
           onShowModal={this.showModal}
-          onSubmit={this.handleSubmit}
+          onEmployerClickComplete={this.handleEmployerClickComplete}
           onChange={this.handleChange}
           onChangeRate={this.handleRating}
         />
+
         <ModalCancel
+          bookingUser={bookingUser}
           visible={cancelVisible}
           onShowModal={this.showModal}
-          onSubmit={this.handleSubmit}
+          onMaidClickReject={this.handleRejectMaid}
           textAreaValue={reason}
           onChange={this.handleChange}
         />

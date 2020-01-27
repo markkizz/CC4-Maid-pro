@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
+import axios from "../../config/api.service";
 import "./MyBookingHistory.css";
 import Navbar from "../../components/Navbar/Navbar";
 import BookingCard from "../../components/BookingCard/BookingCard";
@@ -8,39 +8,47 @@ import { Row, Col, Tabs, BackTop } from "antd";
 
 const { TabPane } = Tabs;
 
-function callback(key) {
-  console.log(key);
-}
-
 class MyBookingHistory extends Component {
   state = {
     upcomming: [],
     history: []
   };
 
+  compareTwoArray = (arr1, arr2) => {
+    return JSON.stringify(arr1) !== JSON.stringify(arr2);
+  };
+
   filterUserStatus = users => {
     const history = [];
     const upcomming = [];
     users.forEach(user => {
-      user.status === "REJECT" ||
-      user.status === "CANCEL" ||
-      user.status === "FINISHED"
-        ? history.push(user)
-        : upcomming.push(user);
+      if (
+        user.status === "REJECT" ||
+        user.status === "CANCEL" ||
+        user.status === "FINISHED"
+      ) {
+        history.push(user);
+      } else {
+        upcomming.push(user);
+      }
     });
-    this.setState(
-      () => ({
+    if (
+      this.compareTwoArray(history, this.state.history) ||
+      this.compareTwoArray(upcomming, this.state.upcomming)
+    ) {
+      this.setState({
         upcomming,
         history
-      }),
-      () => console.log(this.state)
-    );
-    console.log("history", history);
-    console.log("upcomming", upcomming);
+      });
+    }
   };
 
   componentDidMount = async () => {
-    const {type } = this.props.user;
+    this.handleFetchBooking();
+  };
+
+  handleFetchBooking = async () => {
+    const { type } = this.props.user;
     if (type === "EMPLOYER") {
       try {
         const { data } = await axios.get("/bookings/employers");
@@ -51,9 +59,9 @@ class MyBookingHistory extends Component {
     } else if (type === "MAID") {
       try {
         const { data } = await axios.get("/bookings/maids/");
-        this.filterUserStatus(data)
+        this.filterUserStatus(data);
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
     }
   };
@@ -68,28 +76,37 @@ class MyBookingHistory extends Component {
           <Col>
             <Tabs
               defaultActiveKey="1"
-              onChange={callback}
               className="MyBookingHistory-Tabs"
             >
               {/* Upcomming tab for accept, cancel and complete for user both employer and maid */}
               <TabPane tab="Upcoming" key="1">
                 {/* month, day, name, workHourToTime, location, status* */}
-                {upcomming.map((bookingUser, i) => (
-                  <Row key={i}>
-                    <Col>
-                      <BookingCard bookingUser={bookingUser} type={type} />
-                    </Col>
-                  </Row>
-                ))}
+                {upcomming.length > 0 &&
+                  upcomming.map((bookingUser, i) => (
+                    <Row key={i}>
+                      <Col>
+                        <BookingCard
+                          bookingUser={bookingUser}
+                          type={type}
+                          handleFetchBooking={this.handleFetchBooking}
+                        />
+                      </Col>
+                    </Row>
+                  ))}
               </TabPane>
               <TabPane tab="History" key="2">
-                {history.map((bookingUser, i) => (
-                  <Row key={i}>
-                    <Col>
-                      <BookingCard bookingUser={bookingUser} type={type} />
-                    </Col>
-                  </Row>
-                ))}
+                {history.length > 0 &&
+                  history.map((bookingUser, i) => (
+                    <Row key={i}>
+                      <Col>
+                        <BookingCard
+                          bookingUser={bookingUser}
+                          type={type}
+                          handleFetchBooking={this.handleFetchBooking}
+                        />
+                      </Col>
+                    </Row>
+                  ))}
               </TabPane>
             </Tabs>
           </Col>

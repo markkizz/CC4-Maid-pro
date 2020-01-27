@@ -71,14 +71,14 @@ module.exports = db => {
         for (let i = 0; i < resultMaidId.length; i++) {
           let maid = await db.user.findOne({
             where: { id: resultMaidId[i] },
-            attributes: ["username", "first_name", "last_name", "profile_img"]
+            attributes: ["id", "username", "first_name", "last_name", "profile_img"]
           });
           maidData.push(maid.dataValues);
         }
         const newResult = maids.map((maid, i) => ({
           ...maid.dataValues,
           target_data: maidData[i],
-          buildingType: buildingTypes[i].dataValues.type
+          building_type: buildingTypes[i].dataValues.type
         }));
 
         if (newResult.length === 0) {
@@ -101,23 +101,34 @@ module.exports = db => {
         const maid = req.user;
         if (maid.type !== "MAID")
           res.status(401).json({ errorMessage: "Unauthorized" });
-        const result = await db.booking.findAll({
+        const employers = await db.booking.findAll({
           where: {
             maid_id: maid.id
-          }
+          },
+          include: db.buildingType
         });
-        const resultEmployerId = result.map(em => em.dataValues.employer_id);
+        let buildingTypes = []
+        for (const em of employers) {
+          const buildingTypeId = em.dataValues.building_type_id;
+          const buildingType = await db.building_type.findOne({
+            where: { id: buildingTypeId },
+            attributes: ['type']
+          });
+          buildingTypes.push(buildingType);
+        }
+        const resultEmployerId = employers.map(em => em.dataValues.employer_id);
         let employerData = [];
         for (let i = 0; i < resultEmployerId.length; i++) {
           let employer = await db.user.findOne({
             where: { id: resultEmployerId[i] },
-            attributes: ["username", "first_name", "last_name", "profile_img"]
+            attributes: ["id", "username", "first_name", "last_name", "profile_img"]
           });
           employerData.push(employer.dataValues);
         }
-        const newResult = result.map((em, i) => ({
+        const newResult = employers.map((em, i) => ({
           ...em.dataValues,
-          target_data: employerData[i]
+          target_data: employerData[i],
+          building_type: buildingTypes[i].dataValues.type
         }));
         if (newResult.length === 0) {
           res.status(204).json(newResult);
@@ -186,6 +197,38 @@ module.exports = db => {
           res
             .status(406)
             .json({ message: "Already reject" });
+        }
+      } catch (err) {
+        if (err.message.includes("ECONNREFUSED")) {
+          res.status(500).json({ errorMessage: "Database server error" });
+        }
+        res.status(400).json({ errorMessage: err.message });
+      }
+    },
+
+    maidCompleteCleaning: async (req, res) => {
+      try {
+        const { maidId } = req.params;
+        const employer = req.user;
+        if (employer.type !== "EMPLOYER")
+          res.status(401).json({ errorMessage: "Unauthorized" });
+        const employerBooking = await db.booking.findOne({
+          where: { employer_id: employer.id, maid_id: maidId }
+        });
+        console.log(employerBooking)
+        if (
+          Object.keys(employerBooking).length === 0 &&
+          maidBooking.constructor === Object
+        ) {
+          res.status(204).json({ errorMessage: "no booking" });
+        }
+        if (employerBooking.dataValues.status === "ACCEPT") {
+          await employerBooking.update({ status: "FINISHED"});
+          res.status(200).json({ message: "cleaing complete" });
+        } else {
+          res
+            .status(406)
+            .json({ message: "Already complete" });
         }
       } catch (err) {
         if (err.message.includes("ECONNREFUSED")) {
