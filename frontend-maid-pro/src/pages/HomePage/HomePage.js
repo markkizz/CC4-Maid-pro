@@ -93,8 +93,6 @@ export class HomePage extends Component {
             <Row type="flex" justify="center">
               <h2 className="HomePage-HeaderText">Maid Recommended For You</h2>
             </Row>
-
-
             <Row>
               {topMaids.map(maid => (
                 <Col key={maid.id} xs={12} xl={8} >
