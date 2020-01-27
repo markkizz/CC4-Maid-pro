@@ -16,7 +16,7 @@ class ModalBooking extends Component {
     customerLocation: '',
     workDate: '',
     workHour: '1',
-    paySlipImage: "gooo"
+    fileList: []
   };
 
   handleChange = label => e => {
@@ -31,26 +31,35 @@ class ModalBooking extends Component {
     this.setState({ workHour: value });
   };
 
-  handleDatePicker = (value) => {
+  handleSelectWorkDate = (value) => {
     this.setState({ workDate: value });
   };
 
-  handleBrowseImage = info =>  e => {
-    console.log(e.target.value);
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  };
+  handleBeforeUpload = file => {
+    this.setState(state => ({
+      fileList: [file],
+    }));
+    return false;
+  }
+
+  handleRemoveUpload = () => {
+    this.setState(state => ({ fileList: [] }));
+    return false;
+  }
 
   handleConfirm = (e) => {
-    const { customerLocation, workDate, workHour, paySlipImage } = this.state;
+    const { form } = this.props;
+    e.preventDefault();
+    form.validateFieldsAndScroll();
+
+    const { customerLocation, workDate, workHour, fileList } = this.state;
     const { maidId } = this.props;
-    axios.post(`/bookings/maids/${maidId}`, { customerLocation, workDate, workHour, paySlipImage })
+    let data = new FormData();
+    data.append("customerLocation", customerLocation);
+    data.append("workDate", workDate);
+    data.append("workHour", workHour);
+    data.append("photo", fileList[0]);
+    axios.post(`/bookings/maids/${maidId}`, data)
       .then(result => {
         this.props.history.push(`/maid/${maidId}`);
         this.props.onCancel(false);
@@ -64,9 +73,16 @@ class ModalBooking extends Component {
           localStorage.removeItem('store');
           setTimeout(() => this.props.history.push('/login'), 1000);
           return;
-        }
+        };
         openBookingFailedNotification(err.response.data.errorMessage);
       });
+    this.setState({
+      customerLocation: '',
+      workDate: '',
+      workHour: '',
+      fileList: [],
+    });
+    form.resetFields();
   };
 
   render() {
@@ -102,20 +118,28 @@ class ModalBooking extends Component {
                 align="middle"
               >
                 <Col className="ModalBooking_font" span={7} offset={1}>
-                  Category
+                  Building Type
                 </Col>
+
                 <Col span={16}>
-                  <Select
-                    onChange={this.handleSelectCondo}
-                    value={this.state.type_id}
-                    style={{ width: "100%" }}
-                  >{
-                    buildingServices && buildingServices.map(service => (
-                      <Option key={service.id} value={service.id}>
-                        {service.type}
-                      </Option>
-                    ))
-                  }</Select>
+                  <Form.Item>
+                    {form.getFieldDecorator('buildingType', {
+                      rules: [{
+                        required: true,
+                        message: 'Please select Buidling Type!',
+                      }]
+                    })(<Select
+                      onChange={this.handleSelectCondo}
+                      value={this.state.type_id}
+                      style={{ width: "100%" }}
+                    >{
+                        buildingServices && buildingServices.map(service => (
+                          <Option key={service.id} value={service.id}>
+                            {service.type}
+                          </Option>
+                        ))
+                      }</Select>)}
+                  </Form.Item>
                 </Col>
               </Row>
 
@@ -134,7 +158,7 @@ class ModalBooking extends Component {
                     Value={this.handleDatePicker}
                     format={dateFormatList}
                     style={{ width: "100%" }}
-                    onChange={this.handleDatePicker}
+                    onChange={this.handleSelectWorkDate}
                   />
                 </Col>
               </Row>
@@ -175,7 +199,6 @@ class ModalBooking extends Component {
                   <Input style={{ width: "100%" }} />
                 </Col>
               </Row>
-
               <Row
                 className="ModalBooking-Margin"
                 type="flex"
@@ -218,23 +241,23 @@ class ModalBooking extends Component {
                   Pay Slip Image
                 </Col>
                 <Form.Item>
-                  {form.getFieldDecorator('file', {
+                  {/* {form.getFieldDecorator('file', {
                     initialValue: dataset && dataset.filename ? dataset.filename : [],
                     valuePropName: 'fileList',
                     getValueFromEvent: this.normFile
-                  })(
-                    <Col span={16} style={{ width: "10%" }}>
-                      <Upload name="file" accept=".png,.jpg,.jpeg"
-                              onChange={(info) => this.handleBrowseImage(info)}
-                              headers={{ authorization: 'authorization-text' }}
-                              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                      >
-                        <Button>
-                          <Icon type="upload" /> Click to Upload
+                  })( */}
+                  <Col span={16} style={{ width: "10%" }}>
+                    <Upload
+                      beforeUpload={this.handleBeforeUpload}
+                      onRemove={this.handleRemoveUpload}
+                      fileList={this.state.fileList}
+                    >
+                      <Button>
+                        <Icon type="upload" /> Click to Upload
                         </Button>
-                      </Upload>
-                    </Col>
-                  )}
+                    </Upload>
+                  </Col>
+                  {/* )} */}
                 </Form.Item>
               </Row>
 
@@ -244,7 +267,7 @@ class ModalBooking extends Component {
                   style={{ display: "flex", justifyContent: "center" }}
                 >
                   <Button onClick={() => this.props.onCancel(false)}
-                          className="ModalBooking-CancelButton">Cancel</Button>
+                    className="ModalBooking-CancelButton">Cancel</Button>
                 </Col>
                 <Col
                   span={12}

@@ -14,31 +14,35 @@ module.exports = db => {
           order: [['id', 'DESC']],
           limit: 1
         });
-
-        const bookingStatus = bookedUsers && bookedUsers[0].dataValues.status;
+        console.log('reqBody', req.body)
+        const bookingStatus = bookedUsers.length && bookedUsers[0].dataValues.status;
         if (bookingStatus === 'WAIT_FOR_ACCEPTANCE') {
           res.status(400).json({ errorMessage: "User already booked" });
+        }
+        let photo = req.files.photo;
+        let photoName = new Date().getTime() + ".jpeg";
+        photo.mv("./uploads/" + photoName);
+        url = `http://localhost:8080/${photoName}`
+        const result = await db.booking.create({
+          customer_location: req.body.customerLocation,
+          work_date: req.body.workDate,
+          work_hour: req.body.workHour,
+          status: "WAIT_FOR_ACCEPTANCE",
+          pay_slip_image: url,
+          employer_id: req.user.id,
+          maid_id: maidId,
+        });
+        if (result.length === 0) {
+          res.status(204).json({ result });
         } else {
-          const result = await db.booking.create({
-            customer_location: req.body.customerLocation,
-            work_date: req.body.workDate,
-            work_hour: req.body.workHour,
-            status: "WAIT_FOR_ACCEPTANCE",
-            pay_slip_image: req.body.paySlipImage,
-            employer_id: req.user.id,
-            maid_id: maidId,
-          });
-          if (result.length === 0) {
-            res.status(204).json({ result });
-          } else {
-            res.status(200).json({ result });
-          }
+          res.status(200).json({ result });
         }
       } catch (err) {
         console.error(err);
         if (err.message.includes("ECONNREFUSED")) {
           res.status(500).json({ errorMessage: "Database server error" });
         }
+        console.log(err)
         res.status(400).json({ errorMessage: err.message });
       }
     },
