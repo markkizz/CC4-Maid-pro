@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./ModalBooking.css";
 import { withRouter } from 'react-router-dom';
-import { Card, Row, Col, Input, Button, Icon, Form, Select, DatePicker, Upload, Modal, message } from "antd";
+import { Card, Row, Col, Input, Button, Icon, Form, Select, DatePicker, Upload, Modal } from "antd";
 import { FaClock, FaBook } from "react-icons/fa";
 import axios from '../../config/api.service'
 import { openBookingSuccessNotification, openBookingFailedNotification } from './ModalBooking.noti';

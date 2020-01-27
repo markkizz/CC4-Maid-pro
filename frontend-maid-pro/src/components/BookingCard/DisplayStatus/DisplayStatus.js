@@ -5,7 +5,7 @@ import './DisplayStatus.css';
 
 function MainComponent(props) {
   let Component
-  const {status, type, onShowModal} = props
+  const {status, type } = props
   if(status === "WAIT_FOR_ACCEPTANCE" && type === 'EMPLOYER'){
     Component = RenderWaitingForAccept
   } else if(status === "WAIT_FOR_ACCEPTANCE" && type === 'MAID') {

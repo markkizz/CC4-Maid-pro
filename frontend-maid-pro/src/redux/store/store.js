@@ -33,15 +33,18 @@ const store = createStore(
   reducers,
   persistStore,
   compose(
-    applyMiddleware(...middlewares)  )
+    applyMiddleware(...middlewares),
+    window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
 );
 
 store.subscribe(() => {
-  const {role} = store.getState().user
-  if(role === 'guest') {
-    window.appHistory.push('/login')
+  const { role } = store.getState().user;
+  if (role === "guest") {
+    window.appHistory.push("/login");
   }
   saveState(store.getState());
+  console.log(store.getState())
 });
 
 export default store;
