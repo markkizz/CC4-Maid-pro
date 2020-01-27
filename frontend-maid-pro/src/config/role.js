@@ -30,6 +30,10 @@ const pageComponents = {
   aboutus: {
     component: "AboutUs",
     path: "/aboutus"
+  },
+  payment: {
+    component: "Payment",
+    path: "/payment"
   }
 };
 
@@ -45,6 +49,7 @@ export default {
       pageComponents.maidDescription,
       pageComponents.mybooking,
       pageComponents.aboutus,
+      pageComponents.payment,
     ],
     redirect: '/'
   },
@@ -55,6 +60,7 @@ export default {
       pageComponents.maidDescription,
       pageComponents.mybooking,
       pageComponents.aboutus,
+      pageComponents.payment,
     ],
     redirect: '/'
   },
@@ -68,6 +74,7 @@ export default {
       pageComponents.maidDescription,
       pageComponents.mybooking,
       pageComponents.aboutus,
+      pageComponents.payment,
     ],
     redirect: '/login'
   }

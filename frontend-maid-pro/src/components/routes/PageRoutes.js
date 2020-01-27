@@ -6,6 +6,7 @@ import SearchPage from "../../pages/SearchPage/SearchPage";
 import MaidDescription from "../../pages/MaidDescription/MaidDescription";
 import MyBookingHistory from "../../pages/MyBookingHistory/MyBookingHistory";
 import AboutUs from '../../pages/AboutUs/AboutUs'
+import Payment from '../../pages/Payment/Payment'
 
 export {
   LoginPage,
@@ -15,5 +16,6 @@ export {
   SearchPage,
   MaidDescription,
   MyBookingHistory,
-  AboutUs
+  AboutUs,
+  Payment
 };
