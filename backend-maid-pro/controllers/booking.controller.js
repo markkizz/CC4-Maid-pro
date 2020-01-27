@@ -14,7 +14,6 @@ module.exports = db => {
           order: [['id', 'DESC']],
           limit: 1
         });
-        console.log('reqBody', req.body)
         const bookingStatus = bookedUsers.length && bookedUsers[0].dataValues.status;
         if (bookingStatus === 'WAIT_FOR_ACCEPTANCE') {
           res.status(400).json({ errorMessage: "User already booked" });
@@ -22,7 +21,7 @@ module.exports = db => {
         let photo = req.files.photo;
         let photoName = new Date().getTime() + ".jpeg";
         photo.mv("./uploads/" + photoName);
-        url = `http://localhost:8080/${photoName}`
+        const url = `http://localhost:8080/${photoName}`;
         const result = await db.booking.create({
           customer_location: req.body.customerLocation,
           work_date: req.body.workDate,
@@ -31,6 +30,7 @@ module.exports = db => {
           pay_slip_image: url,
           employer_id: req.user.id,
           maid_id: maidId,
+          building_type_id: req.body.buildingTypeId
         });
         if (result.length === 0) {
           res.status(204).json({ result });
