@@ -15,12 +15,12 @@ function ModalBookingCancel(props) {
   return (
     <Modal
       visible={visible}
-      title="Cancel Booing"
+      title="Cancel Booking"
       style={{ top: 10 }}
       onOk={onShowModal("cancelVisible")}
       onCancel={onShowModal("cancelVisible")}
       footer={[
-        <Button key="1" type="danger" onClick={onMaidClickReject}>
+        <Button key="1" type="danger" onClick={onMaidClickReject(bookingUser.employer_id)}>
           Send
         </Button>,
         <Button key="2" onClick={onShowModal("cancelVisible")}>
@@ -32,7 +32,7 @@ function ModalBookingCancel(props) {
         <Col>
           <p>
             <img
-              src="JessicaSpencer.png"
+              src={bookingUser.target_data.profile_img}
               alt=""
               width="150"
               className="BookingCard-CancelBooking"
@@ -54,7 +54,7 @@ function ModalBookingCancel(props) {
           <h3>ประเภทบ้าน :</h3>
         </Col>
         <Col span={12} className="BookingCard-Cancel-Detial">
-          <h3>คอนโด 1 ห้องนอน (ไม่เกิน 40 ตร.ม.)</h3>
+          <h3>{bookingUser.building_type}</h3>
         </Col>
       </Row>
       <Row>
@@ -62,7 +62,7 @@ function ModalBookingCancel(props) {
           <h3>ชั่วโมง :</h3>
         </Col>
         <Col span={12} className="BookingCard-Cancel-Hour">
-          <h3>2</h3>
+          <h3>{bookingUser.work_hour}</h3>
         </Col>
       </Row>
       <Row>
@@ -70,7 +70,7 @@ function ModalBookingCancel(props) {
           <h3>สถานที่ :</h3>
         </Col>
         <Col span={12} className="BookingCard-Cancel-Hour">
-          <h3>472/10 ถนนรองเมือง แขวงรองเมือง เขตปทุมวัน กทม 10330</h3>
+          <h3>{bookingUser.customer_location}</h3>
         </Col>
       </Row>
       <Row type="flex" justify="center">

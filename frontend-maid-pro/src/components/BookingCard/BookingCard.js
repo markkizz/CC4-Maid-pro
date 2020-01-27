@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./BookingCard.css";
 import { Row, Col, Divider } from "antd";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { FaMapMarkerAlt, FaBuilding, FaHome } from "react-icons/fa";
 import axios from "../../config/api.service";
 import ModalAccept from "../ModalBookingAccept/ModalBookingAccept";
 import ModalCancel from "../ModalBookingCancel/ModalBookingCancel";
@@ -52,8 +52,16 @@ export default class BookingCard extends Component {
       .catch(err => console.error(err));
   };
 
-  handleRejectMaid = employerId => ()=> {
-    console.log(employerId)
+  handleRejectMaid = employerId => async () => {
+    try {
+      await axios.put(`/bookings/maid/reject/${employerId}`, { reject_note: this.state.reason })
+      this.setState({
+        cancelVisible: false
+      })
+      this.props.handleFetchBooking()
+    } catch (err) {
+      console.error(err)
+    }
   };
 
   showModal = label => () => {
@@ -106,7 +114,7 @@ export default class BookingCard extends Component {
                     <FaMapMarkerAlt /> {bookingUser.customer_location}
                   </Col>
                   <Col className="BookingCard-BuildingType">
-                    {bookingUser.buildingType.startsWith('คอนโด') ? <FaBuilding /> : <FaHome />} {bookingUser.buildingType}
+                    {bookingUser.building_type.startsWith('คอนโด') ? <FaBuilding /> : <FaHome />} {bookingUser.building_type}
                   </Col>
                 </Row>
               </Col>

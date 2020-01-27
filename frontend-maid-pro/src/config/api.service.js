@@ -5,7 +5,7 @@ import store from '../redux/store/store'
 axios.defaults.baseURL = "http://localhost:3333";
 
 const TOKEN = "ACCESS_TOKEN";
-const PROTECTED_PATHS = ["/bookings/employers", "/bookings/maids", "/add-review", "/bookings/maid/complete", "/bookings/maid/accept"];
+const PROTECTED_PATHS = ["/bookings/employers", "/bookings/maids", "/add-review", "/bookings/maid/complete", "/bookings/maid/accept", "/bookings/maid/reject"];
 
 const parseUrl = url => {
   const arrUrl = url.split("/");

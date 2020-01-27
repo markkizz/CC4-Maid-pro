@@ -79,7 +79,7 @@ module.exports = db => {
         const newResult = maids.map((maid, i) => ({
           ...maid.dataValues,
           target_data: maidData[i],
-          buildingType: buildingTypes[i].dataValues.type
+          building_type: buildingTypes[i].dataValues.type
         }));
 
         if (newResult.length === 0) {
@@ -102,12 +102,22 @@ module.exports = db => {
         const maid = req.user;
         if (maid.type !== "MAID")
           res.status(401).json({ errorMessage: "Unauthorized" });
-        const result = await db.booking.findAll({
+        const employers = await db.booking.findAll({
           where: {
             maid_id: maid.id
-          }
+          },
+          include: db.buildingType
         });
-        const resultEmployerId = result.map(em => em.dataValues.employer_id);
+        let buildingTypes = []
+        for (const em of employers) {
+          const buildingTypeId = em.dataValues.building_type_id;
+          const buildingType = await db.building_type.findOne({
+            where: { id: buildingTypeId },
+            attributes: ['type']
+          });
+          buildingTypes.push(buildingType);
+        }
+        const resultEmployerId = employers.map(em => em.dataValues.employer_id);
         let employerData = [];
         for (let i = 0; i < resultEmployerId.length; i++) {
           let employer = await db.user.findOne({
@@ -116,9 +126,10 @@ module.exports = db => {
           });
           employerData.push(employer.dataValues);
         }
-        const newResult = result.map((em, i) => ({
+        const newResult = employers.map((em, i) => ({
           ...em.dataValues,
-          target_data: employerData[i]
+          target_data: employerData[i],
+          building_type: buildingTypes[i].dataValues.type
         }));
         if (newResult.length === 0) {
           res.status(204).json(newResult);
