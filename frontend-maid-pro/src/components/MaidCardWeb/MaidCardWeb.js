@@ -36,7 +36,7 @@ function MaidCardWeb(props) {
                 className="MaidCard-p"
                 style={{ paddingTop: 19, fontSize: 18 }}
               >
-                (555)
+                ({maid.number_of_reviews})
               </p>
             </Col>
           </Row>

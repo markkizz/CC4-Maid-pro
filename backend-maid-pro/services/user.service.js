@@ -169,7 +169,8 @@ module.exports = (db) => {
 
     findMaidsWithMaybeLimitOrderByAverageRatingDesc: async (limit) => {
       try {
-        const result = await repository.findMaidsWithMaybeLimitOrderByAverageRatingDesc(parseInt(limit));
+        let result = await repository.findMaidsWithMaybeLimitOrderByAverageRatingDesc(parseInt(limit));
+        result = result[0]
         if (result.length === 0) {
           return { httpStatus: 204, message: result };
         } else {

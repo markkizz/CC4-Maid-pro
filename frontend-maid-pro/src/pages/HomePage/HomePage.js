@@ -26,6 +26,7 @@ export class HomePage extends Component {
   componentDidMount = async () => {
     try {
       const {data} = await axios.get('/users/maids?limit=6')
+      console.log(data)
       this.setState({ topMaids: data });
     } catch (err) {
       console.error(err)
