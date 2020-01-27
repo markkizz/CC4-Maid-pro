@@ -11,6 +11,7 @@ import { FaBuilding, FaHome } from "react-icons/fa";
 import Carousel1 from '../../images/Carousel1.jpeg'
 import Carousel2 from '../../images/Carousel2.jpg'
 import Carousel3 from '../../images/Carousel3.jpg'
+import MaidCardWeb from '../../components/MaidCardWeb/MaidCardWeb'
 
 export class HomePage extends Component {
   state = {
@@ -87,7 +88,7 @@ export class HomePage extends Component {
                 <Col key={maid.id} span={12}>
                   <Row type="flex" justify="center" align="middle" style={{ marginBottom: "20px" }}>
                     <Col>
-                      <MaidCard maid={maid} />
+                      <MaidCardWeb maid={maid} />
                     </Col>
                   </Row>
                 </Col>

@@ -11,44 +11,44 @@ function MaidCardWeb(props) {
       style={{ width: 545, height: 330 }}
       bodyStyle={{ padding: 0 }}
     >
-      <Row type='flex'>
+      <Row type="flex">
         <Col>
-          <img className="height" src={maid.profile_img} alt="maid"  />
+          <img className="height" src={maid.profile_img} alt="maid" />
         </Col>
-
-        
-          <Col span={12} push={1} >
-           
-            <Row className="description">
-              <h3 style= {{ fontSize: 25}}>
-                {maid.first_name} {maid.last_name}
-              </h3>
-            </Row>
-            <Row className="MaidCard-Row" style={{display:'flex' }}>
-              <Col>
-                <Rate
-                  allowHalf
-                  disabled
-                  defaultValue={maid.average_rating}
-                  className="MaidCard-Rate"
-                  style={{fontSize: 30, paddingTop:2}}
-                />
-              </Col>
-              <Col>
-                <p className="MaidCard-p" style={{paddingTop:19, fontSize:18}}>(555)</p>
-              </Col>
-            </Row>    
-            <Row>
-              <Col>
-                <Card.Meta
-                  style={{ paddingTop:19,fontSize: 20 }}
-                  description={maid.about_maid.substr(0, 45) + "..."}
-                />
-              </Col>
-            </Row>
-            
-          </Col>
-        
+        <Col span={12} push={1}>
+          <Row className="description">
+            <h3 style={{ fontSize: 25 }}>
+              {maid.first_name} {maid.last_name}
+            </h3>
+          </Row>
+          <Row className="MaidCard-Row" style={{ display: "flex" }}>
+            <Col>
+              <Rate
+                allowHalf
+                disabled
+                defaultValue={maid.average_rating}
+                className="MaidCard-Rate"
+                style={{ fontSize: 30, paddingTop: 2 }}
+              />
+            </Col>
+            <Col>
+              <p
+                className="MaidCard-p"
+                style={{ paddingTop: 19, fontSize: 18 }}
+              >
+                (555)
+              </p>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Card.Meta
+                style={{ paddingTop: 19, fontSize: 20 }}
+                description={maid.about_maid.substr(0, 45) + "..."}
+              />
+            </Col>
+          </Row>
+        </Col>
       </Row>
     </Card>
   );
