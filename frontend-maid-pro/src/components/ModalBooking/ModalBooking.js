@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./ModalBooking.css";
 import { withRouter } from 'react-router-dom';
-import { Card, Row, Col, Input, Button, Icon, Form, Select, DatePicker, Upload, Modal, message } from "antd";
+import { Card, Row, Col, Input, Button, Icon, Form, Select, DatePicker, Upload, Modal } from "antd";
 import { FaClock, FaBook } from "react-icons/fa";
 import axios from '../../config/api.service'
 import { openBookingSuccessNotification, openBookingFailedNotification } from './ModalBooking.noti';
@@ -50,43 +50,46 @@ class ModalBooking extends Component {
   handleConfirm = (e) => {
     const { form } = this.props;
     e.preventDefault();
-    form.validateFieldsAndScroll();
-
-    const { customerLocation, workDate, workHour, fileList } = this.state;
-    const { maidId } = this.props;
-    let data = new FormData();
-    data.append("customerLocation", customerLocation);
-    data.append("workDate", workDate);
-    data.append("workHour", workHour);
-    data.append("photo", fileList[0]);
-    axios.post(`/bookings/maids/${maidId}`, data)
-      .then(result => {
-        this.props.history.push(`/maid/${maidId}`);
-        this.props.onCancel(false);
-        openBookingSuccessNotification('Your booking is successfully');
-      })
-      .catch(err => {
-        console.error(err);
-        if (err.response.data === 'Unauthorized') {
-          openBookingFailedNotification('Please login before create booking');
-          localStorage.removeItem('ACCESS_TOKEN');
-          localStorage.removeItem('store');
-          setTimeout(() => this.props.history.push('/login'), 1000);
-          return;
-        };
-        openBookingFailedNotification(err.response.data.errorMessage);
-      });
-    this.setState({
-      customerLocation: '',
-      workDate: '',
-      workHour: '',
-      fileList: [],
+    form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        const { customerLocation, workDate, workHour, fileList } = this.state;
+        const { maidId } = this.props;
+        let data = new FormData();
+        data.append("customerLocation", customerLocation);
+        data.append("workDate", workDate);
+        data.append("workHour", workHour);
+        data.append("photo", fileList[0]);
+        axios.post(`/bookings/maids/${maidId}`, data)
+          .then(result => {
+            this.props.history.push(`/maid/${maidId}`);
+            this.props.onCancel(false);
+            openBookingSuccessNotification('Your booking is successfully');
+          })
+          .catch(err => {
+            console.error(err);
+            if (err.response.data === 'Unauthorized') {
+              openBookingFailedNotification('Please login before create booking');
+              localStorage.removeItem('ACCESS_TOKEN');
+              localStorage.removeItem('store');
+              setTimeout(() => this.props.history.push('/login'), 1000);
+              return;
+            };
+            openBookingFailedNotification(err.response.data.errorMessage);
+          });
+        this.setState({
+          customerLocation: '',
+          workDate: '',
+          workHour: '',
+          fileList: [],
+        });
+        form.resetFields();
+      }
     });
-    form.resetFields();
   };
 
   render() {
     const { form, buildingServices, dataset } = this.props;
+    const { getFieldDecorator } = this.props.form;
     return (
       <Modal
         visible={this.props.visible}
@@ -153,13 +156,21 @@ class ModalBooking extends Component {
                   Date
                 </Col>
                 <Col span={16}>
-                  <DatePicker
-                    Format={'DD/MM/YYYY'}
-                    Value={this.handleDatePicker}
-                    format={dateFormatList}
-                    style={{ width: "100%" }}
-                    onChange={this.handleSelectWorkDate}
-                  />
+                  <Form.Item>
+                    {form.getFieldDecorator('DatePicker', {
+                      rules: [{
+                        required: true,
+                        message: 'Please select Date!',
+                      }]
+                    })}
+                    <DatePicker
+                      Format={'DD/MM/YYYY'}
+                      Value={this.handleDatePicker}
+                      format={dateFormatList}
+                      style={{ width: "100%" }}
+                      onChange={this.handleSelectWorkDate}
+                    />
+                  </Form.Item>
                 </Col>
               </Row>
 
@@ -173,16 +184,24 @@ class ModalBooking extends Component {
                   Hour
                 </Col>
                 <Col span={16}>
-                  <Select
-                    value={this.state.workHour}
-                    style={{ width: "100%" }}
-                    onChange={this.handleSelectHour}
-                  >
-                    <Option value="1">1</Option>
-                    <Option value="2">2</Option>
-                    <Option value="3">3</Option>
-                    <Option value="4">4</Option>
-                  </Select>
+                  <Form.Item>
+                    {form.getFieldDecorator('Hour', {
+                      rules: [{
+                        required: true,
+                        message: 'Please select Hour!',
+                      }]
+                    })}
+                    <Select
+                      value={this.state.workHour}
+                      style={{ width: "100%" }}
+                      onChange={this.handleSelectHour}
+                    >
+                      <Option value="1">1</Option>
+                      <Option value="2">2</Option>
+                      <Option value="3">3</Option>
+                      <Option value="4">4</Option>
+                    </Select>
+                  </Form.Item>
                 </Col>
               </Row>
 
@@ -196,7 +215,15 @@ class ModalBooking extends Component {
                   Price
                 </Col>
                 <Col input span={16}>
-                  <Input style={{ width: "100%" }} />
+                  <Form.Item>
+                    {form.getFieldDecorator('Price', {
+                      rules: [{
+                        required: true,
+                        message: 'do not change!'
+                      }]
+                    })}
+                    <Input style={{ width: "100%" }} />
+                  </Form.Item>
                 </Col>
               </Row>
               <Row
@@ -220,13 +247,21 @@ class ModalBooking extends Component {
                 align="middle"
               >
                 <Col span={16} offset={8}>
-                  <TextArea
-                    style={{ width: "100%" }}
-                    className="Bookbank_font"
-                    rows={2}
-                    placeholder="or not current address please enter your address"
-                    onChange={this.handleChange('customerLocation')}
-                  />
+                  <Form.Item>
+                    {form.getFieldDecorator('Price', {
+                      rules: [{
+                        required: true,
+                        message: 'do not change!'
+                      }]
+                    })}
+                    <TextArea
+                      style={{ width: "100%" }}
+                      className="Bookbank_font"
+                      rows={2}
+                      placeholder="or not current address please enter your address"
+                      onChange={this.handleChange('customerLocation')}
+                    />
+                  </Form.Item>
                 </Col>
               </Row>
               <Row className="ModalBooking-Margin">
@@ -240,13 +275,14 @@ class ModalBooking extends Component {
                 <Col className="ModalBooking_font" span={7} offset={1}>
                   Pay Slip Image
                 </Col>
-                <Form.Item>
-                  {/* {form.getFieldDecorator('file', {
-                    initialValue: dataset && dataset.filename ? dataset.filename : [],
-                    valuePropName: 'fileList',
-                    getValueFromEvent: this.normFile
-                  })( */}
-                  <Col span={16} style={{ width: "10%" }}>
+                <Col span={16} style={{ width: "10%" }}>
+                  <Form.Item>
+                    {form.getFieldDecorator('file', {
+                      rules: [{
+                        required: true,
+                        message: 'do not change!'
+                      }]
+                    })}
                     <Upload
                       beforeUpload={this.handleBeforeUpload}
                       onRemove={this.handleRemoveUpload}
@@ -256,9 +292,8 @@ class ModalBooking extends Component {
                         <Icon type="upload" /> Click to Upload
                         </Button>
                     </Upload>
-                  </Col>
-                  {/* )} */}
-                </Form.Item>
+                  </Form.Item>
+                </Col>
               </Row>
 
               <Row className="ModalBooking-Margin2">

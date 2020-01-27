@@ -14,7 +14,6 @@ module.exports = db => {
           order: [['id', 'DESC']],
           limit: 1
         });
-        console.log('reqBody', req.body)
         const bookingStatus = bookedUsers.length && bookedUsers[0].dataValues.status;
         if (bookingStatus === 'WAIT_FOR_ACCEPTANCE') {
           res.status(400).json({ errorMessage: "User already booked" });
