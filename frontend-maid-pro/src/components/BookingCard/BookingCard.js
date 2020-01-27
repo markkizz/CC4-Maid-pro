@@ -97,15 +97,16 @@ export default class BookingCard extends Component {
               <Col span={9}>
                 <Row className="BookingCard-Details">
                   <Col className="BookingCard-Customer">
-                    {bookingUser.target_data.first_name +
-                      " " +
-                      bookingUser.target_data.last_name}
+                    {bookingUser.target_data.first_name + " " + bookingUser.target_data.last_name}
                   </Col>
                   <Col className="BookingCard-Time">
                     {workStart + " - " + workEnd}
                   </Col>
                   <Col className="BookingCard-Address">
                     <FaMapMarkerAlt /> {bookingUser.customer_location}
+                  </Col>
+                  <Col className="BookingCard-BuildingType">
+                    {bookingUser.buildingType.startsWith('คอนโด') ? <FaBuilding /> : <FaHome />} {bookingUser.buildingType}
                   </Col>
                 </Row>
               </Col>
@@ -120,8 +121,7 @@ export default class BookingCard extends Component {
             <Divider className="BookingCard-HorizontalDivider" />
             <Row type="flex" align="middle" className="BookingCard-Status">
               <Col style={{ width: "100%" }}>
-                <DisplayStatus
-                  type={type}
+                <DisplayStatus type={type}
                   status={bookingUser.status}
                   onShowModal={this.showModal}
                   onClickMaidAcceptJob={this.handelMaidAcceptJob}

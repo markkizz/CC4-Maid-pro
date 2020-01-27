@@ -26,6 +26,10 @@ const pageComponents = {
   mybooking: {
     component: "MyBookingHistory",
     path: "/mybooking"
+  },
+  aboutus: {
+    component: "AboutUs",
+    path: "/aboutus"
   }
 };
 
@@ -40,6 +44,7 @@ export default {
       pageComponents.search,
       pageComponents.maidDescription,
       pageComponents.mybooking,
+      pageComponents.aboutus,
     ],
     redirect: '/'
   },
@@ -49,6 +54,7 @@ export default {
       pageComponents.search,
       pageComponents.maidDescription,
       pageComponents.mybooking,
+      pageComponents.aboutus,
     ],
     redirect: '/'
   },
@@ -61,6 +67,7 @@ export default {
       pageComponents.search,
       pageComponents.maidDescription,
       pageComponents.mybooking,
+      pageComponents.aboutus,
     ],
     redirect: '/login'
   }
