@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import "./ModalBooking.css";
-import { withRouter } from 'react-router-dom';
-import { Card, Row, Col, Input, Button, Icon, Form, Select, DatePicker, Upload, Modal } from "antd";
+import { withRouter, Link } from 'react-router-dom';
+import { Card, Row, Col, Input, Button, Icon, Form, Select, DatePicker, Upload, Modal, Checkbox } from "antd";
 import { FaClock, FaBook } from "react-icons/fa";
+import { connect } from 'react-redux'
 import axios from '../../config/api.service'
 import { openBookingSuccessNotification, openBookingFailedNotification } from './ModalBooking.noti';
 
@@ -13,17 +14,18 @@ const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 class ModalBooking extends Component {
   state = {
     visible: false,
-    customerLocation: '',
+    customerLocation: this.props.user,
     workDate: '',
     workHour: '1',
     price: 0,
     fileList: [],
-    buildingTypeId: ''
+    buildingTypeId: '',
+    checkedCurrentAddress: false
   };
 
   handleChange = label => e => {
     this.setState({ [label]: e.target.value });
-  };
+  }
 
   handleSelectWorkHour = value => {
     const calcPrice = this.props.maid.pricePerHour * value
@@ -37,6 +39,17 @@ class ModalBooking extends Component {
   handleSelectWorkDate = (value) => {
     this.setState({ workDate: value });
   };
+
+  handleCheckCurrentAddress = (e) => {
+    const { form, user } = this.props;
+    this.setState({ checkedCurrentAddress: e.target.checked });
+    if (e.target.checked) {
+      form.setFieldsValue({ location: user.address });
+      this.setState({ customerLocation: user.address })
+    } else {
+      this.setState({ customerLocation: '' })
+    }
+  }
 
   handleBeforeUpload = file => {
     this.setState(state => ({ fileList: [file] }));
@@ -54,6 +67,7 @@ class ModalBooking extends Component {
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const { customerLocation, workDate, workHour, fileList, buildingTypeId } = this.state;
+        console.log('customerLocation', customerLocation, JSON.stringify(customerLocation))
         const { maidId } = this.props;
         let data = new FormData();
         data.append("customerLocation", customerLocation);
@@ -83,6 +97,7 @@ class ModalBooking extends Component {
           workDate: '',
           workHour: '',
           fileList: [],
+          checkedCurrentAddress: false
         });
         form.resetFields();
       }
@@ -90,8 +105,8 @@ class ModalBooking extends Component {
   };
 
   render() {
-    const { form, buildingServices, dataset } = this.props;
-    const { getFieldDecorator } = this.props.form;
+    const { form, buildingServices, user } = this.props;
+    const { checkedCurrentAddress } = this.state;
     return (
       <Modal
         visible={this.props.visible}
@@ -231,7 +246,7 @@ class ModalBooking extends Component {
                   Location
                 </Col>
                 <Col className="ModalBooking_font" span={16}>
-                  Current address
+                  <Checkbox checked={checkedCurrentAddress} onChange={this.handleCheckCurrentAddress}>Current address</Checkbox>
                 </Col>
               </Row>
 
@@ -250,10 +265,11 @@ class ModalBooking extends Component {
                       }]
                     })(
                       <TextArea
-                        style={{ width: "100%" }}
+                        disabled={checkedCurrentAddress}
+                        style={{ width: "100%", color: 'rgba(0, 0, 0, 0.65)' }}
                         className="Bookbank_font"
                         rows={2}
-                        placeholder="or not current address please enter your address"
+                        // placeholder="or not current address please enter your address"
                         onChange={this.handleChange('customerLocation')}
                       />)}
                   </Form.Item>
@@ -261,8 +277,7 @@ class ModalBooking extends Component {
               </Row>
               <Row className="ModalBooking-Margin">
                 <Col className="ModalBooking3_font" span={16} offset={8}>
-                  **โอนเงินเข้าบัญชี ธนาคารเอบี สาขาราชเทวี เลขที่บัญชี
-                  012-3-99999-0**
+                  ดูช่องทางการชำระเงิน <Link to="/payment">ที่นี่</Link>
                 </Col>
               </Row>
 
@@ -317,4 +332,10 @@ class ModalBooking extends Component {
   }
 }
 
-export default withRouter(Form.create({})(ModalBooking));
+const mapStateToProps = (state) => ({
+  user: state.user
+})
+
+const FormBooking = Form.create({name: 'ModalBooking'})(ModalBooking);
+const ConnectFormBooking = connect(mapStateToProps, null)(FormBooking)
+export default withRouter(ConnectFormBooking);
