@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./BookingCard.css";
 import { Row, Col, Divider, Button } from "antd";
-import { FaMapMarkerAlt, FaRegClock, FaRegCheckCircle } from "react-icons/fa";
+import { FaMapMarkerAlt, FaRegClock, FaRegCheckCircle, FaBuilding, FaHome } from "react-icons/fa";
 import axios from "../../config/api.service";
 import ModalAccept from "../ModalBookingAccept/ModalBookingAccept";
 import ModalCancel from "../ModalBookingCancel/ModalBookingCancel";
@@ -85,15 +85,16 @@ export default class BookingCard extends Component {
               <Col span={9}>
                 <Row className="BookingCard-Details">
                   <Col className="BookingCard-Customer">
-                    {bookingUser.target_data.first_name +
-                      " " +
-                      bookingUser.target_data.last_name}
+                    {bookingUser.target_data.first_name + " " + bookingUser.target_data.last_name}
                   </Col>
                   <Col className="BookingCard-Time">
                     {workStart + " - " + workEnd}
                   </Col>
                   <Col className="BookingCard-Address">
                     <FaMapMarkerAlt /> {bookingUser.customer_location}
+                  </Col>
+                  <Col className="BookingCard-BuildingType">
+                    {bookingUser.buildingType.startsWith('คอนโด') ? <FaBuilding /> : <FaHome />} {bookingUser.buildingType}
                   </Col>
                 </Row>
               </Col>
@@ -108,8 +109,7 @@ export default class BookingCard extends Component {
             <Divider className="BookingCard-HorizontalDivider" />
             <Row type="flex" align="middle" className="BookingCard-Status">
               <Col style={{ width: "100%" }}>
-                <DisplayStatus
-                  type={type}
+                <DisplayStatus type={type}
                   status={bookingUser.status}
                   onShowModal={this.showModal}
                 />

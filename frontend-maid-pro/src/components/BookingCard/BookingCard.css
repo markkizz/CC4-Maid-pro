@@ -1,9 +1,9 @@
 .BookingCard-Body {
-  padding: 0px 0.5rem;
+  padding: 0 0.5rem;
 }
 
 .BookingCard-BodyTop {
-  padding: 0.5rem 0px;
+  padding: 0.5rem 0;
   color: black;
 }
 
@@ -32,9 +32,9 @@
   font-size: 16px;
 }
 
-.BookingCard-Address {
+.BookingCard-Address, .BookingCard-BuildingType {
   padding-top: 5%;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .BookingCard-MaidPhoto {
@@ -44,11 +44,11 @@
 }
 
 .BookingCard-HorizontalDivider {
-  margin: 0px;
+  margin: 0;
 }
 
 .BookingCard-BodyBottom {
-  padding: 0.5rem 0px;
+  padding: 0.5rem 0;
 }
 
 .BookingCard-Cancel {
