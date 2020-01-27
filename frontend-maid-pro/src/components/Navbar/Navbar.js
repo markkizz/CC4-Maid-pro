@@ -54,7 +54,7 @@ export default class Navbar extends Component {
                     <Button icon="credit-card" className="Navbar-DrawerButtons">Payment</Button>
                   </Col>
                 </Link>
-                <Link to="/">
+                <Link to="/aboutus">
                   <Col>
                     <Button icon="user" className="Navbar-DrawerButtons">About Us</Button>
                   </Col>
@@ -91,7 +91,7 @@ export default class Navbar extends Component {
               <Link to="/">
                 <Button className="Navbar-MenuButton">Payment</Button>
               </Link>
-              <Link to="/">
+              <Link to="/aboutus">
                 <Button className="Navbar-MenuButton">About Us</Button>
               </Link>
               <Link to="/login">
