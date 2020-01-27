@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch } from "react-router-dom";
+import { Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import PrivateRoute from "./components/routes/PrivateRoute";
 
@@ -8,6 +8,7 @@ import PrivateRoute from "./components/routes/PrivateRoute";
 export class App extends Component {
   render() {
     const { role } = this.props.user;
+    window.appHistory = this.props.history
     return (
       <>
         <Switch>
@@ -23,4 +24,4 @@ const mapStateToProps = state => {
     user: state.user
   };
 };
-export default connect(mapStateToProps, null)(App);
+export default withRouter(connect(mapStateToProps, null)(App));

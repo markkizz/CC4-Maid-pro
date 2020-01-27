@@ -3,7 +3,7 @@ import "./LoginPage.css";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import { Row, Col, Input, Icon, Button, Divider, Form } from "antd";
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Logo from "../../images/maidProServiceLoginLogo.png";
 import { MdLockOutline } from "react-icons/md";
 import axios from "../../config/api.service";

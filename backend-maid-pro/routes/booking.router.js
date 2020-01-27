@@ -12,4 +12,6 @@ module.exports = (server, db) => {
   server.put('/bookings/maid/accept/:employerId', passport.authenticate('jwt', { session: false }), controller.maidAcceptBooking);
 
   server.put('/bookings/maid/reject/:employerId', passport.authenticate('jwt', { session: false }), controller.maidRejectBooking);
+
+  server.put('/bookings/maid/complete/:maidId', passport.authenticate('jwt', { session: false }), controller.maidCompleteCleaning)
 };
