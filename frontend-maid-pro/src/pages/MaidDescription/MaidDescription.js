@@ -38,17 +38,17 @@ class MaidDescription extends Component {
   };
 
   handleCancel = e => {
-    this.setState({ visible: false, });
+    this.setState({ visible: false });
   };
 
-  isServiceType = (servicesList, type) => {
+  isServiceType = (services, type) => {
     let flag = false;
-    servicesList.map(service => {
+    (services.length > 0) && services.forEach(service => {
       if (service.type.startsWith(type)) {
         flag = true
       }
     });
-    return flag
+    return flag;
   };
 
   render() {
@@ -141,7 +141,9 @@ class MaidDescription extends Component {
               >
                 Booking
               </Button>
-              <ModalBooking buildingServices={maid.buildingServices} maidId={maid.id} visible={this.state.visible} onCancel={this.handleCancel} />
+              <ModalBooking buildingServices={maid.buildingServices} maidId={maid.id}
+                            visible={this.state.visible} onCancel={this.handleCancel}
+              />
               <Col span={24} className="MaidDescription-Booking">
                 <h4>REVIEWS</h4>
               </Col>

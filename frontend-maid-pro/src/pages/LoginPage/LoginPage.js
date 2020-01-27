@@ -18,6 +18,10 @@ class LoginPage extends Component {
     password: ""
   };
 
+  componentDidMount = () => {
+    this.setState({ ...this.state });
+  };
+
   handleChange = label => e => {
     this.setState({
       [label]: e.target.value

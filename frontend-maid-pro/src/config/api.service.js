@@ -53,8 +53,9 @@ axios.interceptors.response.use(
     if (error.request.status === 401 && isProtectedPath(url)) {
       console.log("Session expire, redirect to login");
 
-      localStorage.removeItem(TOKEN);
       store.dispatch({ type: USER_LOGOUT });
+      localStorage.removeItem(TOKEN);
+      localStorage.removeItem('store');
     }
 
     throw error;

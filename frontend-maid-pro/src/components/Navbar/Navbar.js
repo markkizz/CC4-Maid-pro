@@ -3,9 +3,18 @@ import './Navbar.css'
 import { Row, Col, Icon, Drawer, Button } from 'antd'
 import Logo from '../../images/maidProServiceLogo.png'
 import { Link } from "react-router-dom";
+import ModalSearch from "../../components/ModalSearch/ModalSearch";
 
 export default class Navbar extends Component {
-  state = { visible: false };
+  state = { visible: false,
+            modalVisible: false
+  };
+
+  handleModalVisible = () => {
+    this.setState(state => ({
+      modalVisible: !state.modalVisible
+    }));
+  };
 
   showDrawer = () => {
     this.setState({
@@ -20,7 +29,9 @@ export default class Navbar extends Component {
   };
 
   render() {
+    const { modalVisible } = this.state;
     return (
+      <>
       <div>
         <Row type="flex" align="middle" className="Navbar-Body">
           <Col span={4}>
@@ -30,7 +41,7 @@ export default class Navbar extends Component {
           </Col>
           <Col span={20}>
             <Row type="flex" justify="end">
-              <Icon type="search" className="Navbar-Icon" />
+              <Icon type="search" className="Navbar-Icon" onClick={this.handleModalVisible}/>
               <Icon type="menu" className="Navbar-Icon" onClick={this.showDrawer} />
               <Drawer
                 title="Menu"
@@ -111,6 +122,11 @@ export default class Navbar extends Component {
         </Row>
         <Row className="Navbar-Border" />
       </div>
+      <ModalSearch
+      onCancel={this.handleModalVisible}
+      visible={modalVisible}
+      />
+      </>
     )
   }
 }
