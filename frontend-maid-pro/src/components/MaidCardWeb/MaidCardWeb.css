@@ -1,59 +1,57 @@
-.MaidCard-card {
+.MaidCardWeb-card {
   /* width: 545px;
   height: 330px; */
   border-radius: 10px;
-
 }
-.MaidCard-card > div{
+.MaidCardWeb-card > div {
   /* border: 1px solid; */
   height: 100%;
 }
 
-.MaidCard-card > div > div{
+.MaidCardWeb-card > div > div {
   /* border: 1px solid; */
   height: 100%;
 }
 
-.MaidCard-card img.height {
+.MaidCardWeb-card img.height {
   object-fit: cover;
-  width: 245px;
-  border-top-left-radius:10px ;
+  width: 165px;
+  border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   height: 100%;
   /* height: 330px;  */
-  
 }
 
-.MaidCard-Row {
+.MaidCardWeb-Row {
   /* position: relative; */
   top: 0px;
 }
 
-.MaidCard-Rate {
-  width: 200px;
-  height: 10px;
-  
+.MaidCardWeb-Rate {
+  width: 135px;
+  height: fit-content;
 }
 
-.MaidCard-p {
+.MaidCardWeb-p {
   width: 20px;
   /* height: 0px; */
   /* text-align: right; */
-
 }
 
-.MaidCard-description {
+.MaidCardWeb-description {
   width: 100%;
-  font-size: 20px;
+  font-size: 10px;
 }
 
-.bg{
-  background-color: red
+.bg {
+  background-color: red;
 }
 
-.description{
-  padding-top: 30px;
-  
+.description {
+  padding-top: 8px;
 }
 
-
+.MaidCardWeb-center {
+  display: flex;
+  align-items: flex-end;
+}
