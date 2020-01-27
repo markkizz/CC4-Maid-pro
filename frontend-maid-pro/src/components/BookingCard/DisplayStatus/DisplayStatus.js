@@ -20,7 +20,7 @@ function MainComponent(props) {
     Component = RenderComplete
   }
   return (
-    <Component onShowModal={onShowModal} />
+    <Component {...props} />
   );
 }
 
@@ -86,7 +86,7 @@ const RenderCustomerRequest = (props) => (
     </Button>
     <Button
       className="BookingCard-Accept"
-      onClick={props.onShowModal("acceptVisible")}
+      onClick={props.onClickMaidAcceptJob(props.bookingUser.id)}
     >
       Accept
     </Button>

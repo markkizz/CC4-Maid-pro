@@ -1,11 +1,11 @@
 import axios from "axios";
-import { USER_LOGOUT } from "../redux/actions/actions";
-import store from "../redux/store/store";
+import {logout} from '../redux/actions/actions'
+import store from '../redux/store/store'
 
 axios.defaults.baseURL = "http://localhost:3333";
 
 const TOKEN = "ACCESS_TOKEN";
-const PROTECTED_PATHS = ["/bookings/employers", "/bookings/maids"];
+const PROTECTED_PATHS = ["/bookings/employers", "/bookings/maids", "/add-review", "/bookings/maid/complete"];
 
 const parseUrl = url => {
   const arrUrl = url.split("/");
@@ -44,17 +44,15 @@ axios.interceptors.response.use(
   },
   async error => {
     if (error.request === undefined) throw error;
-
-    let url = error.request.responseURL;
-    if (error.request.status === 401) {
-      throw error;
-    }
+    let url = error.request.responseURL.split('http://localhost:3333')[1];
 
     if (error.request.status === 401 && isProtectedPath(url)) {
       console.log("Session expire, redirect to login");
+      store.dispatch(logout())
+    }
 
-      localStorage.removeItem(TOKEN);
-      store.dispatch({ type: USER_LOGOUT });
+    if (error.request.status === 401) {
+      throw error;
     }
 
     throw error;

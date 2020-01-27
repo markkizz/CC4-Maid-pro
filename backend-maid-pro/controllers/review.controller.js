@@ -11,6 +11,7 @@ function calculateNewAverageRating(oldRatingList, newRating) {
 
 exports.addReview = async function (req, res, next) {
   try {
+    console.log('inside add review')
     const { rating, content } = req.body;
     const { maid_id } = req.params;
     const ratingReview = await db.review.findAll({ where: { maid_id, employer_id: req.user.id } });

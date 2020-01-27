@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { selectedMaid } from '../../redux/actions/actions'
-import axios from "axios";
+import axios from "../../config/api.service";
 import "./MyBookingHistory.css";
 import Navbar from "../../components/Navbar/Navbar";
 import BookingCard from "../../components/BookingCard/BookingCard";
@@ -19,6 +18,10 @@ class MyBookingHistory extends Component {
     history: []
   };
 
+  compareTwoArray = (arr1, arr2) => {
+    return JSON.stringify(arr1) !== JSON.stringify(arr2)
+  }
+
   filterUserStatus = users => {
     const history = [];
     const upcomming = [];
@@ -29,23 +32,25 @@ class MyBookingHistory extends Component {
         ? history.push(user)
         : upcomming.push(user);
     });
-    this.setState(
-      () => ({
+    if(this.compareTwoArray(history, this.state.history) && this.compareTwoArray(upcomming, this.state.upcomming)){
+      this.setState({
         upcomming,
         history
-      }),
-      () => console.log(this.state)
-    );
-    console.log("history", history);
-    console.log("upcomming", upcomming);
+      });
+    }
   };
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
+    this.handleFetchBooking()
+  };
+
+  handleFetchBooking = async () => {
     const {type } = this.props.user;
     if (type === "EMPLOYER") {
       try {
         const { data } = await axios.get("/bookings/employers");
         this.filterUserStatus(data);
+
       } catch (e) {
         console.error(e);
       }
@@ -57,7 +62,7 @@ class MyBookingHistory extends Component {
         console.error(err)
       }
     }
-  };
+  }
 
   render() {
     const { history, upcomming } = this.state;
@@ -78,7 +83,7 @@ class MyBookingHistory extends Component {
                 {upcomming.map((bookingUser, i) => (
                   <Row key={i}>
                     <Col>
-                      <BookingCard bookingUser={bookingUser} type={type} />
+                      <BookingCard bookingUser={bookingUser} type={type} handleFetchBooking={this.handleFetchBooking} />
                     </Col>
                   </Row>
                 ))}
@@ -87,7 +92,7 @@ class MyBookingHistory extends Component {
                 {history.map((bookingUser, i) => (
                   <Row key={i}>
                     <Col>
-                      <BookingCard bookingUser={bookingUser} type={type} />
+                      <BookingCard bookingUser={bookingUser} type={type} handleFetchBooking={this.handleFetchBooking} />
                     </Col>
                   </Row>
                 ))}

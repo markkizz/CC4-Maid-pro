@@ -57,7 +57,7 @@ module.exports = db => {
         for (let i = 0; i < resultMaidId.length; i++) {
           let maid = await db.user.findOne({
             where: { id: resultMaidId[i] },
-            attributes: ["username", "first_name", "last_name", "profile_img"]
+            attributes: ["id", "username", "first_name", "last_name", "profile_img"]
           });
           maidData.push(maid.dataValues);
         }
@@ -93,7 +93,7 @@ module.exports = db => {
         for (let i = 0; i < resultEmployerId.length; i++) {
           let employer = await db.user.findOne({
             where: { id: resultEmployerId[i] },
-            attributes: ["username", "first_name", "last_name", "profile_img"]
+            attributes: ["id", "username", "first_name", "last_name", "profile_img"]
           });
           employerData.push(employer.dataValues);
         }
