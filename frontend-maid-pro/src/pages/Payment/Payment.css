@@ -1,6 +1,7 @@
 .Payment-Content {
   margin-top: 3rem;
   color: black;
+  min-height: 88vh;
 }
 
 .Payment-Instructions {
@@ -20,34 +21,59 @@
 
 .Payment-LastTableRow {
   border-bottom: 1px solid #ccc;
+  margin-bottom: 1.4rem;
 }
 
 .Payment-BankLogo {
   border-radius: 50%;
   min-width: 45px;
   max-width: 60px;
+  margin-left: 5%;
 }
 
 .Payment-BankNameKBank {
   font-size: 18px;
+  font-weight: 450;
   color: #30b456;
 }
 
 .Payment-BankNameSCB {
   font-size: 18px;
+  font-weight: 450;
   color: #4b2785;
 }
 
 .Payment-BankNameBBL {
   font-size: 18px;
+  font-weight: 450;
   color: #101082;
 }
 
 .Payment-BankNameKTB {
   font-size: 18px;
+  font-weight: 450;
   color: #00a4e4;
+}
+
+.Payment-AccountNumber {
+  font-size: 18px;
+  font-weight: 425;
+}
+
+.Payment-ListNumberTwo {
+  line-height: 2;
+}
+
+.Payment-ListNumberFour {
+  margin-bottom: 4rem;
 }
 
 .Payment-MarginBottomHalfRem {
   margin-bottom: 0.5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .Payment-Content {
+    /* display: none; */
+  }
 }
