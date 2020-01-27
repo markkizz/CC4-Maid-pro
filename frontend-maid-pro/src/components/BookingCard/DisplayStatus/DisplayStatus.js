@@ -95,16 +95,16 @@ const RenderCustomerRequest = (props) => (
 
 // * CanRefactor
 // when user cancel job
-const RenderCancel = () => (
-  <Row type="flex" align="middle" gutter={[8, 16]}>
-    <Col>
-      <FaRegTimesCircle className="DisplayStatus-Cancel" />
-    </Col>
-    <Col className="DisplayStatus-p">
-      <p>Cancel Job</p>
-    </Col>
-  </Row>
-)
+// const RenderCancel = () => (
+//   <Row type="flex" align="middle" gutter={[8, 16]}>
+//     <Col>
+//       <FaRegTimesCircle className="DisplayStatus-Cancel" />
+//     </Col>
+//     <Col className="DisplayStatus-p">
+//       <p>Cancel Job</p>
+//     </Col>
+//   </Row>
+// )
 
 // * CanRefactor
 const RenderAccept = () => (

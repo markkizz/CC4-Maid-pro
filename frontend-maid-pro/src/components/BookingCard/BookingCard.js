@@ -46,7 +46,10 @@ export default class BookingCard extends Component {
   };
 
   handelMaidAcceptJob = employerId => () => {
-    console.log(employerId);
+    axios
+      .put(`/bookings/maid/accept/${employerId}`)
+      .then(() => this.props.handleFetchBooking())
+      .catch(err => console.error(err));
   };
 
   handleRejectMaid = () => {};

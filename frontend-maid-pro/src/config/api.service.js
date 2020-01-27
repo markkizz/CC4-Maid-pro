@@ -5,7 +5,7 @@ import store from '../redux/store/store'
 axios.defaults.baseURL = "http://localhost:3333";
 
 const TOKEN = "ACCESS_TOKEN";
-const PROTECTED_PATHS = ["/bookings/employers", "/bookings/maids", "/add-review", "/bookings/maid/complete"];
+const PROTECTED_PATHS = ["/bookings/employers", "/bookings/maids", "/add-review", "/bookings/maid/complete", "/bookings/maid/accept"];
 
 const parseUrl = url => {
   const arrUrl = url.split("/");
@@ -45,7 +45,7 @@ axios.interceptors.response.use(
   async error => {
     if (error.request === undefined) throw error;
     let url = error.request.responseURL.split('http://localhost:3333')[1];
-
+    console.log(error.request.status === 401 && isProtectedPath(url))
     if (error.request.status === 401 && isProtectedPath(url)) {
       console.log("Session expire, redirect to login");
       store.dispatch(logout())

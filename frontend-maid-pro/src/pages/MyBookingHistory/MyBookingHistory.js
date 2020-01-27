@@ -15,54 +15,62 @@ function callback(key) {
 class MyBookingHistory extends Component {
   state = {
     upcomming: [],
-    history: []
+    upcommingStatus: [],
+    history: [],
+    historyStatus: []
   };
 
   compareTwoArray = (arr1, arr2) => {
-    return JSON.stringify(arr1) !== JSON.stringify(arr2)
-  }
+    return JSON.stringify(arr1) !== JSON.stringify(arr2);
+  };
 
   filterUserStatus = users => {
     const history = [];
     const upcomming = [];
     users.forEach(user => {
-      user.status === "REJECT" ||
-      user.status === "CANCEL" ||
-      user.status === "FINISHED"
-        ? history.push(user)
-        : upcomming.push(user);
+      if (
+        user.status === "REJECT" ||
+        user.status === "CANCEL" ||
+        user.status === "FINISHED"
+      ) {
+        history.push(user);
+      } else {
+        upcomming.push(user);
+      }
     });
-    if(this.compareTwoArray(history, this.state.history) && this.compareTwoArray(upcomming, this.state.upcomming)){
+    if (
+      this.compareTwoArray(history, this.state.history) ||
+      this.compareTwoArray(upcomming, this.state.upcomming)
+    ) {
       this.setState({
         upcomming,
-        history
+        history,
       });
     }
   };
 
   componentDidMount = () => {
-    this.handleFetchBooking()
+    this.handleFetchBooking();
   };
 
   handleFetchBooking = async () => {
-    const {type } = this.props.user;
+    const { type } = this.props.user;
     if (type === "EMPLOYER") {
       try {
         const { data } = await axios.get("/bookings/employers");
         this.filterUserStatus(data);
-
       } catch (e) {
         console.error(e);
       }
     } else if (type === "MAID") {
       try {
         const { data } = await axios.get("/bookings/maids/");
-        this.filterUserStatus(data)
+        this.filterUserStatus(data);
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
     }
-  }
+  };
 
   render() {
     const { history, upcomming } = this.state;
@@ -83,7 +91,11 @@ class MyBookingHistory extends Component {
                 {upcomming.map((bookingUser, i) => (
                   <Row key={i}>
                     <Col>
-                      <BookingCard bookingUser={bookingUser} type={type} handleFetchBooking={this.handleFetchBooking} />
+                      <BookingCard
+                        bookingUser={bookingUser}
+                        type={type}
+                        handleFetchBooking={this.handleFetchBooking}
+                      />
                     </Col>
                   </Row>
                 ))}
@@ -92,7 +104,11 @@ class MyBookingHistory extends Component {
                 {history.map((bookingUser, i) => (
                   <Row key={i}>
                     <Col>
-                      <BookingCard bookingUser={bookingUser} type={type} handleFetchBooking={this.handleFetchBooking} />
+                      <BookingCard
+                        bookingUser={bookingUser}
+                        type={type}
+                        handleFetchBooking={this.handleFetchBooking}
+                      />
                     </Col>
                   </Row>
                 ))}
