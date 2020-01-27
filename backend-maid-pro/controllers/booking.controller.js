@@ -21,7 +21,7 @@ module.exports = db => {
         let photo = req.files.photo;
         let photoName = new Date().getTime() + ".jpeg";
         photo.mv("./uploads/" + photoName);
-        url = `http://localhost:8080/${photoName}`
+        const url = `http://localhost:8080/${photoName}`;
         const result = await db.booking.create({
           customer_location: req.body.customerLocation,
           work_date: req.body.workDate,
@@ -30,6 +30,7 @@ module.exports = db => {
           pay_slip_image: url,
           employer_id: req.user.id,
           maid_id: maidId,
+          building_type_id: req.body.buildingTypeId
         });
         if (result.length === 0) {
           res.status(204).json({ result });
@@ -50,14 +51,23 @@ module.exports = db => {
     findBookingsByEmployerId: async (req, res) => {
       try {
         const employer = req.user;
-        if (employer.type !== "EMPLOYER")
-          res.status(400).json({ errorMessage: "Unauthorized" });
-        const result = await db.booking.findAll({
+        if (employer.type !== "EMPLOYER") res.status(400).json({ errorMessage: "Unauthorized" });
+        const maids = await db.booking.findAll({
           where: {
             employer_id: employer.id
-          }
+          },
+          include: db.buildingType,
         });
-        const resultMaidId = result.map(maid => maid.dataValues.maid_id);
+        const buildingTypes = [];
+        for (const maid of maids) {
+          const buildingTypeId = maid.dataValues.building_type_id;
+          const buildingType = await db.building_type.findOne({
+            where: { id: buildingTypeId },
+            attributes: ['type']
+          });
+          buildingTypes.push(buildingType);
+        }
+        const resultMaidId = maids.map(maid => maid.dataValues.maid_id);
         let maidData = [];
         for (let i = 0; i < resultMaidId.length; i++) {
           let maid = await db.user.findOne({
@@ -66,22 +76,26 @@ module.exports = db => {
           });
           maidData.push(maid.dataValues);
         }
-        const newResult = result.map((maid, i) => ({
+        const newResult = maids.map((maid, i) => ({
           ...maid.dataValues,
-          target_data: maidData[i]
+          target_data: maidData[i],
+          buildingType: buildingTypes[i].dataValues.type
         }));
+
         if (newResult.length === 0) {
           res.status(204).json(newResult);
         } else {
           res.status(200).json(newResult);
         }
       } catch (err) {
+        console.error(err);
         if (err.message.includes("ECONNREFUSED")) {
           res.status(500).json({ errorMessage: "Database server error" });
         }
         res.status(400).json({ errorMessage: err.message });
       }
     },
+
     // maid history
     findBookingsByMaidId: async (req, res) => {
       try {

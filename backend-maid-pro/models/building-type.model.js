@@ -31,6 +31,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
+    buildingType.hasOne(models.booking, {
+      foreignKey: { name: 'building_type_id', allowNull: false }
+    });
   };
 
   return buildingType
