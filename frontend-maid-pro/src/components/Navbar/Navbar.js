@@ -17,7 +17,7 @@ class Navbar extends Component {
   };
 
   renderMenuDropdown = role => {
-    const { logout } = this.props;
+    const { logout, bookingCount } = this.props;
     const guestMenu = (
       <Menu>
         <Menu.Item className="Navbar-MenuDropdown">
@@ -34,7 +34,7 @@ class Navbar extends Component {
     const userMenu = (
       <Menu>
         <Menu.Item>
-          <CustomBadge count={5}>
+          <CustomBadge count={bookingCount}>
             <Link to="/mybooking" className="Navbar-MenuDropdown">
               My Booking
             </Link>
@@ -79,8 +79,8 @@ class Navbar extends Component {
   };
 
   render() {
-    const { modalVisible } = this.state;
-    const { user } = this.props;
+    const { modalVisible, isDropdownVisible } = this.state;
+    const { user, bookingCount } = this.props;
     const { role } = user;
     return (
       <>
@@ -201,10 +201,12 @@ class Navbar extends Component {
                 >
                   <Button className="Navbar-MenuButton Navbar-Center">
                     {role !== "guest" ? (
-                      <img
-                        src={user.profile_img}
-                        className="Navbar-imgDropdown"
-                      />
+                      <CustomBadge count={bookingCount} showBadge={isDropdownVisible}>
+                        <img
+                          src={user.profile_img}
+                          className="Navbar-imgDropdown"
+                        />
+                      </CustomBadge>
                     ) : (
                       <FaUserCircle />
                     )}
@@ -225,7 +227,8 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  bookingCount: state.badge.newBookingCounter
 });
 
 const mapDispatchToProps = dispatch => ({

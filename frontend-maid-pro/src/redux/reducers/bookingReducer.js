@@ -1,7 +1,7 @@
 import { badgeBookingTypes } from '../actions/types'
 
 const initialState = {
-  newBookingCouter: 0
+  newBookingCounter: 0
 }
 
 // increaseNewBookingBadge, decreaseNewBookingBadge
@@ -11,12 +11,12 @@ function bookingBadgeReducer(state = initialState, action) {
     case badgeBookingTypes.INCREASE_NEW_BOOKING_BADGE:
       return {
         ...state,
-        newBookingCouter: state.newBookingCouter + 1
+        newBookingCounter: action.payload
       }
     case badgeBookingTypes.DECREASE_NEW_BOOKING_BADGE:
       return {
         ...state,
-        newBookingCouter: state.newBookingCouter - 1
+        newBookingCounter: state.newBookingCounter - 1
       }
     default:
       return state

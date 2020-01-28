@@ -2,10 +2,10 @@ import React from 'react'
 import { Badge } from 'antd'
 
 function CustomBadge(props) {
-  const {count} = props
+  const {count, showBadge} = props
   return (
     <>
-      {count ? (
+      {count && !showBadge ? (
         <Badge count={count}>{props.children}</Badge>
       ) : (
         <>{props.children}</>

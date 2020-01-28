@@ -5,6 +5,7 @@ import "./MyBookingHistory.css";
 import Navbar from "../../components/Navbar/Navbar";
 import BookingCard from "../../components/BookingCard/BookingCard";
 import { Row, Col, Tabs, BackTop } from "antd";
+import { increaseNewBookingCounter } from "../../redux/actions/actions";
 
 const { TabPane } = Tabs;
 
@@ -19,6 +20,7 @@ class MyBookingHistory extends Component {
   };
 
   filterUserStatus = users => {
+    const {countingMyBooking} = this.props
     const history = [];
     const upcomming = [];
     users.forEach(user => {
@@ -32,15 +34,23 @@ class MyBookingHistory extends Component {
         upcomming.push(user);
       }
     });
-    if (
-      this.compareTwoArray(history, this.state.history) ||
-      this.compareTwoArray(upcomming, this.state.upcomming)
-    ) {
+    const numberOfUpcomming = upcomming.length
       this.setState({
         upcomming,
         history
       });
-    }
+      countingMyBooking(numberOfUpcomming)
+    // if (
+    //   this.compareTwoArray(history, this.state.history) ||
+    //   this.compareTwoArray(upcomming, this.state.upcomming)
+    // ) {
+    //   const numberOfUpcomming = upcomming.length
+    //   this.setState({
+    //     upcomming,
+    //     history
+    //   });
+    //   countingMyBooking(numberOfUpcomming)
+    // }
   };
 
   componentDidMount = async () => {
@@ -79,7 +89,7 @@ class MyBookingHistory extends Component {
               className="MyBookingHistory-Tabs"
             >
               {/* Upcomming tab for accept, cancel and complete for user both employer and maid */}
-              <TabPane tab="Upcoming" key="1">
+              <TabPane tab="Upcoming" key="1" forceRender>
                 {/* month, day, name, workHourToTime, location, status* */}
                 {upcomming.length > 0 &&
                   upcomming.map((bookingUser, i) => (
@@ -94,7 +104,7 @@ class MyBookingHistory extends Component {
                     </Row>
                   ))}
               </TabPane>
-              <TabPane tab="History" key="2">
+              <TabPane tab="History" key="2" forceRender>
                 {history.length > 0 &&
                   history.map((bookingUser, i) => (
                     <Row key={i}>
@@ -121,4 +131,8 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps, null)(MyBookingHistory);
+const mapDispatchToProps = dispatch => ({
+  countingMyBooking:(numberOfBooking) => dispatch(increaseNewBookingCounter(numberOfBooking))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyBookingHistory);

@@ -49,12 +49,13 @@ export const filterSearch = data => {
     payload: data
   }
 };
-export const increaseNewBookingCouter = () => {
+export const increaseNewBookingCounter = numberOfBooking => {
   return {
     type: badgeBookingTypes.INCREASE_NEW_BOOKING_BADGE,
+    payload: numberOfBooking
   }
 };
-export const decreaseNewBookingCouter = () => {
+export const decreaseNewBookingCounter = () => {
   return {
     type: badgeBookingTypes.DECREASE_NEW_BOOKING_BADGE,
   }
