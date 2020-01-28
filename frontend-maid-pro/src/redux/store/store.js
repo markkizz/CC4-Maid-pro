@@ -33,14 +33,16 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_D
 const store = createStore(
   reducers,
   persistStore,
-  composeEnhancers(
-    applyMiddleware(...middlewares)
+  compose(
+    applyMiddleware(...middlewares),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
 
 store.subscribe(() => {
   const { role } = store.getState().user;
   if (role === "guest") {
+    console.log('is guest now')
     window.appHistory.push("/login");
   }
   saveState(store.getState());

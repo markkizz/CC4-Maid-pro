@@ -75,7 +75,8 @@ module.exports = (db) => {
                 type: user.type,
                 first_name: user.first_name,
                 last_name: user.last_name,
-                address: user.address
+                address: user.address,
+                profile_img: user.profile_img
               },
               jwtOptions.secretOrKey, {
                 expiresIn: 3600
