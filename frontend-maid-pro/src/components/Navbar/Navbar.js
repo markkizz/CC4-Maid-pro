@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { logout } from "../../redux/actions/actions";
+import { logout, thunk_action_mybooking } from "../../redux/actions/actions";
 import "./Navbar.css";
 import { Row, Col, Icon, Drawer, Button, Menu, Dropdown } from "antd";
 import Logo from "../../images/maidProServiceLogo.png";
@@ -15,6 +15,10 @@ class Navbar extends Component {
     modalVisible: false,
     isDropdownVisible: false
   };
+
+  componentDidMount = () => {
+    this.props.fetchMyBooking()
+  }
 
   renderMenuDropdown = role => {
     const { logout, bookingCount } = this.props;
@@ -232,7 +236,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
+  fetchMyBooking: () => dispatch(thunk_action_mybooking())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
