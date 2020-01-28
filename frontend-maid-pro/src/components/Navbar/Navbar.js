@@ -6,25 +6,27 @@ import { Row, Col, Icon, Drawer, Button, Menu, Dropdown } from "antd";
 import Logo from "../../images/maidProServiceLogo.png";
 import { Link } from "react-router-dom";
 import ModalSearch from "../../components/ModalSearch/ModalSearch";
+import CustomBadge from "../CustomBadge/CustomBadge";
 import { FaUserCircle } from "react-icons/fa";
 
 class Navbar extends Component {
   state = {
     visible: false,
-    modalVisible: false
+    modalVisible: false,
+    isDropdownVisible: false
   };
 
   renderMenuDropdown = role => {
-    const {logout} = this.props
+    const { logout } = this.props;
     const guestMenu = (
       <Menu>
-        <Menu.Item>
+        <Menu.Item className="Navbar-MenuDropdown">
           <Link to="/login">Login</Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item className="Navbar-MenuDropdown">
           <Link to="/register">Register</Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item className="Navbar-MenuDropdown">
           <Link to="/">Preferences</Link>
         </Menu.Item>
       </Menu>
@@ -32,24 +34,36 @@ class Navbar extends Component {
     const userMenu = (
       <Menu>
         <Menu.Item>
-          <Link to="/mybooking">my Booking</Link>
+          <CustomBadge count={5}>
+            <Link to="/mybooking" className="Navbar-MenuDropdown">
+              My Booking
+            </Link>
+          </CustomBadge>
         </Menu.Item>
         <Menu.Item>
-          <Link to="/" onClick={logout} >Logout</Link>
+          <Link to="/" onClick={logout} className="Navbar-MenuDropdown">
+            Logout
+          </Link>
         </Menu.Item>
       </Menu>
-    )
-    if (role !== 'guest') {
-      return userMenu
+    );
+    if (role !== "guest") {
+      return userMenu;
     }
 
-    return guestMenu
+    return guestMenu;
   };
 
   handleModalVisible = () => {
     this.setState(state => ({
       modalVisible: !state.modalVisible
     }));
+  };
+
+  handleDropdown = value => {
+    this.setState({
+      isDropdownVisible: value
+    });
   };
 
   showDrawer = () => {
@@ -67,7 +81,7 @@ class Navbar extends Component {
   render() {
     const { modalVisible } = this.state;
     const { user } = this.props;
-    const {role} = user
+    const { role } = user;
     return (
       <>
         <div>
@@ -179,9 +193,14 @@ class Navbar extends Component {
                 <Link to="/aboutus">
                   <Button className="Navbar-MenuButton">About Us</Button>
                 </Link>
-                <Dropdown overlay={this.renderMenuDropdown(role)} placement="bottomCenter">
+                <Dropdown
+                  overlay={this.renderMenuDropdown(role)}
+                  placement="bottomCenter"
+                  trigger={["click"]}
+                  onVisibleChange={this.handleDropdown}
+                >
                   <Button className="Navbar-MenuButton Navbar-Center">
-                    {role !== 'guest' ? (
+                    {role !== "guest" ? (
                       <img
                         src={user.profile_img}
                         className="Navbar-imgDropdown"

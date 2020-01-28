@@ -49,6 +49,10 @@
   border-radius: 50%;
 }
 
+.Navbar-MenuDropdown {
+  font-size: 16px;
+}
+
 @media only screen and (min-width: 845px) {
   .Navbar-Icon {
     display: none;
