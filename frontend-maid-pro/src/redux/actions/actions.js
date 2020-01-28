@@ -1,4 +1,4 @@
-import { userTypes, maidTypes, searchTypes, maidsTypes } from "./types";
+import { userTypes, maidTypes, searchTypes, maidsTypes, badgeBookingTypes } from "./types";
 import Axios from '../../config/api.service';
 
 const TOKEN = "ACCESS_TOKEN";
@@ -47,5 +47,15 @@ export const filterSearch = data => {
   return {
     type: searchTypes.FILTER_SEARCH,
     payload: data
+  }
+};
+export const increaseNewBookingCouter = () => {
+  return {
+    type: badgeBookingTypes.INCREASE_NEW_BOOKING_BADGE,
+  }
+};
+export const decreaseNewBookingCouter = () => {
+  return {
+    type: badgeBookingTypes.DECREASE_NEW_BOOKING_BADGE,
   }
 };

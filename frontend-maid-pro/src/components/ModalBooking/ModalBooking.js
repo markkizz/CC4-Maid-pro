@@ -148,7 +148,6 @@ class ModalBooking extends Component {
                       }]
                     })(<Select
                       onChange={this.handleSelectBuildingType}
-                      // value={this.state.type_id}
                       style={{ width: "100%" }}
                     >{
                         buildingServices && buildingServices.map(service => (
