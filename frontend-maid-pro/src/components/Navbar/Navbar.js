@@ -1,14 +1,36 @@
 import React, { Component } from 'react'
 import './Navbar.css'
-import { Row, Col, Icon, Drawer, Button } from 'antd'
+import { Row, Col, Icon, Drawer, Button, Menu, Dropdown } from 'antd'
 import Logo from '../../images/maidProServiceLogo.png'
 import { Link } from "react-router-dom";
 import ModalSearch from "../../components/ModalSearch/ModalSearch";
+import { FaUserCircle } from "react-icons/fa";
+
 
 export default class Navbar extends Component {
   state = { visible: false,
             modalVisible: false
   };
+
+  menu = () => (
+    <Menu>
+    <Menu.Item>
+      <Link to="/login">
+        Login
+      </Link>
+    </Menu.Item>
+    <Menu.Item>
+      <Link to="/register">
+        Register
+      </Link>
+    </Menu.Item>
+    <Menu.Item>
+      <Link to="/">
+        Preferences
+      </Link>
+    </Menu.Item>
+  </Menu>
+);
 
   handleModalVisible = () => {
     this.setState(state => ({
@@ -65,6 +87,16 @@ export default class Navbar extends Component {
                     <Button icon="credit-card" className="Navbar-DrawerButtons">Payment</Button>
                   </Col>
                 </Link>
+                <Link to="/register/maid">
+                  <Col>
+                    <Button icon="usergroup-add" className="Navbar-DrawerButtons">Join As Maid</Button>
+                  </Col>
+                </Link>
+                <Link to="/">
+                  <Col>
+                    <Button icon="file-text" className="Navbar-DrawerButtons">Policy</Button>
+                  </Col>
+                </Link>
                 <Link to="/aboutus">
                   <Col>
                     <Button icon="user" className="Navbar-DrawerButtons">About Us</Button>
@@ -80,16 +112,6 @@ export default class Navbar extends Component {
                     <Button icon="user-add" className="Navbar-DrawerButtons">Register</Button>
                   </Col>
                 </Link>
-                <Link to="/register/maid">
-                  <Col>
-                    <Button icon="usergroup-add" className="Navbar-DrawerButtons">Join As Maid</Button>
-                  </Col>
-                </Link>
-                <Link to="/">
-                  <Col>
-                    <Button icon="file-text" className="Navbar-DrawerButtons">Policy</Button>
-                  </Col>
-                </Link>
               </Drawer>
             </Row>
             <Row type="flex" justify="end" className="Navbar-Menu">
@@ -102,21 +124,18 @@ export default class Navbar extends Component {
               <Link to="/payment">
                 <Button className="Navbar-MenuButton">Payment</Button>
               </Link>
-              <Link to="/aboutus">
-                <Button className="Navbar-MenuButton">About Us</Button>
-              </Link>
-              <Link to="/login">
-                <Button className="Navbar-MenuButton">Login</Button>
-              </Link>
-              <Link to="/register">
-                <Button className="Navbar-MenuButton">Register</Button>
-              </Link>
               <Link to="/register/maid">
                 <Button className="Navbar-MenuButton">Join As Maid</Button>
               </Link>
               <Link to="/">
                 <Button className="Navbar-MenuButton">Policy</Button>
               </Link>
+              <Link to="/aboutus">
+                <Button className="Navbar-MenuButton">About Us</Button>
+              </Link>
+              <Dropdown overlay={this.menu()} placement="bottomCenter">
+                <Button className="Navbar-MenuButton Navbar-Center"><FaUserCircle /></Button>
+              </Dropdown>
             </Row>
           </Col>
         </Row>
