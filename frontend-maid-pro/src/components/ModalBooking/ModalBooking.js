@@ -105,7 +105,7 @@ class ModalBooking extends Component {
   };
 
   render() {
-    const { form, buildingServices, user } = this.props;
+    const { form, buildingServices } = this.props;
     const { checkedCurrentAddress } = this.state;
     return (
       <Modal

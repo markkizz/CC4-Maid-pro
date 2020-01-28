@@ -1,84 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from "../../config/api.service";
 import "./MyBookingHistory.css";
 import Navbar from "../../components/Navbar/Navbar";
 import BookingCard from "../../components/BookingCard/BookingCard";
 import { Row, Col, Tabs, BackTop } from "antd";
-import { increaseNewBookingCounter } from "../../redux/actions/actions";
+import { increaseNewBookingCounter, thunk_action_mybooking } from "../../redux/actions/actions";
 
 const { TabPane } = Tabs;
 
 class MyBookingHistory extends Component {
-  state = {
-    upcomming: [],
-    history: []
-  };
 
-  compareTwoArray = (arr1, arr2) => {
-    return JSON.stringify(arr1) !== JSON.stringify(arr2);
-  };
-
-  filterUserStatus = users => {
-    const {countingMyBooking} = this.props
-    const history = [];
-    const upcomming = [];
-    users.forEach(user => {
-      if (
-        user.status === "REJECT" ||
-        user.status === "CANCEL" ||
-        user.status === "FINISHED"
-      ) {
-        history.push(user);
-      } else {
-        upcomming.push(user);
-      }
-    });
-    const numberOfUpcomming = upcomming.length
-      this.setState({
-        upcomming,
-        history
-      });
-      countingMyBooking(numberOfUpcomming)
-    // if (
-    //   this.compareTwoArray(history, this.state.history) ||
-    //   this.compareTwoArray(upcomming, this.state.upcomming)
-    // ) {
-    //   const numberOfUpcomming = upcomming.length
-    //   this.setState({
-    //     upcomming,
-    //     history
-    //   });
-    //   countingMyBooking(numberOfUpcomming)
-    // }
-  };
-
-  componentDidMount = async () => {
-    this.handleFetchBooking();
-  };
-
-  handleFetchBooking = async () => {
-    const { type } = this.props.user;
-    if (type === "EMPLOYER") {
-      try {
-        const { data } = await axios.get("/bookings/employers");
-        this.filterUserStatus(data);
-      } catch (e) {
-        console.error(e);
-      }
-    } else if (type === "MAID") {
-      try {
-        const { data } = await axios.get("/bookings/maids/");
-        this.filterUserStatus(data);
-      } catch (err) {
-        console.error(err);
-      }
-    }
+  componentDidMount = () => {
+    this.props.fetchMyBooking()
   };
 
   render() {
-    const { history, upcomming } = this.state;
-    const { type } = this.props.user;
+    const { history, upcomming } = this.props;
     return (
       <div className="MyBookingHistory-Body">
         <Navbar />
@@ -88,17 +25,13 @@ class MyBookingHistory extends Component {
               defaultActiveKey="1"
               className="MyBookingHistory-Tabs"
             >
-              {/* Upcomming tab for accept, cancel and complete for user both employer and maid */}
               <TabPane tab="Upcoming" key="1" forceRender>
-                {/* month, day, name, workHourToTime, location, status* */}
                 {upcomming.length > 0 &&
                   upcomming.map((bookingUser, i) => (
                     <Row key={i}>
                       <Col>
                         <BookingCard
                           bookingUser={bookingUser}
-                          type={type}
-                          handleFetchBooking={this.handleFetchBooking}
                         />
                       </Col>
                     </Row>
@@ -111,8 +44,6 @@ class MyBookingHistory extends Component {
                       <Col>
                         <BookingCard
                           bookingUser={bookingUser}
-                          type={type}
-                          handleFetchBooking={this.handleFetchBooking}
                         />
                       </Col>
                     </Row>
@@ -128,11 +59,13 @@ class MyBookingHistory extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  upcomming: state.booking.upcomming,
+  history: state.booking.history
 });
 
 const mapDispatchToProps = dispatch => ({
-  countingMyBooking:(numberOfBooking) => dispatch(increaseNewBookingCounter(numberOfBooking))
+  countingMyBooking:(numberOfBooking) => dispatch(increaseNewBookingCounter(numberOfBooking)),
+  fetchMyBooking: () => dispatch(thunk_action_mybooking())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyBookingHistory);

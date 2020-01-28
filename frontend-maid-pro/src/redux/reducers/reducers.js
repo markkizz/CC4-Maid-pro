@@ -9,7 +9,7 @@ const reducer = combineReducers({
   search: searchReducer,
   maid: maidReducer,
   maids: maidsReducer,
-  badge: bookingReducer
+  booking: bookingReducer
 });
 
 export default reducer;

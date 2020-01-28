@@ -7,8 +7,10 @@ import ModalAccept from "../ModalBookingAccept/ModalBookingAccept";
 import ModalCancel from "../ModalBookingCancel/ModalBookingCancel";
 import DisplayStatus from "./DisplayStatus/DisplayStatus";
 import moment from "moment";
+import { connect } from "react-redux";
+import { thunk_action_mybooking } from "../../redux/actions/actions";
 
-export default class BookingCard extends Component {
+class BookingCard extends Component {
   state = {
     acceptVisible: false,
     cancelVisible: false,
@@ -39,7 +41,7 @@ export default class BookingCard extends Component {
         content: "",
         acceptVisible: false
       });
-      this.props.handleFetchBooking();
+      this.props.fetchMyBooking();
     } catch (err) {
       console.error(err);
     }
@@ -48,19 +50,21 @@ export default class BookingCard extends Component {
   handelMaidAcceptJob = employerId => () => {
     axios
       .put(`/bookings/maid/accept/${employerId}`)
-      .then(() => this.props.handleFetchBooking())
+      .then(() => this.props.fetchMyBooking())
       .catch(err => console.error(err));
   };
 
   handleRejectMaid = employerId => async () => {
     try {
-      await axios.put(`/bookings/maid/reject/${employerId}`, { reject_note: this.state.reason })
+      await axios.put(`/bookings/maid/reject/${employerId}`, {
+        reject_note: this.state.reason
+      });
       this.setState({
         cancelVisible: false
-      })
-      this.props.handleFetchBooking()
+      });
+      this.props.fetchMyBooking();
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   };
 
@@ -78,7 +82,7 @@ export default class BookingCard extends Component {
 
   render() {
     const { acceptVisible, cancelVisible, reason } = this.state;
-    const { bookingUser, type } = this.props;
+    const { bookingUser } = this.props;
     const workDate = moment(bookingUser.work_date);
     const month = workDate.format("LL").split(" ")[0];
     const day = workDate.format("DD");
@@ -105,7 +109,9 @@ export default class BookingCard extends Component {
               <Col span={9}>
                 <Row className="BookingCard-Details">
                   <Col className="BookingCard-Customer">
-                    {bookingUser.target_data.first_name + " " + bookingUser.target_data.last_name}
+                    {bookingUser.target_data.first_name +
+                      " " +
+                      bookingUser.target_data.last_name}
                   </Col>
                   <Col className="BookingCard-Time">
                     {workStart + " - " + workEnd}
@@ -114,7 +120,12 @@ export default class BookingCard extends Component {
                     <FaMapMarkerAlt /> {bookingUser.customer_location}
                   </Col>
                   <Col className="BookingCard-BuildingType">
-                    {bookingUser.building_type.startsWith('คอนโด') ? <FaBuilding /> : <FaHome />} {bookingUser.building_type}
+                    {bookingUser.building_type.startsWith("คอนโด") ? (
+                      <FaBuilding />
+                    ) : (
+                      <FaHome />
+                    )}
+                    {bookingUser.building_type}
                   </Col>
                 </Row>
               </Col>
@@ -129,7 +140,7 @@ export default class BookingCard extends Component {
             <Divider className="BookingCard-HorizontalDivider" />
             <Row type="flex" align="middle" className="BookingCard-Status">
               <Col style={{ width: "100%" }}>
-                <DisplayStatus type={type}
+                <DisplayStatus
                   status={bookingUser.status}
                   onShowModal={this.showModal}
                   onClickMaidAcceptJob={this.handelMaidAcceptJob}
@@ -161,3 +172,9 @@ export default class BookingCard extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  fetchMyBooking: () => dispatch(thunk_action_mybooking())
+});
+
+export default connect(null, mapDispatchToProps)(BookingCard);

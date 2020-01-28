@@ -228,7 +228,7 @@ class Navbar extends Component {
 
 const mapStateToProps = state => ({
   user: state.user,
-  bookingCount: state.badge.newBookingCounter
+  bookingCount: state.booking.newBookingCounter
 });
 
 const mapDispatchToProps = dispatch => ({
