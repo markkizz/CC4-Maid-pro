@@ -1,26 +1,34 @@
-import { badgeBookingTypes } from '../actions/types'
+import { bookingTypes } from '../actions/types'
 
 const initialState = {
-  newBookingCounter: 0
+  newBookingCounter: 0,
+  upcomming: [],
+  history: []
 }
 
 // increaseNewBookingBadge, decreaseNewBookingBadge
 
-function bookingBadgeReducer(state = initialState, action) {
+function bookingReducer(state = initialState, action) {
   switch (action.type) {
-    case badgeBookingTypes.INCREASE_NEW_BOOKING_BADGE:
+    case bookingTypes.INCREASE_NEW_BOOKING_BADGE:
       return {
         ...state,
         newBookingCounter: action.payload
       }
-    case badgeBookingTypes.DECREASE_NEW_BOOKING_BADGE:
+    case bookingTypes.DECREASE_NEW_BOOKING_BADGE:
       return {
         ...state,
         newBookingCounter: state.newBookingCounter - 1
+      }
+    case bookingTypes.MYBOOKING:
+      return {
+        ...state,
+        upcomming: action.payload.upcomming,
+        history: action.payload.history
       }
     default:
       return state
   }
 }
 
-export default bookingBadgeReducer
+export default bookingReducer
