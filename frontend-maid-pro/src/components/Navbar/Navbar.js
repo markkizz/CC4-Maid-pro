@@ -103,7 +103,7 @@ class Navbar extends Component {
                       </Button>
                     </Col>
                   </Link>
-                  <Link to="/search/:option">
+                  <Link to="/search/quicksearch">
                     <Col>
                       <Button icon="search" className="Navbar-DrawerButtons">
                         Search Maid
@@ -164,7 +164,7 @@ class Navbar extends Component {
                 <Link to="/">
                   <Button className="Navbar-MenuButton">Home</Button>
                 </Link>
-                <Link to="/search/:option">
+                <Link to="/search/quicksearch">
                   <Button className="Navbar-MenuButton">Search</Button>
                 </Link>
                 <Link to="/payment">
