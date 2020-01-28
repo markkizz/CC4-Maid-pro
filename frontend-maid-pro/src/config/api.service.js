@@ -24,7 +24,8 @@ const isProtectedPath = url => PROTECTED_PATHS.find(path => path === parseUrl(ur
 axios.interceptors.request.use(
   async config => {
     console.log(config);
-    if (isProtectedPath(config.url)) {
+    const url = config.url
+    if (isProtectedPath(url)) {
       console.log("pass auth");
       let token = localStorage.getItem(TOKEN);
       config.headers["Authorization"] = `Bearer ${token}`;
@@ -49,6 +50,7 @@ axios.interceptors.response.use(
     if (error.request.status === 401 && isProtectedPath(url)) {
       console.log("Session expire, redirect to login");
       store.dispatch(logout())
+      window.appHistory.push('/login')
     }
 
     if (error.request.status === 401) {

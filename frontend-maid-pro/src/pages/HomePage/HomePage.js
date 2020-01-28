@@ -14,6 +14,7 @@ import Carousel3 from '../../images/Carousel3.jpg'
 import MaidCardWeb from '../../components/MaidCardWeb/MaidCardWeb'
 
 export class HomePage extends Component {
+  _isMounted = false;
   state = {
     imageUrls: [
       Carousel1,
@@ -21,19 +22,28 @@ export class HomePage extends Component {
       Carousel3
     ],
     topMaids: [],
-    mobileScreen: false
+    mobileScreen: false,
+    isLoading: true
   };
 
   componentDidMount = async () => {
+    this._isMounted = true
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
     try {
       const {data} = await axios.get('/users/maids?limit=6')
-      this.setState({ topMaids: data });
+      if(this._isMounted) {
+        this.setState({ topMaids: data, isLoading: false });
+
+      }
     } catch (err) {
       console.error(err)
     }
   };
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   handleClickQuickSearch = async serviceType => {
     this.props.quickSearchType(serviceType)

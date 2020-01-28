@@ -1,25 +1,40 @@
 import React, { Component } from 'react'
-import { Route, withRouter } from 'react-router-dom'
+import { Route, withRouter, Redirect } from 'react-router-dom'
 import * as PageRoutes from './PageRoutes';
 import rolesConfig from '../../config/role';
 
 export class PrivateRoute extends Component {
   state = {
-    allowRoutes: []
+    role: 'guest',
+    allowRoutes: [],
+    redirect: '/'
   }
 
   componentDidMount = () => {
-    const role = this.props.role;
-    console.log(role)
-    this.setState(() => ({
-      allowRoutes: rolesConfig[role].routes
-    }));
+    console.log('pass private didmount')
+    this.refreshState()
   };
 
+  refreshState = () => {
+    const role = this.props.role;
+    this.setState(() => ({
+      role: role,
+      allowRoutes: rolesConfig[role].routes,
+      redirect: rolesConfig[role].redirect
+    }));
+  }
+
   render() {
-    const {allowRoutes} = this.state
+    const {allowRoutes, redirect} = this.state
+    console.log("role private", this.props.role)
+    console.log('allow route', allowRoutes)
+    if(this.state.role !== this.props.role) {
+      this.refreshState()
+    }
+
     return (
       <>
+        <Redirect to={redirect}/>
         {allowRoutes.map((route, i) => (
           <Route
             exact
