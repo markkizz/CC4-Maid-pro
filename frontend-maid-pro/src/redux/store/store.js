@@ -40,6 +40,7 @@ const store = createStore(
 store.subscribe(() => {
   const { role } = store.getState().user;
   if (role === "guest") {
+    console.log('is guest now')
     window.appHistory.push("/login");
   }
   saveState(store.getState());
