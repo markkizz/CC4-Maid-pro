@@ -33,53 +33,53 @@ export default class Payment extends Component {
             <Row>
               <Col>
                <Row type="flex" align="middle" className="Payment-BankTableRow">
-                 <Col xs={6} sm={4} md={3} lg={3}>
+                 <Col xs={24} sm={4} md={3} lg={3}>
                    <img src={KBANK} alt="" width="100%" className="Payment-BankLogo" />
                  </Col>
-                 <Col xs={9} sm={12} md={13} lg={13}>
+                 <Col xs={24} sm={9} md={8} lg={7}>
                    <Row className="Payment-BankNameKBank">Kasikornbank</Row>
                    <Row>Siam Paragon Branch</Row>
                  </Col>
-                 <Col xs={9} sm={8} md={8} lg={8}>
+                 <Col xs={24} sm={11} md={13} lg={14}>
                    <Row>Maid Pro Service Co., Ltd.</Row>
                    <Row className="Payment-AccountNumber">123-4-56789-0</Row>
                  </Col>
                </Row>
                <Row type="flex" align="middle" className="Payment-BankTableRow">
-                 <Col xs={6} sm={4} md={3} lg={3}>
+                 <Col xs={24} sm={4} md={3} lg={3}>
                    <img src={SCB} alt="" width="100%" className="Payment-BankLogo" />
                  </Col>
-                 <Col xs={9} sm={12} md={13} lg={13}>
+                 <Col xs={24} sm={9} md={8} lg={7}>
                    <Row className="Payment-BankNameSCB">Siam Commercial Bank</Row>
                    <Row>Bangrak Branch</Row>
                  </Col>
-                 <Col xs={9} sm={8} md={8} lg={8}>
+                 <Col xs={24} sm={11} md={13} lg={14}>
                    <Row>Maid Pro Service Co., Ltd.</Row>
                    <Row className="Payment-AccountNumber">098-7-65432-1</Row>
                  </Col>
                </Row>
                <Row type="flex" align="middle" className="Payment-BankTableRow">
-                 <Col xs={6} sm={4} md={3} lg={3}>
+                 <Col xs={24} sm={4} md={3} lg={3}>
                    <img src={BBL} alt="" width="100%" className="Payment-BankLogo" />
                  </Col>
-                 <Col xs={9} sm={12} md={13} lg={13}>
+                 <Col xs={24} sm={9} md={8} lg={7}>
                    <Row className="Payment-BankNameBBL">Bangkok Bank</Row>
                    <Row>Ploen Chit Branch</Row>
                  </Col>
-                 <Col xs={9} sm={8} md={8} lg={8}>
+                 <Col xs={24} sm={11} md={13} lg={14}>
                    <Row>Maid Pro Service Co., Ltd.</Row>
                    <Row className="Payment-AccountNumber">121-2-12121-2</Row>
                  </Col>
                </Row>
                <Row type="flex" align="middle" className="Payment-BankTableRow Payment-LastTableRow">
-                 <Col xs={6} sm={4} md={3} lg={3}>
+                 <Col xs={24} sm={4} md={3} lg={3}>
                    <img src={KTB} alt="" width="100%" className="Payment-BankLogo" />
                  </Col>
-                 <Col xs={9} sm={12} md={13} lg={13}>
+                 <Col xs={24} sm={9} md={8} lg={7}>
                    <Row className="Payment-BankNameKTB">Krungthai Bank</Row>
                    <Row>Precious Icon Siam Branch</Row>
                  </Col>
-                 <Col xs={9} sm={8} md={8} lg={8}>
+                 <Col xs={24} sm={11} md={13} lg={14}>
                    <Row>Maid Pro Service Co., Ltd.</Row>
                    <Row className="Payment-AccountNumber">343-4-34343-4</Row>
                  </Col>
