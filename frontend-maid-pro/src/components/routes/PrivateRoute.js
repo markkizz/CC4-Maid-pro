@@ -15,6 +15,12 @@ export class PrivateRoute extends Component {
     this.refreshState()
   };
 
+  componentDidUpdate = (prevProps) => {
+    if(prevProps.role !== this.state.role){
+      this.refreshState()
+    }
+  }
+
   refreshState = () => {
     const role = this.props.role;
     this.setState(() => ({
@@ -26,12 +32,6 @@ export class PrivateRoute extends Component {
 
   render() {
     const {allowRoutes, redirect} = this.state
-    console.log("role private", this.props.role)
-    console.log('allow route', allowRoutes)
-    if(this.state.role !== this.props.role) {
-      this.refreshState()
-    }
-
     return (
       <>
         <Redirect to={redirect}/>

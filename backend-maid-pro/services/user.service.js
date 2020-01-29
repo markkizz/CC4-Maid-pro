@@ -79,7 +79,7 @@ module.exports = (db) => {
                 profile_img: user.profile_img
               },
               jwtOptions.secretOrKey, {
-                expiresIn: 30
+                expiresIn: 3600
               }
             );
 
