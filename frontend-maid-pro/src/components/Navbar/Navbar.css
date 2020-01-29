@@ -15,6 +15,9 @@
 }
 
 .Navbar-DrawerButtons {
+  
+  background-color: transparent;
+  color: white;
   box-shadow: none;
   border: none;
   padding: 0px;
@@ -63,4 +66,8 @@
   .Navbar-Menu {
     display: none;
   }
+}
+
+.drawer > div > div {
+  background-color: rgb(38, 72, 95,0.95);
 }

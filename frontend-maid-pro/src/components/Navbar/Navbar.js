@@ -17,8 +17,8 @@ class Navbar extends Component {
   };
 
   componentDidMount = () => {
-    this.props.fetchMyBooking()
-  }
+    this.props.fetchMyBooking();
+  };
 
   renderMenuDropdown = role => {
     const { logout, bookingCount } = this.props;
@@ -108,12 +108,37 @@ class Navbar extends Component {
                   onClick={this.showDrawer}
                 />
                 <Drawer
-                  title="Menu"
+                  className="drawer"
+                  headerStyle={{
+                    backgroundColor: "rgb(38, 72, 95,0.7)",
+                    color: "white"
+                  }}
+                  drawerStyle={{
+                    color: "white"
+                  }}
+                  bodyStyle={{
+                    lineHeight: 3,
+                    border: 10
+                  }}
+                  title={<h3 style={{ color: "white" }}>Menu</h3>}
                   placement="right"
                   closable={false}
                   onClose={this.onClose}
                   visible={this.state.visible}
                 >
+                  <Link to="/">
+                    <Col>
+                      {user.username && (
+                        <Button
+                          style={{ fontSize: 25 }}
+                          icon="user"
+                          className="Navbar-DrawerButtons"
+                        >
+                          {user.username}
+                        </Button>
+                      )}
+                    </Col>
+                  </Link>
                   <Link to="/">
                     <Col>
                       <Button icon="home" className="Navbar-DrawerButtons">
@@ -162,20 +187,48 @@ class Navbar extends Component {
                       </Button>
                     </Col>
                   </Link>
-                  <Link to="/login">
-                    <Col>
-                      <Button icon="login" className="Navbar-DrawerButtons">
-                        Login
-                      </Button>
-                    </Col>
-                  </Link>
-                  <Link to="/register">
-                    <Col>
-                      <Button icon="user-add" className="Navbar-DrawerButtons">
-                        Register
-                      </Button>
-                    </Col>
-                  </Link>
+                  {role == "guest" ? (
+                    <>
+                      <Link to="/login">
+                        <Col>
+                          <Button icon="login" className="Navbar-DrawerButtons">
+                            Login
+                          </Button>
+                        </Col>
+                      </Link>
+                      <Link to="/register">
+                        <Col>
+                          <Button
+                            icon="user-add"
+                            className="Navbar-DrawerButtons"
+                          >
+                            Register
+                          </Button>
+                        </Col>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/"
+                        onClick={() => {
+                          this.props.logout();
+                          this.setState({
+                            visible: false
+                          });
+                        }}
+                      >
+                        <Col>
+                          <Button
+                            icon="user-add"
+                            className="Navbar-DrawerButtons"
+                          >
+                            Logout
+                          </Button>
+                        </Col>
+                      </Link>
+                    </>
+                  )}
                 </Drawer>
               </Row>
               <Row type="flex" justify="end" className="Navbar-Menu">
@@ -205,7 +258,10 @@ class Navbar extends Component {
                 >
                   <Button className="Navbar-MenuButton Navbar-Center">
                     {role !== "guest" ? (
-                      <CustomBadge count={bookingCount} showBadge={isDropdownVisible}>
+                      <CustomBadge
+                        count={bookingCount}
+                        showBadge={isDropdownVisible}
+                      >
                         <img
                           src={user.profile_img}
                           className="Navbar-imgDropdown"
