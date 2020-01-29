@@ -187,7 +187,7 @@ class Navbar extends Component {
                       </Button>
                     </Col>
                   </Link>
-                  {role == "guest" ? (
+                  {role === "guest" ? (
                     <>
                       <Link to="/login">
                         <Col>
