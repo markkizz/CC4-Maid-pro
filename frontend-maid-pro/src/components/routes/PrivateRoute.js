@@ -5,26 +5,28 @@ import rolesConfig from "../../config/role";
 
 export class PrivateRoute extends Component {
   state = {
-    role: "guest",
+    role: "",
     allowRoutes: [],
     redirect: ''
   };
 
   componentDidMount = () => {
-    console.log("pass private didmount");
     this.refreshState();
   };
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.role !== this.state.role) {
-      this.refreshState();
+  shouldComponentUpdate = (nextProps) => {
+    if(nextProps.role !== this.state.role){
+      return true
     }
+    return false
+  }
+
+  componentDidUpdate = () => {
+    this.refreshState();
   };
 
   refreshState = () => {
-    console.log('pass refresh')
     const role = this.props.role;
-    console.log(role)
     this.setState(() => ({
       role: role,
       allowRoutes: rolesConfig[role].routes,
