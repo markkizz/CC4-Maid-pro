@@ -264,6 +264,7 @@ class Navbar extends Component {
                       >
                         <img
                           src={user.profile_img}
+                          alt={user.profile_img}
                           className="Navbar-imgDropdown"
                         />
                       </CustomBadge>

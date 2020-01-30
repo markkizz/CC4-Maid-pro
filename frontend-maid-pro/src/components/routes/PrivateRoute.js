@@ -5,13 +5,12 @@ import rolesConfig from "../../config/role";
 
 export class PrivateRoute extends Component {
   state = {
-    role: "guest",
+    role: "",
     allowRoutes: [],
     redirect: ''
   };
 
   componentDidMount = () => {
-    console.log("pass private didmount");
     this.refreshState();
   };
 
@@ -23,14 +22,11 @@ export class PrivateRoute extends Component {
   }
 
   componentDidUpdate = () => {
-    console.log('pass didupdate')
     this.refreshState();
   };
 
   refreshState = () => {
-    console.log('pass refresh')
     const role = this.props.role;
-    console.log(role)
     this.setState(() => ({
       role: role,
       allowRoutes: rolesConfig[role].routes,
