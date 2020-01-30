@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const moment = require('moment');
 const Op = Sequelize.Op;
 
 module.exports = db => {
@@ -16,15 +17,18 @@ module.exports = db => {
         });
         const bookingStatus = bookedUsers.length && bookedUsers[0].dataValues.status;
         if (bookingStatus === 'WAIT_FOR_ACCEPTANCE') {
-          res.status(400).json({ errorMessage: "User already booked" });
+          res.status(422).json({ errorMessage: "User already booked" });
+          return;
         }
+        const workDate = moment(new Date(req.body.workDate)).format('YYYY-MM-DD');
+        const workStartAt = moment(new Date(req.body.workStartAt)).format('hh:mm:ss');
         let photo = req.files.photo;
         let photoName = new Date().getTime() + ".jpeg";
         photo.mv("./uploads/" + photoName);
         const url = `http://localhost:8080/${photoName}`;
         const result = await db.booking.create({
           customer_location: req.body.customerLocation,
-          work_date: req.body.workDate,
+          work_date: `${workDate} ${workStartAt}`,
           work_hour: parseInt(req.body.workHour),
           status: "WAIT_FOR_ACCEPTANCE",
           pay_slip_image: url,
@@ -38,7 +42,6 @@ module.exports = db => {
           res.status(200).json({ result });
         }
       } catch (err) {
-        console.error(err);
         if (err.message.includes("ECONNREFUSED")) {
           res.status(500).json({ errorMessage: "Database server error" });
         }
@@ -224,7 +227,7 @@ module.exports = db => {
           res.status(204).json({ errorMessage: "no booking" });
         }
         if (employerBooking.dataValues.status === "ACCEPT") {
-          await employerBooking.update({ status: "FINISHED"});
+          await employerBooking.update({ status: "FINISHED" });
           res.status(200).json({ message: "cleaing complete" });
         } else {
           res
