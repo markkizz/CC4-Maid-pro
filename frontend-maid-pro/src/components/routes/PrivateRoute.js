@@ -15,10 +15,16 @@ export class PrivateRoute extends Component {
     this.refreshState();
   };
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.role !== this.state.role) {
-      this.refreshState();
+  shouldComponentUpdate = (nextProps) => {
+    if(nextProps.role !== this.state.role){
+      return true
     }
+    return false
+  }
+
+  componentDidUpdate = () => {
+    console.log('pass didupdate')
+    this.refreshState();
   };
 
   refreshState = () => {
