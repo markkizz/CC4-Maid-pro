@@ -56,7 +56,6 @@ module.exports = (db) => {
             reject(err);
           }
           if (info !== undefined) {
-            console.error(`Info Message Error: ${info.message}`);
             if (info.message === 'Database server error') {
               result.httpStatus = 500;
               result.message = info.message;
@@ -67,7 +66,6 @@ module.exports = (db) => {
               result.httpStatus = 400;
               result.errorMessage = info.message;
             }
-            console.log(info.message);
           } else {
             const token = jwt.sign({
                 id: user.id,
@@ -136,16 +134,35 @@ module.exports = (db) => {
 
     searchMaids: async (name, type_id, date, rating, price_hour) => {
       try {
-        let result = await repository.searchMaidsAllChoice(name, type_id, date, rating, price_hour);
-        if (result.length === 0) {
-          result = await repository.searchMaids(name, type_id, date, rating, price_hour);
-          if (result.length === 0) {
-            return { httpStatus: 204, message: result };
+        let maids = await repository.searchMaidsAllChoice(name, type_id, date, rating, price_hour);
+        if (maids.length === 0) {
+          maids = await repository.searchMaids(name, type_id, date, rating, price_hour);
+          if (maids.length === 0) {
+            return { httpStatus: 204, message: maids };
           } else {
-            return { httpStatus: 200, message: result };
+            return { httpStatus: 200, message: maids };
           }
+        } else {
+          console.log('result', maids);
+          const maidIds = maids.map(maid => maid.id);
+          const uniqueMaidIds = [...new Set(maidIds)];
+          const filterMaidsBuildingType = uniqueMaidIds.map(id => ({
+            id: id,
+            type: maids.filter(maid => maid.id === id).map(maid => ({type: maid.building_type}))
+          }));
+          const uniqueMaids = uniqueMaidIds.map(id => maids.find(maid => maid.id === id));
+          maids = uniqueMaids.map(maid => {
+            delete maid.building_type;
+            return {
+            ...maid,
+              building_types: filterMaidsBuildingType.find(filterMaid => filterMaid.id ).type
+            };
+          });
+
+          return { httpStatus: 200, message: maids };
         }
       } catch (err) {
+        console.error(err);
         if (err.message.includes('ECONNREFUSED')) {
           return { httpStatus: 500, errorMessage: 'Database server error' };
         }
@@ -172,7 +189,7 @@ module.exports = (db) => {
     findMaidsWithMaybeLimitOrderByAverageRatingDesc: async (limit) => {
       try {
         let result = await repository.findMaidsWithMaybeLimitOrderByAverageRatingDesc(parseInt(limit));
-        result = result[0]
+        result = result[0];
         if (result.length === 0) {
           return { httpStatus: 204, message: result };
         } else {

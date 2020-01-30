@@ -17,11 +17,15 @@ export const login = (user, token) => {
 };
 
 export const logout = () => {
-  localStorage.removeItem(TOKEN);
-  localStorage.removeItem("store");
-  return {
-    type: type.userTypes.USER_LOGOUT
-  };
+  console.log("pass logout");
+  try {
+    localStorage.clear();
+    return {
+      type: type.userTypes.USER_LOGOUT
+    };
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const selectedMaid = maidId => {
@@ -90,18 +94,20 @@ export const thunk_action_mybooking = () => async (dispatch, getState) => {
   } else if (userType === "MAID") {
     path = maidBookingPath;
   }
-  try {
-    const { data } = await axios.get(path);
-    const { upcomming, history } = filterUserStatus(data);
-    if (
-      compareTwoArray(upcommingInStore, upcomming) ||
-      compareTwoArray(historyInStore, history)
-    ) {
-      dispatch(recieveMyBookingData(upcomming, history));
-      dispatch(increaseNewBookingCounter(upcomming.length));
+  if (path) {
+    try {
+      const { data } = await axios.get(path);
+      const { upcomming, history } = filterUserStatus(data);
+      if (
+        compareTwoArray(upcommingInStore, upcomming) ||
+        compareTwoArray(historyInStore, history)
+      ) {
+        dispatch(recieveMyBookingData(upcomming, history));
+        dispatch(increaseNewBookingCounter(upcomming.length));
+      }
+    } catch (err) {
+      console.error(err);
     }
-  } catch (err) {
-    console.error(err);
   }
 };
 

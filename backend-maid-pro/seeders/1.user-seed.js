@@ -35,7 +35,7 @@ for (let i = 1; i <= numberOfUser; i++) {
     status: "ACTIVE",
     bank_account_no: faker.finance.account(),
     bank_name: genBankName(),
-    price_per_hour: Math.floor(Math.random() * 1000) + 200,
+    price_per_hour: Math.floor(Math.random() * 1000),
     holidays: faker.date.weekday(),
     about_maid: faker.lorem.paragraph(1),
     average_rating: i % 2 === 0 ? Math.ceil(Math.random() * 5) : null,

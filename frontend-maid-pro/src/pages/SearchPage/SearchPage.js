@@ -27,12 +27,13 @@ export class SearchPage extends Component {
     const { serviceType, filterSearch } = this.props;
     if (option === "filter") {
       try {
-        const {maidName, typeId, workDate, rating} = filterSearch
+        const {maidName, typeId, workDate, rating} = filterSearch;
+        console.log(typeId, typeId, typeId)
         const price_hour = filterSearch.priceRange.join(",");
         const result = await axios.get(`/users/filter?name=${maidName}&type_id=${typeId}&work_date=${workDate}&price_hour=${price_hour}&rating=${rating}`);
         if(!result.data && result.data.length === 0) {
           this.openNotificationWithIcon()
-          const {data} = await axios.get("/users/maids?limit=10")
+          const {data} = await axios.get("/users/maids?limit=10");
           this.setState({
             searchMaidData: data
           })

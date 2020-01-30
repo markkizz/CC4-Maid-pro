@@ -78,7 +78,6 @@ export default {
       pageComponents.homepage,
       pageComponents.search,
       pageComponents.maidDescription,
-      pageComponents.mybooking,
       pageComponents.aboutus,
       pageComponents.payment,
       pageComponents.policies,
