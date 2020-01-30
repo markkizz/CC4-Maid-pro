@@ -1,30 +1,36 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { logout } from "../../redux/actions/actions";
+import { logout, thunk_action_mybooking } from "../../redux/actions/actions";
 import "./Navbar.css";
 import { Row, Col, Icon, Drawer, Button, Menu, Dropdown } from "antd";
 import Logo from "../../images/maidProServiceLogo.png";
 import { Link } from "react-router-dom";
 import ModalSearch from "../../components/ModalSearch/ModalSearch";
+import CustomBadge from "../CustomBadge/CustomBadge";
 import { FaUserCircle } from "react-icons/fa";
 
 class Navbar extends Component {
   state = {
     visible: false,
-    modalVisible: false
+    modalVisible: false,
+    isDropdownVisible: false
+  };
+
+  componentDidMount = () => {
+    this.props.fetchMyBooking();
   };
 
   renderMenuDropdown = role => {
-    const {logout} = this.props
+    const { logout, bookingCount } = this.props;
     const guestMenu = (
       <Menu>
-        <Menu.Item>
+        <Menu.Item className="Navbar-MenuDropdown">
           <Link to="/login">Login</Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item className="Navbar-MenuDropdown">
           <Link to="/register">Register</Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item className="Navbar-MenuDropdown">
           <Link to="/">Preferences</Link>
         </Menu.Item>
       </Menu>
@@ -32,24 +38,36 @@ class Navbar extends Component {
     const userMenu = (
       <Menu>
         <Menu.Item>
-          <Link to="/mybooking">my Booking</Link>
+          <CustomBadge count={bookingCount}>
+            <Link to="/mybooking" className="Navbar-MenuDropdown">
+              My Booking
+            </Link>
+          </CustomBadge>
         </Menu.Item>
         <Menu.Item>
-          <Link to="/" onClick={logout} >Logout</Link>
+          <Link to="/" onClick={logout} className="Navbar-MenuDropdown">
+            Logout
+          </Link>
         </Menu.Item>
       </Menu>
-    )
-    if (role !== 'guest') {
-      return userMenu
+    );
+    if (role !== "guest") {
+      return userMenu;
     }
 
-    return guestMenu
+    return guestMenu;
   };
 
   handleModalVisible = () => {
     this.setState(state => ({
       modalVisible: !state.modalVisible
     }));
+  };
+
+  handleDropdown = value => {
+    this.setState({
+      isDropdownVisible: value
+    });
   };
 
   showDrawer = () => {
@@ -65,9 +83,9 @@ class Navbar extends Component {
   };
 
   render() {
-    const { modalVisible } = this.state;
-    const { user } = this.props;
-    const {role} = user
+    const { modalVisible, isDropdownVisible } = this.state;
+    const { user, bookingCount } = this.props;
+    const { role } = user;
     return (
       <>
         <div>
@@ -90,12 +108,37 @@ class Navbar extends Component {
                   onClick={this.showDrawer}
                 />
                 <Drawer
-                  title="Menu"
+                  className="drawer"
+                  headerStyle={{
+                    backgroundColor: "rgb(38, 72, 95,0.7)",
+                    color: "white"
+                  }}
+                  drawerStyle={{
+                    color: "white"
+                  }}
+                  bodyStyle={{
+                    lineHeight: 3,
+                    border: 10
+                  }}
+                  title={<h3 style={{ color: "white" }}>Menu</h3>}
                   placement="right"
                   closable={false}
                   onClose={this.onClose}
                   visible={this.state.visible}
                 >
+                  <Link to="/">
+                    <Col>
+                      {user.username && (
+                        <Button
+                          style={{ fontSize: 25 }}
+                          icon="user"
+                          className="Navbar-DrawerButtons"
+                        >
+                          {user.username}
+                        </Button>
+                      )}
+                    </Col>
+                  </Link>
                   <Link to="/">
                     <Col>
                       <Button icon="home" className="Navbar-DrawerButtons">
@@ -144,20 +187,48 @@ class Navbar extends Component {
                       </Button>
                     </Col>
                   </Link>
-                  <Link to="/login">
-                    <Col>
-                      <Button icon="login" className="Navbar-DrawerButtons">
-                        Login
-                      </Button>
-                    </Col>
-                  </Link>
-                  <Link to="/register">
-                    <Col>
-                      <Button icon="user-add" className="Navbar-DrawerButtons">
-                        Register
-                      </Button>
-                    </Col>
-                  </Link>
+                  {role === "guest" ? (
+                    <>
+                      <Link to="/login">
+                        <Col>
+                          <Button icon="login" className="Navbar-DrawerButtons">
+                            Login
+                          </Button>
+                        </Col>
+                      </Link>
+                      <Link to="/register">
+                        <Col>
+                          <Button
+                            icon="user-add"
+                            className="Navbar-DrawerButtons"
+                          >
+                            Register
+                          </Button>
+                        </Col>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/"
+                        onClick={() => {
+                          this.props.logout();
+                          this.setState({
+                            visible: false
+                          });
+                        }}
+                      >
+                        <Col>
+                          <Button
+                            icon="user-add"
+                            className="Navbar-DrawerButtons"
+                          >
+                            Logout
+                          </Button>
+                        </Col>
+                      </Link>
+                    </>
+                  )}
                 </Drawer>
               </Row>
               <Row type="flex" justify="end" className="Navbar-Menu">
@@ -179,13 +250,23 @@ class Navbar extends Component {
                 <Link to="/aboutus">
                   <Button className="Navbar-MenuButton">About Us</Button>
                 </Link>
-                <Dropdown overlay={this.renderMenuDropdown(role)} placement="bottomCenter">
+                <Dropdown
+                  overlay={this.renderMenuDropdown(role)}
+                  placement="bottomCenter"
+                  trigger={["click"]}
+                  onVisibleChange={this.handleDropdown}
+                >
                   <Button className="Navbar-MenuButton Navbar-Center">
-                    {role !== 'guest' ? (
-                      <img
-                        src={user.profile_img}
-                        className="Navbar-imgDropdown"
-                      />
+                    {role !== "guest" ? (
+                      <CustomBadge
+                        count={bookingCount}
+                        showBadge={isDropdownVisible}
+                      >
+                        <img
+                          src={user.profile_img}
+                          className="Navbar-imgDropdown"
+                        />
+                      </CustomBadge>
                     ) : (
                       <FaUserCircle />
                     )}
@@ -206,11 +287,13 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  bookingCount: state.booking.newBookingCounter
 });
 
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
+  fetchMyBooking: () => dispatch(thunk_action_mybooking())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

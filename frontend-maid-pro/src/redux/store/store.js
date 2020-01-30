@@ -29,6 +29,7 @@ const persistStore = loadState();
 
 export const middlewares = [thunk];
 
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() || compose
 const store = createStore(
   reducers,
   persistStore,
@@ -39,13 +40,14 @@ const store = createStore(
 );
 
 store.subscribe(() => {
-  const { role } = store.getState().user;
-  if (role === "guest") {
-    console.log('is guest now')
-    window.appHistory.push("/login");
-  }
-  saveState(store.getState());
-  console.log(store.getState())
+  const { user, search, maid, maids } = store.getState();
+  const storage = {
+    user,
+    search,
+    maid,
+    maids
+  };
+  saveState(storage);
 });
 
 export default store;
