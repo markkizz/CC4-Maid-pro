@@ -74,9 +74,7 @@ class MaidDescription extends Component {
             <Row type="flex" justify="center" className="MaidDescription-DescriptionRow">
               <Col span={20} className="MaidDescription-Description">
                 <Row>Description</Row>
-                <Row>
-                  {maid.aboutMaid}
-                </Row>
+                <Row>{maid.aboutMaid}</Row>
               </Col>
             </Row>
             <Row type="flex" justify="center" className="MaidDescription-MarginTop20px">

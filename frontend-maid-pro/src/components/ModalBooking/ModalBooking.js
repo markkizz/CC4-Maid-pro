@@ -9,6 +9,7 @@ import { FaClock, FaBook } from "react-icons/fa";
 import { connect } from 'react-redux'
 import axios from '../../config/api.service'
 import { openBookingSuccessNotification, openBookingFailedNotification } from './ModalBooking.noti';
+import moment from 'moment';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -208,8 +209,11 @@ class ModalBooking extends Component {
                         format="hh:mm"
                         minuteStep={15}
                         onChange={time => this.setState({ workStartAt: time })}
+                        defaultOpenValue={moment("0800", 'hh:mm')}
                         addon={() => (
-                          <Button size="small" type="primary" onClick={this.handleClose}>Ok</Button>
+                          <Button size="small" type="primary" onClick={this.handleClose} style={{ width: '100%' }}>
+                            Select
+                          </Button>
                         )}
                       />
                     )}
