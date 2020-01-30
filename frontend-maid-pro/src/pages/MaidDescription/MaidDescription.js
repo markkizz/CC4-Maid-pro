@@ -61,31 +61,17 @@ class MaidDescription extends Component {
             <Row className="MaidDescription-Profile">
               <Col span={11}>
                 <Row type="flex" justify="end">
-                  <img
-                    src={maid.profileImg}
-                    alt=""
-                    width="150"
-                    className="MaidDescription-ProfilePicture"
-                  />
+                  <img src={maid.profileImg} alt="" width="150" className="MaidDescription-ProfilePicture" />
                 </Row>
               </Col>
               <Col span={13} className="MaidDescription-Name">
                 <h2>{maid.firstName} {maid.lastName}</h2>
-                <h3>
-                  <Rate
-                    allowHalf
-                    value={maid.averageRating}
-                    className="MaidDescription-Rate"
-                  />
+                <h3><Rate allowHalf value={maid.averageRating} className="MaidDescription-Rate" />
                 </h3>
                 <h3>{maid.averageRating}</h3>
               </Col>
             </Row>
-            <Row
-              type="flex"
-              justify="center"
-              className="MaidDescription-DescriptionRow"
-            >
+            <Row type="flex" justify="center" className="MaidDescription-DescriptionRow">
               <Col span={20} className="MaidDescription-Description">
                 <Row>Description</Row>
                 <Row>
@@ -93,11 +79,7 @@ class MaidDescription extends Component {
                 </Row>
               </Col>
             </Row>
-            <Row
-              type="flex"
-              justify="center"
-              className="MaidDescription-MarginTop20px"
-            >
+            <Row type="flex" justify="center" className="MaidDescription-MarginTop20px">
               <h3>Type Of Place</h3>
             </Row>
             <Row>

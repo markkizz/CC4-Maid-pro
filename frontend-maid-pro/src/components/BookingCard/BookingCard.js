@@ -92,12 +92,7 @@ class BookingCard extends Component {
           <Col>
             <Row type="flex" align="middle" className="BookingCard-BodyTop">
               <Col span={7}>
-                <Row
-                  type="flex"
-                  justify="center"
-                  align="middle"
-                  className="BookingCard-Date"
-                >
+                <Row type="flex" justify="center" align="middle" className="BookingCard-Date">
                   <Col className="BookingCard-Month">{month}</Col>
                   <Col className="BookingCard-Day">{day}</Col>
                 </Row>
