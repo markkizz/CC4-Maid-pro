@@ -6,6 +6,7 @@ import PrivateRoute from "./components/routes/PrivateRoute";
 export class App extends Component {
   render() {
     const { role } = this.props.user;
+    console.log("role App", role);
     window.appHistory = this.props.history;
     return (
       <>

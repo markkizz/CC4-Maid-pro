@@ -17,6 +17,7 @@ export const login = (user, token) => {
 };
 
 export const logout = () => {
+  console.log("pass logout");
   try {
     localStorage.clear();
     return {
