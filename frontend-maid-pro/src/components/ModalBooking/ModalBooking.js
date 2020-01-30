@@ -44,12 +44,15 @@ class ModalBooking extends Component {
     const { form, user } = this.props;
     this.setState({ checkedCurrentAddress: e.target.checked });
     if (e.target.checked) {
+      console.log('checked');
       form.setFieldsValue({ location: user.address });
       this.setState({ customerLocation: user.address })
     } else {
+      console.log('unchecked');
+      form.setFieldsValue({ location: '' });
       this.setState({ customerLocation: '' })
     }
-  }
+  };
 
   handleBeforeUpload = file => {
     this.setState(state => ({ fileList: [file] }));
@@ -240,9 +243,7 @@ class ModalBooking extends Component {
                 justify="center"
                 align="middle"
               >
-                <Col className="ModalBooking_font" span={7} offset={1}>
-                  Location
-                </Col>
+                <Col className="ModalBooking_font" span={7} offset={1}>Location</Col>
                 <Col className="ModalBooking_font" span={16}>
                   <Checkbox checked={checkedCurrentAddress} onChange={this.handleCheckCurrentAddress}>Current address</Checkbox>
                 </Col>
