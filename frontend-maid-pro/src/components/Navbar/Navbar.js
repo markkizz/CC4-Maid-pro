@@ -148,10 +148,10 @@ class Navbar extends Component {
                       </Button>
                     </Col>
                   </Link>
-                  <Link to="/">
+                  <Link to="/policies">
                     <Col>
                       <Button icon="file-text" className="Navbar-DrawerButtons">
-                        Policy
+                        Policies
                       </Button>
                     </Col>
                   </Link>
@@ -191,8 +191,8 @@ class Navbar extends Component {
                 <Link to="/register/maid">
                   <Button className="Navbar-MenuButton">Join As Maid</Button>
                 </Link>
-                <Link to="/">
-                  <Button className="Navbar-MenuButton">Policy</Button>
+                <Link to="/policies">
+                  <Button className="Navbar-MenuButton">Policies</Button>
                 </Link>
                 <Link to="/aboutus">
                   <Button className="Navbar-MenuButton">About Us</Button>
