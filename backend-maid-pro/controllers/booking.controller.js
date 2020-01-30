@@ -25,7 +25,7 @@ module.exports = db => {
         const result = await db.booking.create({
           customer_location: req.body.customerLocation,
           work_date: req.body.workDate,
-          work_hour: req.body.workHour,
+          work_hour: parseInt(req.body.workHour),
           status: "WAIT_FOR_ACCEPTANCE",
           pay_slip_image: url,
           employer_id: req.user.id,
