@@ -37,7 +37,7 @@ export class HomePage extends Component {
 
       }
     } catch (err) {
-      console.error(err)
+      console.error('Error ❌', err.response.status, err.response.data.errorMessage);
     }
   };
 

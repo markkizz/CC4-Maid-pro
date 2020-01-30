@@ -29,8 +29,8 @@ class MaidDescription extends Component {
     try {
       const result = (await axios.get(`/users/maids/${maidId}`)).data;
       this.setState({ maid: result })
-    } catch (ex) {
-      console.error(ex.message);
+    } catch (err) {
+      console.error('Error ❌', err.response.status, err.response.data.errorMessage);
     }
   };
   showModal = () => {

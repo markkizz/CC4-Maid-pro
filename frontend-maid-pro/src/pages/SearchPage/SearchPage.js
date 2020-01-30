@@ -31,7 +31,7 @@ export class SearchPage extends Component {
         const price_hour = filterSearch.priceRange.join(",");
         const result = await axios.get(`/users/filter?name=${maidName}&type_id=${typeId}&work_date=${workDate}&price_hour=${price_hour}&rating=${rating}`);
         if(!result.data && result.data.length === 0) {
-          this.openNotificationWithIcon()
+          this.openNotificationWithIcon();
           const {data} = await axios.get("/users/maids?limit=10");
           this.setState({
             searchMaidData: data
@@ -42,19 +42,17 @@ export class SearchPage extends Component {
           })
         }
       } catch (err) {
-        console.error(err);
+        console.error('Error ❌', err.response.status, err.response.data.errorMessage);
       }
     }
     if (option === "quicksearch") {
       try {
-        const { data } = await axios.get(
-          `/users/maids/quick-search?buildingType=${serviceType}`
-        );
+        const { data } = await axios.get(`/users/maids/quick-search?buildingType=${serviceType}`);
         this.setState({
           searchMaidData: data
         });
       } catch (err) {
-        console.error(err);
+        console.error('Error ❌', err.response.status, err.response.data.errorMessage);
       }
     }
   };

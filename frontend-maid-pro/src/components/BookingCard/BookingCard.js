@@ -32,7 +32,7 @@ class BookingCard extends Component {
         content: this.state.content
       });
     } catch (err) {
-      console.error(err);
+      console.error('Error ❌', err.response.status, err.response.data.errorMessage);
     }
     try {
       await axios.put(`/bookings/maid/complete/${maidId}`);
@@ -43,28 +43,24 @@ class BookingCard extends Component {
       });
       this.props.fetchMyBooking();
     } catch (err) {
-      console.error(err);
+      console.error('Error ❌', err.response.status, err.response.data.errorMessage);
     }
   };
 
-  handelMaidAcceptJob = employerId => () => {
+  handleMaidAcceptJob = employerId => () => {
     axios
       .put(`/bookings/maid/accept/${employerId}`)
       .then(() => this.props.fetchMyBooking())
-      .catch(err => console.error(err));
+      .catch(err => console.error('Error ❌', err.response.status, err.response.data.errorMessage));
   };
 
   handleRejectMaid = employerId => async () => {
     try {
-      await axios.put(`/bookings/maid/reject/${employerId}`, {
-        reject_note: this.state.reason
-      });
-      this.setState({
-        cancelVisible: false
-      });
+      await axios.put(`/bookings/maid/reject/${employerId}`, { reject_note: this.state.reason });
+      this.setState({ cancelVisible: false });
       this.props.fetchMyBooking();
     } catch (err) {
-      console.error(err);
+      console.error('Error ❌', err.response.status, err.response.data.errorMessage);
     }
   };
 
@@ -143,7 +139,7 @@ class BookingCard extends Component {
                 <DisplayStatus
                   status={bookingUser.status}
                   onShowModal={this.showModal}
-                  onClickMaidAcceptJob={this.handelMaidAcceptJob}
+                  onClickMaidAcceptJob={this.handleMaidAcceptJob}
                   bookingUser={bookingUser.target_data}
                 />
               </Col>
