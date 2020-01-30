@@ -149,9 +149,10 @@ module.exports = db => {
         const maid = req.user;
         if (maid.type !== "MAID")
           res.status(401).json({ errorMessage: "Unauthorized" });
-        const maidBooking = await db.booking.findOne({
+        let maidBooking = await db.booking.findAll({
           where: { maid_id: maid.id, employer_id: employerId }
         });
+        maidBooking = maidBooking[maidBooking.length - 1]
         if (
           Object.keys(maidBooking).length === 0 &&
           maidBooking.constructor === Object
