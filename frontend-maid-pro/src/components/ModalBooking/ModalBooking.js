@@ -67,14 +67,13 @@ class ModalBooking extends Component {
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const { customerLocation, workDate, workHour, fileList, buildingTypeId } = this.state;
-        console.log('customerLocation', customerLocation, JSON.stringify(customerLocation))
         const { maidId } = this.props;
         let data = new FormData();
         data.append("customerLocation", customerLocation);
         data.append("workDate", workDate);
         data.append("workHour", workHour);
         data.append("photo", fileList[0]);
-        data.append("buildingTypeId", buildingTypeId)
+        data.append("buildingTypeId", buildingTypeId);
         axios.post(`/bookings/maids/${maidId}`, data)
           .then(result => {
             this.props.history.push(`/maid/${maidId}`);
@@ -89,7 +88,7 @@ class ModalBooking extends Component {
               localStorage.removeItem('store');
               setTimeout(() => this.props.history.push('/login'), 1000);
               return;
-            };
+            }
             openBookingFailedNotification(err.response.data.errorMessage);
           });
         this.setState({
@@ -276,7 +275,7 @@ class ModalBooking extends Component {
               </Row>
               <Row className="ModalBooking-Margin">
                 <Col className="ModalBooking3_font" span={16} offset={8}>
-                  ดูช่องทางการชำระเงิน <Link to="/payment">ที่นี่</Link>
+                  ดูช่องทางการชำระเงิน <Link to="/payment" target="_blank">ที่นี่</Link>
                 </Col>
               </Row>
 
