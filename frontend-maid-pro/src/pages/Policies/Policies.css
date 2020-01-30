@@ -4,10 +4,24 @@
   min-height: 88vh;
 }
 
-.Policies-Details {
-  margin-top: 2rem;
+.Policies-Description {
+  font-size: 20px;
 }
 
-.textAlign {
+.Policies-Details {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.Policies-RuleHeaders {
+  font-size: 18px;
+  color: blue;
+}
+
+.Policies-TextAlign {
   text-align: center;
+}
+
+.Policies-MarginBottom {
+  margin-bottom: 1rem;
 }
