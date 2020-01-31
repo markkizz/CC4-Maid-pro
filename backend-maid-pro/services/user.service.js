@@ -61,7 +61,7 @@ module.exports = (db) => {
               result.errorMessage = info.message;
             } else if (!user) {
               result.httpStatus = 401;
-              result.message = info.message;
+              result.errorMessage = info.message;
             } else {
               result.httpStatus = 400;
               result.errorMessage = info.message;
