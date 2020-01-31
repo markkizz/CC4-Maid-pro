@@ -8,6 +8,5 @@ export const handleError = (err) => {
     localStorage.removeItem('store');
     return { status: err.response.status, message: 'Forbidden! Please login before Access' };
   }
-  console.info('error', err.response);
   return { status: err.response.status, message: err.response.data.errorMessage };
 };

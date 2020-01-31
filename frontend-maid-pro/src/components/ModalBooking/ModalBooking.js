@@ -43,15 +43,9 @@ class ModalBooking extends Component {
     await this.setState({ buildingTypeId: value });
   };
 
-  handleOpenChange = open => {
-    this.setState({ open });
-    console.log('Open', this.state.open);
-  };
+  handleOpenChange = open => this.setState({ open });
 
-  handleClose = () => {
-    this.setState({ open: false });
-    console.log('Open', this.state.open);
-  };
+  handleClose = () => this.setState({ open: false });
 
   handleSelectWorkDate = (value) => {
     this.setState({ workDate: value });
@@ -84,7 +78,6 @@ class ModalBooking extends Component {
   };
 
   handleConfirm = (e) => {
-    console.log(this.state.workDate, this.state.workStartAt);
     const { form } = this.props;
     e.preventDefault();
     form.validateFieldsAndScroll((err, values) => {

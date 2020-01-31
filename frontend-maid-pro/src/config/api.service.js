@@ -31,10 +31,8 @@ const isProtectedPath = url =>
 
 axios.interceptors.request.use(
   async config => {
-    console.log(config);
     const url = config.url;
     if (isProtectedPath(url)) {
-      console.log("pass auth");
       let token = localStorage.getItem(TOKEN);
       config.headers["Authorization"] = `Bearer ${token}`;
       return config;
