@@ -15,6 +15,9 @@
 }
 
 .Navbar-DrawerButtons {
+  
+  background-color: transparent;
+  color: white;
   box-shadow: none;
   border: none;
   padding: 0px;
@@ -37,6 +40,22 @@
   background-color: transparent;
 }
 
+.Navbar-Center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Navbar-imgDropdown {
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+}
+
+.Navbar-MenuDropdown {
+  font-size: 16px;
+}
+
 @media only screen and (min-width: 845px) {
   .Navbar-Icon {
     display: none;
@@ -47,4 +66,8 @@
   .Navbar-Menu {
     display: none;
   }
+}
+
+.drawer > div > div {
+  background-color: rgb(38, 72, 95,0.95);
 }

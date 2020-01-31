@@ -2,10 +2,12 @@ import React from "react";
 import { Row, Col, Button } from "antd";
 import { FaRegClock, FaRegCheckCircle, FaRegTimesCircle } from "react-icons/fa";
 import './DisplayStatus.css';
+import { connect } from 'react-redux'
 
 function MainComponent(props) {
   let Component
-  const {status, type, onShowModal} = props
+  const {status, user } = props
+  const {type} = user
   if(status === "WAIT_FOR_ACCEPTANCE" && type === 'EMPLOYER'){
     Component = RenderWaitingForAccept
   } else if(status === "WAIT_FOR_ACCEPTANCE" && type === 'MAID') {
@@ -20,11 +22,15 @@ function MainComponent(props) {
     Component = RenderComplete
   }
   return (
-    <Component onShowModal={onShowModal} />
+    <Component {...props} />
   );
 }
 
-export default MainComponent;
+const mapStateToProps = state => ({
+  user: state.user
+})
+
+export default connect(mapStateToProps, null)(MainComponent);
 
 // employer
 // * CanRefactor
@@ -86,7 +92,7 @@ const RenderCustomerRequest = (props) => (
     </Button>
     <Button
       className="BookingCard-Accept"
-      onClick={props.onShowModal("acceptVisible")}
+      onClick={props.onClickMaidAcceptJob(props.bookingUser.id)}
     >
       Accept
     </Button>
@@ -95,16 +101,16 @@ const RenderCustomerRequest = (props) => (
 
 // * CanRefactor
 // when user cancel job
-const RenderCancel = () => (
-  <Row type="flex" align="middle" gutter={[8, 16]}>
-    <Col>
-      <FaRegTimesCircle className="DisplayStatus-Cancel" />
-    </Col>
-    <Col className="DisplayStatus-p">
-      <p>Cancel Job</p>
-    </Col>
-  </Row>
-)
+// const RenderCancel = () => (
+//   <Row type="flex" align="middle" gutter={[8, 16]}>
+//     <Col>
+//       <FaRegTimesCircle className="DisplayStatus-Cancel" />
+//     </Col>
+//     <Col className="DisplayStatus-p">
+//       <p>Cancel Job</p>
+//     </Col>
+//   </Row>
+// )
 
 // * CanRefactor
 const RenderAccept = () => (

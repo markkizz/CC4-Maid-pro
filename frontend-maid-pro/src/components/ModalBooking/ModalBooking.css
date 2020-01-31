@@ -1,13 +1,13 @@
-.Booking-Card {
+.ModalBooking-Card {
   width: 350%;
   border: none;
 }
 
-.Booking-InputMargin {
+.ModalBooking-InputMargin {
   margin-bottom: 2%;
 }
 
-.Booking-ConfirmButton {
+.ModalBooking-ConfirmButton {
   box-shadow: none;
   border-radius: 11px;
   border-color: #005792;
@@ -15,60 +15,60 @@
   color: white;
 }
 
-.Booking-CancelButton {
+.ModalBooking-CancelButton {
   box-shadow: none;
   border-radius: 11px;
   border-color: #005792;
   color: #005792;
 }
 
-.Booking-Footer {
+.ModalBooking-Footer {
   margin-bottom: 10px;
 }
 
-.Booking-icon {
+.ModalBooking-icon {
   color: #005792;
   font-size: 24px;
 }
 
-.Booking-icon_font {
+.ModalBooking-icon_font {
   font-size: 24px;
 }
 
-.Booking_font {
+.ModalBooking_font {
   font-size: 18px;
 }
 
-.Booking2_font {
+.ModalBooking2_font {
   font-size: 16px;
 }
-.Booking-iconClock {
+.ModalBooking-iconClock {
   color: #fcc400;
   font-size: 25px;
 }
 
-.Booking3_font {
+.ModalBooking3_font {
   font-size: 14px;
 }
 
-.Booking-Margin {
+.ModalBooking-Margin {
   margin-bottom: 2%;
   width: 100%;
 }
 
-.Booking-Margin2 {
+.ModalBooking-Margin2 {
   margin-bottom: 5%;
 }
 
-.Booking-Margin3 {
+.ModalBooking-Margin3 {
   margin-bottom: 10%;
 }
 
-.Booking-Center {
+.ModalBooking-Center {
   display: flex;
   justify-content: center;
 }
 
-.Booking-Top {
+.ModalBooking-Top {
   top: 20px;
 }

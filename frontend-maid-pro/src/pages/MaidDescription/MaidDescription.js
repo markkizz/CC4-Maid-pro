@@ -6,7 +6,7 @@ import Footer from "../../components/Footer/Footer";
 import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import { Row, Col, Button, Rate } from "antd";
 import { FaBuilding, FaHome } from "react-icons/fa";
-import Booking from "../Booking/Booking";
+import ModalBooking from "../../components/ModalBooking/ModalBooking";
 import axios from "../../config/api.service";
 import { withRouter } from 'react-router-dom';
 import { GiBroom } from "react-icons/gi";
@@ -20,14 +20,14 @@ class MaidDescription extends Component {
       type: '',
       reviewedMaids: []
     }
-  }
+  };
 
   componentDidMount = async () => {
 
     const { match } = this.props;
     const { maidId } = match.params;
     try {
-      const result = (await axios.get(`/users/maids/${maidId}`)).data
+      const result = (await axios.get(`/users/maids/${maidId}`)).data;
       this.setState({ maid: result })
     } catch (ex) {
       console.error(ex.message);
@@ -38,17 +38,17 @@ class MaidDescription extends Component {
   };
 
   handleCancel = e => {
-    this.setState({ visible: false, });
+    this.setState({ visible: false });
   };
 
-  isServiceType = (servicesList, type) => {
+  isServiceType = (services, type) => {
     let flag = false;
-    servicesList.map(service => {
+    (services.length > 0) && services.forEach(service => {
       if (service.type.startsWith(type)) {
         flag = true
       }
     });
-    return flag
+    return flag;
   };
 
   render() {
@@ -108,9 +108,9 @@ class MaidDescription extends Component {
                 </Col>
               )}
               <Col span={12} className="MaidDescription-CondoType">
-                {maid.buildingServices.map(buildingService => (
+                {maid.buildingServices.map((buildingService, idx) => (
                   buildingService.type.startsWith("คอนโด") && (
-                    <h5 key={maid.id}><GiBroom /> {buildingService.type}</h5>
+                    <h5 key={idx}><GiBroom /> {buildingService.type}</h5>
                   )
                 ))}
               </Col>
@@ -141,7 +141,9 @@ class MaidDescription extends Component {
               >
                 Booking
               </Button>
-              <Booking maidId={maid.id} visible={this.state.visible} onCancel={this.handleCancel} />
+              <ModalBooking buildingServices={maid.buildingServices} maidId={maid.id} maid={maid}
+                            visible={this.state.visible} onCancel={this.handleCancel}
+              />
               <Col span={24} className="MaidDescription-Booking">
                 <h4>REVIEWS</h4>
               </Col>

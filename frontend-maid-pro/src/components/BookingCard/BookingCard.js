@@ -1,49 +1,71 @@
 import React, { Component } from "react";
 import "./BookingCard.css";
-import { Row, Col, Divider, Button } from "antd";
-import { FaMapMarkerAlt, FaRegClock, FaRegCheckCircle } from "react-icons/fa";
+import { Row, Col, Divider } from "antd";
+import { FaMapMarkerAlt, FaBuilding, FaHome } from "react-icons/fa";
 import axios from "../../config/api.service";
 import ModalAccept from "../ModalBookingAccept/ModalBookingAccept";
 import ModalCancel from "../ModalBookingCancel/ModalBookingCancel";
 import DisplayStatus from "./DisplayStatus/DisplayStatus";
 import moment from "moment";
+import { connect } from "react-redux";
+import { thunk_action_mybooking } from "../../redux/actions/actions";
 
-export default class BookingCard extends Component {
+class BookingCard extends Component {
   state = {
     acceptVisible: false,
     cancelVisible: false,
-    rating: "",
+    rating: 5,
     content: "",
     reason: ""
   };
 
   handleChange = label => ({ target: { value } }) => {
-    this.setState(
-      () => ({
-        [label]: value
-      }),
-      () => console.log(this.state)
-    );
+    this.setState({
+      [label]: value
+    });
   };
 
-  handleSubmit = () => {
-    axios
-      .post(`/mybooking`, {
-        rating: this.state.username,
-        content: this.state.password,
-        reason: this.state.reason
-      })
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => {
-        console.error(err);
+  handleEmployerClickComplete = maidId => async () => {
+    try {
+      await axios.post(`/add-review/${maidId}`, {
+        rating: this.state.rating,
+        content: this.state.content
       });
-    this.setState({
-      rating: "",
-      content: "",
-      reason: ""
-    });
+    } catch (err) {
+      console.error(err);
+    }
+    try {
+      await axios.put(`/bookings/maid/complete/${maidId}`);
+      this.setState({
+        rating: "",
+        content: "",
+        acceptVisible: false
+      });
+      this.props.fetchMyBooking();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  handelMaidAcceptJob = employerId => () => {
+    axios
+      .put(`/bookings/maid/accept/${employerId}`)
+      .then(() => this.props.fetchMyBooking())
+      .catch(err => console.error(err));
+  };
+
+  handleRejectMaid = employerId => async () => {
+    try {
+      await axios.put(`/bookings/maid/reject/${employerId}`, {
+        reject_note: this.state.reason
+      });
+      this.setState({
+        cancelVisible: false
+      });
+      this.props.fetchMyBooking();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   showModal = label => () => {
@@ -60,7 +82,7 @@ export default class BookingCard extends Component {
 
   render() {
     const { acceptVisible, cancelVisible, reason } = this.state;
-    const { bookingUser, type } = this.props;
+    const { bookingUser } = this.props;
     const workDate = moment(bookingUser.work_date);
     const month = workDate.format("LL").split(" ")[0];
     const day = workDate.format("DD");
@@ -68,7 +90,6 @@ export default class BookingCard extends Component {
     const workEnd = workDate
       .add(bookingUser.work_hour, "hours")
       .format("h:mm a");
-
     return (
       <>
         <Row className="BookingCard-Body">
@@ -98,6 +119,14 @@ export default class BookingCard extends Component {
                   <Col className="BookingCard-Address">
                     <FaMapMarkerAlt /> {bookingUser.customer_location}
                   </Col>
+                  <Col className="BookingCard-BuildingType">
+                    {bookingUser.building_type.startsWith("คอนโด") ? (
+                      <FaBuilding />
+                    ) : (
+                      <FaHome />
+                    )}
+                    {bookingUser.building_type}
+                  </Col>
                 </Row>
               </Col>
               <Col span={8}>
@@ -112,9 +141,10 @@ export default class BookingCard extends Component {
             <Row type="flex" align="middle" className="BookingCard-Status">
               <Col style={{ width: "100%" }}>
                 <DisplayStatus
-                  type={type}
                   status={bookingUser.status}
                   onShowModal={this.showModal}
+                  onClickMaidAcceptJob={this.handelMaidAcceptJob}
+                  bookingUser={bookingUser.target_data}
                 />
               </Col>
             </Row>
@@ -122,16 +152,19 @@ export default class BookingCard extends Component {
         </Row>
 
         <ModalAccept
+          bookingUser={bookingUser}
           visible={acceptVisible}
           onShowModal={this.showModal}
-          onSubmit={this.handleSubmit}
+          onEmployerClickComplete={this.handleEmployerClickComplete}
           onChange={this.handleChange}
           onChangeRate={this.handleRating}
         />
+
         <ModalCancel
+          bookingUser={bookingUser}
           visible={cancelVisible}
           onShowModal={this.showModal}
-          onSubmit={this.handleSubmit}
+          onMaidClickReject={this.handleRejectMaid}
           textAreaValue={reason}
           onChange={this.handleChange}
         />
@@ -139,3 +172,9 @@ export default class BookingCard extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  fetchMyBooking: () => dispatch(thunk_action_mybooking())
+});
+
+export default connect(null, mapDispatchToProps)(BookingCard);

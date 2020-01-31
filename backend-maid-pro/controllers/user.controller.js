@@ -14,7 +14,7 @@ module.exports = db => {
           res.status(httpStatus).json({ errorMessage });
         }
       } catch (ex) {
-        res.status(400).json({ errorMessage: ex });
+        res.status(400).json({ errorMessage: ex.message });
       }
     },
 
@@ -24,7 +24,7 @@ module.exports = db => {
         if (!errorMessage) {
           res.status(httpStatus).json(message);
         } else {
-          res.status(httpStatus).json({ errorMessage: errorMessage });
+          res.status(httpStatus).json({ errorMessage });
         }
       } catch (ex) {
         res.status(400).json({ errorMessage: ex.message });
@@ -63,10 +63,9 @@ module.exports = db => {
     // * argument can refactor
     searchMaids: async (req, res) => {
       try {
-        console.log(req.body)
-        const { name, work_date, rating, price_hour } = req.query;
+        const { name, work_date, rating, price_hour, type } = req.query;
         const arr_price_hour = price_hour.split(",").map(price => Number(price));
-        let type_id = Number(req.query.type_id);
+        let type_id = req.query.type_id;
         let result = await service.searchMaids(name, type_id, work_date, rating, arr_price_hour);
         const { httpStatus, message, errorMessage } = result;
         if (!errorMessage) {
@@ -76,7 +75,7 @@ module.exports = db => {
         }
       } catch (err) {
         console.log('err', err);
-        res.status(400).json({ errorMessage: err });
+        res.status(400).json({ errorMessage: err.message });
       }
     },
 
@@ -95,14 +94,10 @@ module.exports = db => {
       }
     },
 
-    findMaidsQuickSearch: async (req, res) => {
+    findMaidsByBuildingType: async (req, res) => {
       try {
-        const { type } = req.query;
-        let serviceTypeId
-        if (type === 'condo') serviceTypeId = [1, 4];
-        else if (type === 'house') serviceTypeId = [5, 7];
-        else res.status(400).json({ errorMessage: 'invalid service type' });
-        const result = await service.findMaidsQuickSearch(serviceTypeId);
+        const { buildingType } = req.query;
+        const result = await service.findMaidsByBuildingType(buildingType);
         const { httpStatus, message, errorMessage } = result;
         if (!errorMessage) {
           res.status(httpStatus).json(message);

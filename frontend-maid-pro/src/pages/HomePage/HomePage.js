@@ -1,37 +1,66 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchMaids, quickSearchType, selectedMaid } from "../../redux/actions/actions";
+import axios from "../../config/api.service";
 import "./HomePage.css";
 import Navbar from "../../components/Navbar/Navbar";
 import MaidCard from "../../components/MaidCard/MaidCard";
 import Footer from "../../components/Footer/Footer";
 import { Carousel, Row, Col, Button } from "antd";
 import { FaBuilding, FaHome } from "react-icons/fa";
-import axios from "../../config/api.service";
-import { fetchMaids, quickSearchType, selectedMaid } from "../../redux/actions/actions";
-import { connect } from "react-redux";
 import Carousel1 from '../../images/Carousel1.jpeg'
 import Carousel2 from '../../images/Carousel2.jpg'
 import Carousel3 from '../../images/Carousel3.jpg'
+import MaidCardWeb from '../../components/MaidCardWeb/MaidCardWeb'
 
 export class HomePage extends Component {
+  _isMounted = false;
   state = {
     imageUrls: [
       Carousel1,
       Carousel2,
       Carousel3
     ],
-    topMaids: []
+    topMaids: [],
+    mobileScreen: false,
+    isLoading: true
   };
 
   componentDidMount = async () => {
-    this.setState({ topMaids: (await axios.get('/users/maids?limit=6')).data });
+    this._isMounted = true
+    window.addEventListener("resize", this.resize.bind(this));
+    this.resize();
+    try {
+      const {data} = await axios.get('/users/maids?limit=6')
+      if(this._isMounted) {
+        this.setState({ topMaids: data, isLoading: false });
+
+      }
+    } catch (err) {
+      console.error(err)
+    }
   };
 
-  handleClickQuickSearch = serviceType => {
-    this.history.push(`/search/quicksearch`);
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  handleClickQuickSearch = async serviceType => {
+    this.props.quickSearchType(serviceType)
+    this.props.history.push(`/search/quicksearch`);
+  };
+
+  resize = () => {
+    let isMobileScreen = window.innerWidth <= 767;
+    if (isMobileScreen !== this.state.mobileScreen) {
+      this.setState({
+        mobileScreen: isMobileScreen,
+      });
+    }
   };
 
   render() {
-    const { imageUrls, topMaids } = this.state;
+    const { imageUrls, topMaids, mobileScreen } = this.state;
     return (
       <div>
         <Navbar />
@@ -52,7 +81,7 @@ export class HomePage extends Component {
             <Row>
               <Col span={12}>
                 <Row type="flex" justify="end">
-                  <Button className="HomePage-ServiceButtons">
+                  <Button onClick={() => this.handleClickQuickSearch('condo')} className="HomePage-ServiceButtons">
                     <Col className="HomePage-ButtonIconColumn">
                       <FaBuilding className="HomePage-ButtonColumnIcon" />
                     </Col>
@@ -62,7 +91,7 @@ export class HomePage extends Component {
               </Col>
               <Col span={12}>
                 <Row type="flex" justify="start">
-                  <Button className="HomePage-ServiceButtons">
+                  <Button onClick={() => this.handleClickQuickSearch('home')} className="HomePage-ServiceButtons">
                     <Col className="HomePage-ButtonIconColumn">
                       <FaHome className="HomePage-ButtonColumnIcon" />
                     </Col>
@@ -74,21 +103,17 @@ export class HomePage extends Component {
             <Row type="flex" justify="center">
               <h2 className="HomePage-HeaderText">Maid Recommended For You</h2>
             </Row>
-
-
             <Row>
               {topMaids.map(maid => (
-                <Col key={maid.id} span={12}>
+                <Col key={maid.id} xs={12} xl={8} >
                   <Row type="flex" justify="center" align="middle" style={{ marginBottom: "20px" }}>
                     <Col>
-                      <MaidCard maid={maid} />
+                      {mobileScreen ? <MaidCard maid={maid} /> : <MaidCardWeb maid={maid} /> }
                     </Col>
                   </Row>
                 </Col>
               ))}
             </Row>
-
-
           </Col>
         </Row>
         <Footer />
@@ -96,12 +121,6 @@ export class HomePage extends Component {
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    topMaids: state.maids
-  }
-};
 
 const mapDispatchToProps = dispatch => {
   return {

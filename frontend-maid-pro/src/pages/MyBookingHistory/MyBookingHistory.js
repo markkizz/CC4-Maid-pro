@@ -1,66 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
 import "./MyBookingHistory.css";
 import Navbar from "../../components/Navbar/Navbar";
 import BookingCard from "../../components/BookingCard/BookingCard";
 import { Row, Col, Tabs, BackTop } from "antd";
+import { increaseNewBookingCounter, thunk_action_mybooking } from "../../redux/actions/actions";
 
 const { TabPane } = Tabs;
 
-function callback(key) {
-  console.log(key);
-}
-
 class MyBookingHistory extends Component {
-  state = {
-    upcomming: [],
-    history: []
-  };
 
-  filterUserStatus = users => {
-    const history = [];
-    const upcomming = [];
-    users.forEach(user => {
-      user.status === "REJECT" ||
-      user.status === "CANCEL" ||
-      user.status === "FINISHED"
-        ? history.push(user)
-        : upcomming.push(user);
-    });
-    this.setState(
-      () => ({
-        upcomming,
-        history
-      }),
-      () => console.log(this.state)
-    );
-    console.log("history", history);
-    console.log("upcomming", upcomming);
-  };
-
-  componentDidMount = async () => {
-    const {type } = this.props.user;
-    if (type === "EMPLOYER") {
-      try {
-        const { data } = await axios.get("/bookings/employers");
-        this.filterUserStatus(data);
-      } catch (e) {
-        console.error(e);
-      }
-    } else if (type === "MAID") {
-      try {
-        const { data } = await axios.get("/bookings/maids/");
-        this.filterUserStatus(data)
-      } catch (err) {
-        console.error(err)
-      }
-    }
+  componentDidMount = () => {
+    this.props.fetchMyBooking()
   };
 
   render() {
-    const { history, upcomming } = this.state;
-    const { type } = this.props.user;
+    const { history, upcomming } = this.props;
     return (
       <div className="MyBookingHistory-Body">
         <Navbar />
@@ -68,28 +23,31 @@ class MyBookingHistory extends Component {
           <Col>
             <Tabs
               defaultActiveKey="1"
-              onChange={callback}
               className="MyBookingHistory-Tabs"
             >
-              {/* Upcomming tab for accept, cancel and complete for user both employer and maid */}
-              <TabPane tab="Upcoming" key="1">
-                {/* month, day, name, workHourToTime, location, status* */}
-                {upcomming.map((bookingUser, i) => (
-                  <Row key={i}>
-                    <Col>
-                      <BookingCard bookingUser={bookingUser} type={type} />
-                    </Col>
-                  </Row>
-                ))}
+              <TabPane tab="Upcoming" key="1" forceRender>
+                {upcomming.length > 0 &&
+                  upcomming.map((bookingUser, i) => (
+                    <Row key={i}>
+                      <Col>
+                        <BookingCard
+                          bookingUser={bookingUser}
+                        />
+                      </Col>
+                    </Row>
+                  ))}
               </TabPane>
-              <TabPane tab="History" key="2">
-                {history.map((bookingUser, i) => (
-                  <Row key={i}>
-                    <Col>
-                      <BookingCard bookingUser={bookingUser} type={type} />
-                    </Col>
-                  </Row>
-                ))}
+              <TabPane tab="History" key="2" forceRender>
+                {history.length > 0 &&
+                  history.map((bookingUser, i) => (
+                    <Row key={i}>
+                      <Col>
+                        <BookingCard
+                          bookingUser={bookingUser}
+                        />
+                      </Col>
+                    </Row>
+                  ))}
               </TabPane>
             </Tabs>
           </Col>
@@ -101,7 +59,13 @@ class MyBookingHistory extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  upcomming: state.booking.upcomming,
+  history: state.booking.history
 });
 
-export default connect(mapStateToProps, null)(MyBookingHistory);
+const mapDispatchToProps = dispatch => ({
+  countingMyBooking:(numberOfBooking) => dispatch(increaseNewBookingCounter(numberOfBooking)),
+  fetchMyBooking: () => dispatch(thunk_action_mybooking())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyBookingHistory);

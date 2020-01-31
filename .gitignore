@@ -1,6 +1,6 @@
 # Sequelize configuration
-*/config.json
-config.json
+#*/config.json
+#config.json
 
 # User-specific stuff
 .idea/**/workspace.xml

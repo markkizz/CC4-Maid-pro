@@ -29,15 +29,25 @@ const persistStore = loadState();
 
 export const middlewares = [thunk];
 
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() || compose
 const store = createStore(
   reducers,
   persistStore,
   compose(
-    applyMiddleware(...middlewares)  )
+    applyMiddleware(...middlewares),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
 );
 
 store.subscribe(() => {
-  saveState(store.getState());
+  const { user, search, maid, maids } = store.getState();
+  const storage = {
+    user,
+    search,
+    maid,
+    maids
+  };
+  saveState(storage);
 });
 
 export default store;

@@ -22,7 +22,7 @@ class ModalSearch extends Component {
     typeId: 1,
     workDate: "",
     rating: 4,
-    priceRange: ["250", "100"],
+    priceRange: ["0", "1000"],
     services: {
       "คอนโด 1 ห้องนอน (ไม่เกิน 40 ตร.ม.)": 1,
       "คอนโด 1 ห้องนอน (ไม่เกิน 50 ตร.ม.)": 2,
@@ -33,9 +33,10 @@ class ModalSearch extends Component {
       "บ้าน มากกว่า 200 ตร.ม.": 7
     },
     marks: {
-      0: "250",
-      33: "500",
-      66: "750",
+      0: "0",
+      25: "250",
+      50: "500",
+      75: "750",
       100: "1000"
     }
   };

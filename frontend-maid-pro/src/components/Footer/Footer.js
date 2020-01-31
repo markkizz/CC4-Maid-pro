@@ -11,16 +11,24 @@ export default class Footer extends Component {
       <div>
         <Row className="Footer-Body" type="flex" justify="center">
           <Col className="Footer-Text">
-            <span><IoIosCall /> +1 (0) 000 0000 001 </span>
+            <span className="Footer-IconCenter">
+              <IoIosCall />&nbsp;+66 (81) 999 9999
+            </span>
           </Col>
           <Col className="Footer-Text">
-            <span><MdEmail /> Maispro@mais.com </span>
+            <span className="Footer-IconCenter">
+              <MdEmail />&nbsp;info@maidproservice.com
+            </span>
           </Col>
           <Col className="Footer-Text">
-            <span><AiFillHome /> 1234 Street Name City, AA 99999 </span>
+            <span className="Footer-IconCenter">
+              <AiFillHome />&nbsp;4th floor Pantip Plaza, Bangkok 10400
+            </span>
           </Col>
           <Col className="Footer-Text">
-            <span>Maid Pro Service © 2019 </span>
+            <span>
+              Maid Pro Service © 2019
+            </span>
           </Col>
         </Row>
       </div>

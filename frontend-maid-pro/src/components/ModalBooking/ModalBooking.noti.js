@@ -1,18 +1,19 @@
 import { notification, Icon } from 'antd'
 import React from 'react'
 
-const successLoginNotification = (message) => {
+const openBookingSuccessNotification = (message) => {
   notification.open({
-    message: 'Login Successful',
-    description: message ,
+    message: 'ModalBooking Successful',
+    description: message,
     icon: <Icon type="check-circle" style={{ color: '#69c0ff' }} />,
   });
 };
-const failLoginNotification = (message) => {
+
+const openBookingFailedNotification = (message) => {
   notification.open({
-    message: 'Login Failed',
+    message: 'ModalBooking Failed',
     description: message,
     icon: <Icon type="close-circle" style={{ color: '#cf1322' }} />,
   });
 };
-export { successLoginNotification, failLoginNotification }
+export { openBookingSuccessNotification, openBookingFailedNotification }

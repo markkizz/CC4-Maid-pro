@@ -23,6 +23,7 @@ function userReducer(currentUser = initialState(), action) {
         role
       };
     case userTypes.USER_LOGOUT:
+     localStorage.removeItem("store")
       return {
         role: "guest"
       };

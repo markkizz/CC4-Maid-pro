@@ -24,21 +24,21 @@ export class SearchPage extends Component {
 
   componentDidMount = async () => {
     const { option } = this.props.match.params;
-    const { quickSearchType, filterSearch } = this.props;
-    const {maidName, typeId, workDate, rating} = filterSearch
+    const { serviceType, filterSearch } = this.props;
     if (option === "filter") {
       try {
+        const {maidName, typeId, workDate, rating} = filterSearch;
         const price_hour = filterSearch.priceRange.join(",");
-        const { data } = await axios.get(`/users/filter?name=${maidName}&type_id=${typeId}&work_date=${workDate}&price_hour=${price_hour}&rating=${rating}`);
-        if(!data && data.length === 0) {
+        const result = await axios.get(`/users/filter?name=${maidName}&type_id=${typeId}&work_date=${workDate}&price_hour=${price_hour}&rating=${rating}`);
+        if(!result.data && result.data.length === 0) {
           this.openNotificationWithIcon()
-          const {data} = await axios.get("/users/maids?limit=10")
+          const {data} = await axios.get("/users/maids?limit=10");
           this.setState({
             searchMaidData: data
           })
         } else {
           this.setState({
-            searchMaidData: data
+            searchMaidData: result.data
           })
         }
       } catch (err) {
@@ -48,11 +48,11 @@ export class SearchPage extends Component {
     if (option === "quicksearch") {
       try {
         const { data } = await axios.get(
-          `/users/quicksearch?type=${quickSearchType}`
+          `/users/maids/quick-search?buildingType=${serviceType}`
         );
-        this.setState(() => ({
+        this.setState({
           searchMaidData: data
-        }));
+        });
       } catch (err) {
         console.error(err);
       }
@@ -127,7 +127,7 @@ export class SearchPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    quickSearchType: /*state.search.quickSearchType*/ "condo",
+    serviceType: state.search.quickSearchType,
     filterSearch: state.search.filterSearch
   };
 };

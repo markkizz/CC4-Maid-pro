@@ -17,7 +17,7 @@ module.exports = (server, db) => {
     passport.authenticate('jwt', {}, { session: false }),
     controller.getMyBooking
   );
-  server.get('/users/quicksearch', controller.findMaidsQuickSearch);
+  server.get('/users/maids/quick-search', controller.findMaidsByBuildingType);
 
   server.get('/users/maids/:maidId', (req, res) => controller.findMaidByMaidId(req, res));
 

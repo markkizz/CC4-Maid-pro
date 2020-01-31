@@ -55,165 +55,173 @@ for (let i = 1; i <= numberOfUser; i++) {
   bookingData.push(booking);
 }
 
-const genAddress = () => `${faker.address.city()} ${faker.address.state(
-  true
-)} ${faker.address.streetAddress(true)} ${faker.address.streetName()}`
-
+const genAddress = () => `${faker.address.city()} ${faker.address.state(true)} ${faker.address.streetAddress(true)} ${faker.address.streetName()}`;
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
     let stat;
     const genstatus = () => {
-      stat = status[Math.floor(Math.random() * 5)]
+      stat = status[Math.floor(Math.random() * 5)];
       return stat
-    }
-    const checkIfReject = status => status === 'REJECT' ? 'uvuvwevwevwe onyetenyevwe ugwemubwem ossas' : null
+    };
+    const checkIfReject = status => status === 'REJECT' ? 'uvuvwevwevwe onyetenyevwe ugwemubwem ossas' : null;
     return queryInterface.bulkInsert("bookings",
-    [
-      {
-        id: 1,
-        customer_location: genAddress(),
-        work_date: genDateWork(),
-        work_hour: 2,
-        status: genstatus(),
-        pay_slip_image: 'url',
-        employer_id: 1,
-        maid_id: 2,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        reject_note: checkIfReject(stat)
-      },
-      {
-        id: 2,
-        customer_location: genAddress(),
-        work_date: genDateWork(),
-        work_hour: 2,
-        status: genstatus(),
-        pay_slip_image: 'url',
-        employer_id: 1,
-        maid_id: 4,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        reject_note: checkIfReject(stat)
-      },
-      {
-        id: 3,
-        customer_location: genAddress(),
-        work_date: genDateWork(),
-        work_hour: 2,
-        status: genstatus(),
-        pay_slip_image: 'url',
-        employer_id: 3,
-        maid_id: 6,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        reject_note: checkIfReject(stat)
-      },
-      {
-        id: 4,
-        customer_location: genAddress(),
-        work_date: genDateWork(),
-        work_hour: 2,
-        status: genstatus(),
-        pay_slip_image: 'url',
-        employer_id: 5,
-        maid_id: 8,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        reject_note: checkIfReject(stat)
-      },
-      {
-        id: 5,
-        customer_location: genAddress(),
-        work_date: genDateWork(),
-        work_hour: 2,
-        status: genstatus(),
-        pay_slip_image: 'url',
-        employer_id: 7,
-        maid_id: 10,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        reject_note: checkIfReject(stat)
-      },
-      {
-        id: 6,
-        customer_location: genAddress(),
-        work_date: genDateWork(),
-        work_hour: 2,
-        status: genstatus(),
-        pay_slip_image: 'url',
-        employer_id: 5,
-        maid_id: 2,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        reject_note: checkIfReject(stat)
-      },
-      {
-        id: 7,
-        customer_location: genAddress(),
-        work_date: genDateWork(),
-        work_hour: 2,
-        status: genstatus(),
-        pay_slip_image: 'url',
-        employer_id: 9,
-        maid_id: 8,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        reject_note: checkIfReject(stat)
-      },
-      {
-        id: 8,
-        customer_location: genAddress(),
-        work_date: genDateWork(),
-        work_hour: 2,
-        status: genstatus(),
-        pay_slip_image: 'url',
-        employer_id: 7,
-        maid_id: 4,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        reject_note: checkIfReject(stat)
-      },
-      {
-        id: 9,
-        customer_location: genAddress(),
-        work_date: genDateWork(),
-        work_hour: 2,
-        status: genstatus(),
-        pay_slip_image: 'url',
-        employer_id: 1,
-        maid_id: 10,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        reject_note: checkIfReject(stat)
-      },
-      {
-        id: 10,
-        customer_location: genAddress(),
-        work_date: genDateWork(),
-        work_hour: 2,
-        status: genstatus(),
-        pay_slip_image: 'url',
-        employer_id: 9,
-        maid_id: 6,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        reject_note: checkIfReject(stat)
-      },
-      {
-        id: 11,
-        customer_location: genAddress(),
-        work_date: genDateWork(),
-        work_hour: 2,
-        status: genstatus(),
-        pay_slip_image: 'url',
-        employer_id: 7,
-        maid_id: 2,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        reject_note: checkIfReject(stat)
-      }
-    ], {});
+      [
+        {
+          id: 1,
+          customer_location: genAddress(),
+          work_date: genDateWork(),
+          work_hour: 2,
+          status: genstatus(),
+          pay_slip_image: 'url',
+          employer_id: 1,
+          maid_id: 2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          reject_note: checkIfReject(stat),
+          building_type_id: 1
+        },
+        {
+          id: 2,
+          customer_location: genAddress(),
+          work_date: genDateWork(),
+          work_hour: 2,
+          status: genstatus(),
+          pay_slip_image: 'url',
+          employer_id: 1,
+          maid_id: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          reject_note: checkIfReject(stat),
+          building_type_id: 5
+        },
+        {
+          id: 3,
+          customer_location: genAddress(),
+          work_date: genDateWork(),
+          work_hour: 2,
+          status: genstatus(),
+          pay_slip_image: 'url',
+          employer_id: 3,
+          maid_id: 6,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          reject_note: checkIfReject(stat),
+          building_type_id: 3
+        },
+        {
+          id: 4,
+          customer_location: genAddress(),
+          work_date: genDateWork(),
+          work_hour: 2,
+          status: genstatus(),
+          pay_slip_image: 'url',
+          employer_id: 5,
+          maid_id: 8,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          reject_note: checkIfReject(stat),
+          building_type_id: 1
+        },
+        {
+          id: 5,
+          customer_location: genAddress(),
+          work_date: genDateWork(),
+          work_hour: 2,
+          status: genstatus(),
+          pay_slip_image: 'url',
+          employer_id: 7,
+          maid_id: 10,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          reject_note: checkIfReject(stat),
+          building_type_id: 4
+        },
+        {
+          id: 6,
+          customer_location: genAddress(),
+          work_date: genDateWork(),
+          work_hour: 2,
+          status: genstatus(),
+          pay_slip_image: 'url',
+          employer_id: 5,
+          maid_id: 2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          reject_note: checkIfReject(stat),
+          building_type_id: 2
+        },
+        {
+          id: 7,
+          customer_location: genAddress(),
+          work_date: genDateWork(),
+          work_hour: 2,
+          status: genstatus(),
+          pay_slip_image: 'url',
+          employer_id: 9,
+          maid_id: 8,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          reject_note: checkIfReject(stat),
+          building_type_id: 3
+        },
+        {
+          id: 8,
+          customer_location: genAddress(),
+          work_date: genDateWork(),
+          work_hour: 2,
+          status: genstatus(),
+          pay_slip_image: 'url',
+          employer_id: 7,
+          maid_id: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          reject_note: checkIfReject(stat),
+          building_type_id: 6
+        },
+        {
+          id: 9,
+          customer_location: genAddress(),
+          work_date: genDateWork(),
+          work_hour: 2,
+          status: genstatus(),
+          pay_slip_image: 'url',
+          employer_id: 1,
+          maid_id: 10,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          reject_note: checkIfReject(stat),
+          building_type_id: 1
+        },
+        {
+          id: 10,
+          customer_location: genAddress(),
+          work_date: genDateWork(),
+          work_hour: 2,
+          status: genstatus(),
+          pay_slip_image: 'url',
+          employer_id: 9,
+          maid_id: 6,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          reject_note: checkIfReject(stat),
+          building_type_id: 3
+        },
+        {
+          id: 11,
+          customer_location: genAddress(),
+          work_date: genDateWork(),
+          work_hour: 2,
+          status: genstatus(),
+          pay_slip_image: 'url',
+          employer_id: 7,
+          maid_id: 2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          reject_note: checkIfReject(stat),
+          building_type_id: 1
+        }
+      ], {});
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.bulkDelete("bookings", [{}]);
