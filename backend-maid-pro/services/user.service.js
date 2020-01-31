@@ -58,7 +58,7 @@ module.exports = (db) => {
           if (info !== undefined) {
             if (info.message === 'Database server error') {
               result.httpStatus = 500;
-              result.message = info.message;
+              result.errorMessage = info.message;
             } else if (!user) {
               result.httpStatus = 401;
               result.message = info.message;
