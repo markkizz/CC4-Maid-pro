@@ -46,7 +46,7 @@ axios.interceptors.request.use(
   }
 );
 
-// Redirect to login page in case of 401 response
+// Redirect to login page in case of 403 response
 axios.interceptors.response.use(
   async config => {
     return config;
@@ -54,8 +54,8 @@ axios.interceptors.response.use(
   async error => {
     if (error.request === undefined) throw error;
     let url = error.request.responseURL.split("http://localhost:3333")[1];
-    console.log(error.request.status === 401 && isProtectedPath(url));
-    if (error.request.status === 401 && isProtectedPath(url)) {
+    console.log(error.request.status === 403 && isProtectedPath(url));
+    if (error.request.status === 403 && isProtectedPath(url)) {
       console.log("Session expire, redirect to login");
       store.dispatch(logout());
       setTimeout(() => {
@@ -63,7 +63,7 @@ axios.interceptors.response.use(
       }, 1000);
     }
 
-    if (error.request.status === 401) {
+    if (error.request.status === 403) {
       throw error;
     }
 
