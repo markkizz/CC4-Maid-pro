@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 import axios from '../../config/api.service'
 import { openBookingSuccessNotification, openBookingFailedNotification } from './ModalBooking.noti';
 import moment from 'moment';
+import { handleError } from "../../utils/error-handler";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -104,15 +105,9 @@ class ModalBooking extends Component {
             openBookingSuccessNotification('Your booking is successfully');
           })
           .catch(err => {
-            console.error('Error ❌', err.response.status, err.response.data.errorMessage);
-            if (err.response.data === 'Unauthorized') {
-              openBookingFailedNotification('Please login before create booking');
-              localStorage.removeItem('ACCESS_TOKEN');
-              localStorage.removeItem('store');
-              setTimeout(() => this.props.history.push('/login'), 1000);
-              return;
-            }
-            openBookingFailedNotification(err.response.data.errorMessage);
+            const error = handleError(err);
+            console.error('Error ❌ ', error.status, error.message);
+            openBookingFailedNotification(error.message);
           });
         this.setState({
           customerLocation: '',
@@ -179,7 +174,7 @@ class ModalBooking extends Component {
                     {form.getFieldDecorator('workDate', {
                       rules: [{
                         required: true,
-                        message: 'Please select Buidling Type!',
+                        message: 'Please select Building Type!',
                       }]
                     })(
                       <DatePicker

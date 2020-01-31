@@ -8,7 +8,8 @@ import ModalCancel from "../ModalBookingCancel/ModalBookingCancel";
 import DisplayStatus from "./DisplayStatus/DisplayStatus";
 import moment from "moment";
 import { connect } from "react-redux";
-import { thunk_action_mybooking } from "../../redux/actions/actions";
+import { thunk_action_mybooking } from '../../redux/actions/actions';
+import { handleError } from '../../utils/error-handler';
 
 class BookingCard extends Component {
   state = {
@@ -32,7 +33,8 @@ class BookingCard extends Component {
         content: this.state.content
       });
     } catch (err) {
-      console.error('Error ❌', err.response.status, err.response.data.errorMessage);
+      const error = handleError(err);
+      console.error('Error ❌ ', error.status, error.message);
     }
     try {
       await axios.put(`/bookings/maid/complete/${maidId}`);
@@ -43,7 +45,8 @@ class BookingCard extends Component {
       });
       this.props.fetchMyBooking();
     } catch (err) {
-      console.error('Error ❌', err.response.status, err.response.data.errorMessage);
+      const error = handleError(err);
+      console.error('Error ❌ ', error.status, error.message);
     }
   };
 
@@ -51,7 +54,10 @@ class BookingCard extends Component {
     axios
       .put(`/bookings/maid/accept/${employerId}`)
       .then(() => this.props.fetchMyBooking())
-      .catch(err => console.error('Error ❌', err.response.status, err.response.data.errorMessage));
+      .catch(err => {
+        const error = handleError(err);
+        console.error('Error ❌ ', error.status, error.message);
+      });
   };
 
   handleRejectMaid = employerId => async () => {
@@ -60,7 +66,8 @@ class BookingCard extends Component {
       this.setState({ cancelVisible: false });
       this.props.fetchMyBooking();
     } catch (err) {
-      console.error('Error ❌', err.response.status, err.response.data.errorMessage);
+      const error = handleError(err);
+      console.error('Error ❌ ', error.status, error.message);
     }
   };
 

@@ -1,15 +1,16 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import "./MaidDescription.css";
-import Navbar from "../../components/Navbar/Navbar";
-import Footer from "../../components/Footer/Footer";
-import ReviewCard from "../../components/ReviewCard/ReviewCard";
-import { Row, Col, Button, Rate } from "antd";
-import { FaBuilding, FaHome } from "react-icons/fa";
-import ModalBooking from "../../components/ModalBooking/ModalBooking";
-import axios from "../../config/api.service";
+import './MaidDescription.css';
+import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/Footer/Footer';
+import ReviewCard from '../../components/ReviewCard/ReviewCard';
+import { Row, Col, Button, Rate } from 'antd';
+import { FaBuilding, FaHome } from 'react-icons/fa';
+import ModalBooking from '../../components/ModalBooking/ModalBooking';
+import axios from '../../config/api.service';
 import { withRouter } from 'react-router-dom';
-import { GiBroom } from "react-icons/gi";
+import { GiBroom } from 'react-icons/gi';
+import { handleError } from '../../utils/error-handler';
 
 class MaidDescription extends Component {
   state = {
@@ -30,7 +31,8 @@ class MaidDescription extends Component {
       const result = (await axios.get(`/users/maids/${maidId}`)).data;
       this.setState({ maid: result })
     } catch (err) {
-      console.error('Error ❌', err.response.status, err.response.data.errorMessage);
+      const error = handleError(err);
+      console.error('Error ❌ ', error.status, error.message);
     }
   };
   showModal = () => {
