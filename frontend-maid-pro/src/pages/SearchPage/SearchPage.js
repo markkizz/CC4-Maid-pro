@@ -9,6 +9,7 @@ import axios from "../../config/api.service";
 import { dispatch } from "rxjs/internal/observable/pairs";
 import { selectedMaid } from "../../redux/actions/actions";
 import { connect } from "react-redux";
+import { handleError } from "../../utils/error-handler";
 
 export class SearchPage extends Component {
   state = {
@@ -42,7 +43,8 @@ export class SearchPage extends Component {
           })
         }
       } catch (err) {
-        console.error('Error ❌', err.response.status, err.response.data.errorMessage);
+        const errorMessage = handleError(err);
+        console.error('Error ❌ ', errorMessage);
       }
     }
     if (option === "quicksearch") {
@@ -52,7 +54,8 @@ export class SearchPage extends Component {
           searchMaidData: data
         });
       } catch (err) {
-        console.error('Error ❌', err.response.status, err.response.data.errorMessage);
+        const error = handleError(err);
+        console.error('Error ❌ ', error.status, error.message);
       }
     }
   };

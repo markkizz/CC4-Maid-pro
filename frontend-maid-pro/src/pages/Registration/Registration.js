@@ -8,6 +8,7 @@ import { MdLockOutline } from "react-icons/md";
 import { AiOutlineMail } from "react-icons/ai";
 import axios from "../../config/api.service"
 import { openFailedRegisterNotification, openSuccessRegisterNotification } from "./Registration.noti"
+import { handleError } from "../../utils/error-handler";
 
 export default class Registration extends Component {
   state = {
@@ -32,8 +33,9 @@ export default class Registration extends Component {
         this.props.history.push("/")
       })
       .catch(err => {
-        console.error(`Error ❌`, err.response.status, err.response.data.errorMessage);
-        openFailedRegisterNotification(err.response.data.errorMessage);
+        const errorMessage = handleError(err);
+        console.error('Error ❌ ', errorMessage);
+        openFailedRegisterNotification(errorMessage);
       });
   };
 
