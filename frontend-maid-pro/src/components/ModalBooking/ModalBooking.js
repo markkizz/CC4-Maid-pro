@@ -93,23 +93,20 @@ class ModalBooking extends Component {
         data.append("buildingTypeId", buildingTypeId);
         axios.post(`/bookings/maids/${maidId}`, data)
           .then(result => {
-            this.props.history.push(`/maid/${maidId}`);
             this.props.onCancel(false);
             openBookingSuccessNotification('Your booking is successfully');
+            form.resetFields();
+            this.setState({ checkedCurrentAddress: false })
+            this.props.history.push(`/maid/${maidId}`);
           })
           .catch(err => {
             const error = handleError(err);
             console.error('Error ❌ ', error.status, error.message);
             openBookingFailedNotification(error.message);
+            if (error.message.endsWith('Please login before do that')) {
+              this.props.history.push('/login');
+            }
           });
-        this.setState({
-          customerLocation: '',
-          workDate: '',
-          workHour: '',
-          fileList: [],
-          checkedCurrentAddress: false
-        });
-        form.resetFields();
       }
     });
   };
@@ -144,7 +141,7 @@ class ModalBooking extends Component {
                     {form.getFieldDecorator('buildingType', {
                       rules: [{
                         required: true,
-                        message: 'Please select Buidling Type!',
+                        message: 'Please select Building Type!',
                       }]
                     })(<Select
                       onChange={this.handleSelectBuildingType}
@@ -167,7 +164,7 @@ class ModalBooking extends Component {
                     {form.getFieldDecorator('workDate', {
                       rules: [{
                         required: true,
-                        message: 'Please select Building Type!',
+                        message: 'Please select Work Date!',
                       }]
                     })(
                       <DatePicker
