@@ -82,7 +82,6 @@ export const recieveMyBookingData = (upcomming, history) => {
 // * THUNK ACTION
 
 export const thunk_action_mybooking = () => async (dispatch, getState) => {
-  console.log("inside thunk action");
   const userType = getState().user.type;
   const upcommingInStore = getState().booking.upcomming;
   const historyInStore = getState().booking.history;

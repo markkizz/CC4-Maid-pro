@@ -52,9 +52,8 @@ axios.interceptors.response.use(
   async error => {
     if (error.request === undefined) throw error;
     let url = error.request.responseURL.split("http://localhost:3333")[1];
-    console.log(error.request.status === 403 && isProtectedPath(url));
     if (error.request.status === 403 && isProtectedPath(url)) {
-      console.log("Session expire, redirect to login");
+      console.error("Session expire, redirect to login");
       store.dispatch(logout());
       setTimeout(() => {
         window.appHistory.push("/login");
