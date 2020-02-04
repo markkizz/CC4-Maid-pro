@@ -55,13 +55,13 @@ const opts = {
 };
 
 passport.use('jwt', new JwtStrategy(opts, async (jwt_payload, done) => {
-  console.log(jwt_payload);
+  console.info(jwt_payload);
   const user = await db.user.findOne({ where: { id: jwt_payload.id } });
   if (user) {
-    console.log('User found');
+    console.info('User found');
     done(null, user);
   } else {
-    console.log('User not found');
+    console.info('User not found');
     done(null, false);
   }
 }));

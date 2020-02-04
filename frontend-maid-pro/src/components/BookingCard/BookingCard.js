@@ -8,7 +8,8 @@ import ModalCancel from "../ModalBookingCancel/ModalBookingCancel";
 import DisplayStatus from "./DisplayStatus/DisplayStatus";
 import moment from "moment";
 import { connect } from "react-redux";
-import { thunk_action_mybooking } from "../../redux/actions/actions";
+import { thunk_action_mybooking } from '../../redux/actions/actions';
+import { handleError } from '../../utils/error-handler';
 
 class BookingCard extends Component {
   state = {
@@ -32,7 +33,8 @@ class BookingCard extends Component {
         content: this.state.content
       });
     } catch (err) {
-      console.error(err);
+      const error = handleError(err);
+      console.error('Error ❌ ', error.status, error.message);
     }
     try {
       await axios.put(`/bookings/maid/complete/${maidId}`);
@@ -43,28 +45,29 @@ class BookingCard extends Component {
       });
       this.props.fetchMyBooking();
     } catch (err) {
-      console.error(err);
+      const error = handleError(err);
+      console.error('Error ❌ ', error.status, error.message);
     }
   };
 
-  handelMaidAcceptJob = employerId => () => {
+  handleMaidAcceptJob = employerId => () => {
     axios
       .put(`/bookings/maid/accept/${employerId}`)
       .then(() => this.props.fetchMyBooking())
-      .catch(err => console.error(err));
+      .catch(err => {
+        const error = handleError(err);
+        console.error('Error ❌ ', error.status, error.message);
+      });
   };
 
   handleRejectMaid = employerId => async () => {
     try {
-      await axios.put(`/bookings/maid/reject/${employerId}`, {
-        reject_note: this.state.reason
-      });
-      this.setState({
-        cancelVisible: false
-      });
+      await axios.put(`/bookings/maid/reject/${employerId}`, { reject_note: this.state.reason });
+      this.setState({ cancelVisible: false });
       this.props.fetchMyBooking();
     } catch (err) {
-      console.error(err);
+      const error = handleError(err);
+      console.error('Error ❌ ', error.status, error.message);
     }
   };
 
@@ -96,12 +99,7 @@ class BookingCard extends Component {
           <Col>
             <Row type="flex" align="middle" className="BookingCard-BodyTop">
               <Col span={7}>
-                <Row
-                  type="flex"
-                  justify="center"
-                  align="middle"
-                  className="BookingCard-Date"
-                >
+                <Row type="flex" justify="center" align="middle" className="BookingCard-Date">
                   <Col className="BookingCard-Month">{month}</Col>
                   <Col className="BookingCard-Day">{day}</Col>
                 </Row>
@@ -143,7 +141,7 @@ class BookingCard extends Component {
                 <DisplayStatus
                   status={bookingUser.status}
                   onShowModal={this.showModal}
-                  onClickMaidAcceptJob={this.handelMaidAcceptJob}
+                  onClickMaidAcceptJob={this.handleMaidAcceptJob}
                   bookingUser={bookingUser.target_data}
                 />
               </Col>

@@ -1,16 +1,17 @@
-import React, { Component } from "react";
-import "./LoginPage.css";
-import Navbar from "../../components/Navbar/Navbar";
-import Footer from "../../components/Footer/Footer";
-import { Row, Col, Input, Icon, Button, Divider, Form } from "antd";
+import React, { Component } from 'react';
+import './LoginPage.css';
+import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/Footer/Footer';
+import { Row, Col, Input, Icon, Button, Divider, Form } from 'antd';
 import { Link } from 'react-router-dom';
-import Logo from "../../images/maidProServiceLoginLogo.png";
+import Logo from '../../images/maidProServiceLoginLogo.png';
 import { MdLockOutline } from "react-icons/md";
-import axios from "../../config/api.service";
-import { openSuccessLoginNotification, openFailedLoginNotification } from "./LoginPage.noti";
-import { connect } from "react-redux";
-import { login } from "../../redux/actions/actions";
-import jwtDecode from "jwt-decode";
+import axios from '../../config/api.service';
+import { openSuccessLoginNotification, openFailedLoginNotification } from './LoginPage.noti';
+import { connect } from 'react-redux';
+import { login } from '../../redux/actions/actions';
+import jwtDecode from 'jwt-decode';
+import { handleError } from '../../utils/error-handler';
 
 class LoginPage extends Component {
   state = {
@@ -27,7 +28,7 @@ class LoginPage extends Component {
       [label]: e.target.value
     });
   };
-
+// {username: username ...}
   handleLogin = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((error, values) => {
@@ -45,9 +46,10 @@ class LoginPage extends Component {
             this.props.history.push("/");
           })
           .catch(err => {
-            console.error(`Error ❌`, err.response.status, err.response.data);
-            openFailedLoginNotification(err.response.data);
-          });
+            const error = handleError(err);
+            console.error('Error ❌ ', error.status, error.message);
+            openFailedLoginNotification(error.message);
+          }); //''
         this.setState({
           username: "",
           password: ""

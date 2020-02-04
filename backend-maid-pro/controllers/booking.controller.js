@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const moment = require('moment');
 const Op = Sequelize.Op;
 
 module.exports = db => {
@@ -7,24 +8,24 @@ module.exports = db => {
       try {
         const { maidId } = req.params;
         const bookedUsers = await db.booking.findAll({
-          where: {
-            employer_id: req.user.id,
-            maid_id: maidId
-          },
+          where: { employer_id: req.user.id, maid_id: maidId },
           order: [['id', 'DESC']],
           limit: 1
         });
         const bookingStatus = bookedUsers.length && bookedUsers[0].dataValues.status;
         if (bookingStatus === 'WAIT_FOR_ACCEPTANCE') {
-          res.status(400).json({ errorMessage: "User already booked" });
+          res.status(422).json({ errorMessage: "User already booked" });
+          return;
         }
+        const workDate = moment(new Date(req.body.workDate)).format('YYYY-MM-DD');
+        const workStartAt = moment(new Date(req.body.workStartAt)).format('hh:mm:ss');
         let photo = req.files.photo;
         let photoName = new Date().getTime() + ".jpeg";
         photo.mv("./uploads/" + photoName);
         const url = `http://localhost:8080/${photoName}`;
         const result = await db.booking.create({
           customer_location: req.body.customerLocation,
-          work_date: req.body.workDate,
+          work_date: `${workDate} ${workStartAt}`,
           work_hour: parseInt(req.body.workHour),
           status: "WAIT_FOR_ACCEPTANCE",
           pay_slip_image: url,
@@ -35,10 +36,9 @@ module.exports = db => {
         if (result.length === 0) {
           res.status(204).json({ result });
         } else {
-          res.status(200).json({ result });
+          res.status(201).json({ result });
         }
       } catch (err) {
-        console.error(err);
         if (err.message.includes("ECONNREFUSED")) {
           res.status(500).json({ errorMessage: "Database server error" });
         }
@@ -50,7 +50,7 @@ module.exports = db => {
     findBookingsByEmployerId: async (req, res) => {
       try {
         const employer = req.user;
-        if (employer.type !== "EMPLOYER") res.status(400).json({ errorMessage: "Unauthorized" });
+        if (employer.type !== "EMPLOYER") res.status(400).json({ errorMessage: "Do not have permission to do" });
         const maids = await db.booking.findAll({
           where: {
             employer_id: employer.id
@@ -100,7 +100,7 @@ module.exports = db => {
       try {
         const maid = req.user;
         if (maid.type !== "MAID")
-          res.status(401).json({ errorMessage: "Unauthorized" });
+          res.status(403).json({ errorMessage: "Do not have permission to do" });
         const employers = await db.booking.findAll({
           where: {
             maid_id: maid.id
@@ -148,7 +148,7 @@ module.exports = db => {
         const { employerId } = req.params;
         const maid = req.user;
         if (maid.type !== "MAID")
-          res.status(401).json({ errorMessage: "Unauthorized" });
+          res.status(403).json({ errorMessage: "Do not have permission to do" });
         let maidBooking = await db.booking.findAll({
           where: { maid_id: maid.id, employer_id: employerId }
         });
@@ -163,9 +163,7 @@ module.exports = db => {
           await maidBooking.update({ status: "ACCEPT" });
           res.status(200).json({ message: "accpect complete" });
         } else {
-          res
-            .status(406)
-            .json({ message: "Already accept or employer reject" });
+          res.status(406).json({ message: "Already accept or employer reject" });
         }
       } catch (err) {
         if (err.message.includes("ECONNREFUSED")) {
@@ -181,7 +179,7 @@ module.exports = db => {
         const { reject_note } = req.body;
         const maid = req.user;
         if (maid.type !== "MAID")
-          res.status(401).json({ errorMessage: "Unauthorized" });
+          res.status(403).json({ errorMessage: "Do not have permission to do" });
         const maidBooking = await db.booking.findOne({
           where: { maid_id: maid.id, employer_id: employerId }
         });
@@ -195,9 +193,7 @@ module.exports = db => {
           await maidBooking.update({ status: "REJECT", reject_note });
           res.status(200).json({ message: "reject complete" });
         } else {
-          res
-            .status(406)
-            .json({ message: "Already reject" });
+          res.status(406).json({ message: "Already reject" });
         }
       } catch (err) {
         if (err.message.includes("ECONNREFUSED")) {
@@ -212,24 +208,21 @@ module.exports = db => {
         const { maidId } = req.params;
         const employer = req.user;
         if (employer.type !== "EMPLOYER")
-          res.status(401).json({ errorMessage: "Unauthorized" });
+          res.status(403).json({ errorMessage: "Do not have permission to do" });
         const employerBooking = await db.booking.findOne({
           where: { employer_id: employer.id, maid_id: maidId }
         });
-        console.log(employerBooking)
         if (
           Object.keys(employerBooking).length === 0 &&
-          maidBooking.constructor === Object
+          employerBooking.constructor === Object
         ) {
           res.status(204).json({ errorMessage: "no booking" });
         }
         if (employerBooking.dataValues.status === "ACCEPT") {
-          await employerBooking.update({ status: "FINISHED"});
-          res.status(200).json({ message: "cleaing complete" });
+          await employerBooking.update({ status: "FINISHED" });
+          res.status(200).json({ message: "Cleaning complete" });
         } else {
-          res
-            .status(406)
-            .json({ message: "Already complete" });
+          res.status(406).json({ message: "Already complete" });
         }
       } catch (err) {
         if (err.message.includes("ECONNREFUSED")) {

@@ -1,15 +1,16 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import "./MaidDescription.css";
-import Navbar from "../../components/Navbar/Navbar";
-import Footer from "../../components/Footer/Footer";
-import ReviewCard from "../../components/ReviewCard/ReviewCard";
-import { Row, Col, Button, Rate } from "antd";
-import { FaBuilding, FaHome } from "react-icons/fa";
-import ModalBooking from "../../components/ModalBooking/ModalBooking";
-import axios from "../../config/api.service";
+import './MaidDescription.css';
+import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/Footer/Footer';
+import ReviewCard from '../../components/ReviewCard/ReviewCard';
+import { Row, Col, Button, Rate } from 'antd';
+import { FaBuilding, FaHome } from 'react-icons/fa';
+import ModalBooking from '../../components/ModalBooking/ModalBooking';
+import axios from '../../config/api.service';
 import { withRouter } from 'react-router-dom';
-import { GiBroom } from "react-icons/gi";
+import { GiBroom } from 'react-icons/gi';
+import { handleError } from '../../utils/error-handler';
 
 class MaidDescription extends Component {
   state = {
@@ -29,8 +30,9 @@ class MaidDescription extends Component {
     try {
       const result = (await axios.get(`/users/maids/${maidId}`)).data;
       this.setState({ maid: result })
-    } catch (ex) {
-      console.error(ex.message);
+    } catch (err) {
+      const error = handleError(err);
+      console.error('Error ❌ ', error.status, error.message);
     }
   };
   showModal = () => {
@@ -61,43 +63,23 @@ class MaidDescription extends Component {
             <Row className="MaidDescription-Profile">
               <Col span={11}>
                 <Row type="flex" justify="end">
-                  <img
-                    src={maid.profileImg}
-                    alt=""
-                    width="150"
-                    className="MaidDescription-ProfilePicture"
-                  />
+                  <img src={maid.profileImg} alt="" width="150" className="MaidDescription-ProfilePicture" />
                 </Row>
               </Col>
               <Col span={13} className="MaidDescription-Name">
                 <h2>{maid.firstName} {maid.lastName}</h2>
-                <h3>
-                  <Rate
-                    allowHalf
-                    value={maid.averageRating}
-                    className="MaidDescription-Rate"
-                  />
+                <h3><Rate allowHalf value={maid.averageRating} className="MaidDescription-Rate" />
                 </h3>
                 <h3>{maid.averageRating}</h3>
               </Col>
             </Row>
-            <Row
-              type="flex"
-              justify="center"
-              className="MaidDescription-DescriptionRow"
-            >
+            <Row type="flex" justify="center" className="MaidDescription-DescriptionRow">
               <Col span={20} className="MaidDescription-Description">
                 <Row>Description</Row>
-                <Row>
-                  {maid.aboutMaid}
-                </Row>
+                <Row>{maid.aboutMaid}</Row>
               </Col>
             </Row>
-            <Row
-              type="flex"
-              justify="center"
-              className="MaidDescription-MarginTop20px"
-            >
+            <Row type="flex" justify="center" className="MaidDescription-MarginTop20px">
               <h3>Type Of Place</h3>
             </Row>
             <Row>

@@ -1,17 +1,18 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { fetchMaids, quickSearchType, selectedMaid } from "../../redux/actions/actions";
-import axios from "../../config/api.service";
-import "./HomePage.css";
-import Navbar from "../../components/Navbar/Navbar";
-import MaidCard from "../../components/MaidCard/MaidCard";
-import Footer from "../../components/Footer/Footer";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchMaids, quickSearchType, selectedMaid } from '../../redux/actions/actions';
+import axios from '../../config/api.service';
+import './HomePage.css';
+import Navbar from '../../components/Navbar/Navbar';
+import MaidCard from '../../components/MaidCard/MaidCard';
+import Footer from '../../components/Footer/Footer';
 import { Carousel, Row, Col, Button } from "antd";
-import { FaBuilding, FaHome } from "react-icons/fa";
-import Carousel1 from '../../images/Carousel1.jpeg'
-import Carousel2 from '../../images/Carousel2.jpg'
-import Carousel3 from '../../images/Carousel3.jpg'
-import MaidCardWeb from '../../components/MaidCardWeb/MaidCardWeb'
+import { FaBuilding, FaHome } from 'react-icons/fa';
+import Carousel1 from '../../images/Carousel1.jpeg';
+import Carousel2 from '../../images/Carousel2.jpg';
+import Carousel3 from '../../images/Carousel3.jpg';
+import MaidCardWeb from '../../components/MaidCardWeb/MaidCardWeb';
+import { handleError } from '../../utils/error-handler';
 
 export class HomePage extends Component {
   _isMounted = false;
@@ -27,17 +28,18 @@ export class HomePage extends Component {
   };
 
   componentDidMount = async () => {
-    this._isMounted = true
+    this._isMounted = true;
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
     try {
-      const {data} = await axios.get('/users/maids?limit=6')
-      if(this._isMounted) {
+      const { data } = await axios.get('/users/maids?limit=6');
+      if (this._isMounted) {
         this.setState({ topMaids: data, isLoading: false });
 
       }
     } catch (err) {
-      console.error(err)
+      const error = handleError(err);
+      console.error('Error ❌ ', error.status, error.message);
     }
   };
 
@@ -46,7 +48,7 @@ export class HomePage extends Component {
   }
 
   handleClickQuickSearch = async serviceType => {
-    this.props.quickSearchType(serviceType)
+    this.props.quickSearchType(serviceType);
     this.props.history.push(`/search/quicksearch`);
   };
 
@@ -105,10 +107,10 @@ export class HomePage extends Component {
             </Row>
             <Row>
               {topMaids.map(maid => (
-                <Col key={maid.id} xs={12} xl={8} >
+                <Col key={maid.id} xs={12} xl={8}>
                   <Row type="flex" justify="center" align="middle" style={{ marginBottom: "20px" }}>
                     <Col>
-                      {mobileScreen ? <MaidCard maid={maid} /> : <MaidCardWeb maid={maid} /> }
+                      {mobileScreen ? <MaidCard maid={maid} /> : <MaidCardWeb maid={maid} />}
                     </Col>
                   </Row>
                 </Col>

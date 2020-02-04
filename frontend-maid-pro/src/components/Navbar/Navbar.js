@@ -71,15 +71,11 @@ class Navbar extends Component {
   };
 
   showDrawer = () => {
-    this.setState({
-      visible: true
-    });
+    this.setState({ visible: true })
   };
 
   onClose = () => {
-    this.setState({
-      visible: false
-    });
+    this.setState({ visible: false });
   };
 
   render() {
@@ -97,29 +93,13 @@ class Navbar extends Component {
             </Col>
             <Col span={20}>
               <Row type="flex" justify="end">
-                <Icon
-                  type="search"
-                  className="Navbar-Icon"
-                  onClick={this.handleModalVisible}
-                />
-                <Icon
-                  type="menu"
-                  className="Navbar-Icon"
-                  onClick={this.showDrawer}
-                />
+                <Icon type="search" className="Navbar-Icon" onClick={this.handleModalVisible} />
+                <Icon type="menu" className="Navbar-Icon" onClick={this.showDrawer} />
                 <Drawer
                   className="drawer"
-                  headerStyle={{
-                    backgroundColor: "rgb(38, 72, 95,0.7)",
-                    color: "white"
-                  }}
-                  drawerStyle={{
-                    color: "white"
-                  }}
-                  bodyStyle={{
-                    lineHeight: 3,
-                    border: 10
-                  }}
+                  headerStyle={{ backgroundColor: "rgb(38, 72, 95,0.7)", color: "white" }}
+                  drawerStyle={{ color: "white" }}
+                  bodyStyle={{ lineHeight: 3, border: 10 }}
                   title={<h3 style={{ color: "white" }}>Menu</h3>}
                   placement="right"
                   closable={false}

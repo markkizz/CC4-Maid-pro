@@ -9,6 +9,7 @@ import axios from "../../config/api.service";
 import { dispatch } from "rxjs/internal/observable/pairs";
 import { selectedMaid } from "../../redux/actions/actions";
 import { connect } from "react-redux";
+import { handleError } from "../../utils/error-handler";
 
 export class SearchPage extends Component {
   state = {
@@ -31,7 +32,7 @@ export class SearchPage extends Component {
         const price_hour = filterSearch.priceRange.join(",");
         const result = await axios.get(`/users/filter?name=${maidName}&type_id=${typeId}&work_date=${workDate}&price_hour=${price_hour}&rating=${rating}`);
         if(!result.data && result.data.length === 0) {
-          this.openNotificationWithIcon()
+          this.openNotificationWithIcon();
           const {data} = await axios.get("/users/maids?limit=10");
           this.setState({
             searchMaidData: data
@@ -42,19 +43,19 @@ export class SearchPage extends Component {
           })
         }
       } catch (err) {
-        console.error(err);
+        const errorMessage = handleError(err);
+        console.error('Error ❌ ', errorMessage);
       }
     }
     if (option === "quicksearch") {
       try {
-        const { data } = await axios.get(
-          `/users/maids/quick-search?buildingType=${serviceType}`
-        );
+        const { data } = await axios.get(`/users/maids/quick-search?buildingType=${serviceType}`);
         this.setState({
           searchMaidData: data
         });
       } catch (err) {
-        console.error(err);
+        const error = handleError(err);
+        console.error('Error ❌ ', error.status, error.message);
       }
     }
   };
