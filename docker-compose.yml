@@ -1,0 +1,52 @@
+version: "2"
+services:
+  mysql:
+    container_name: mysql_db
+    image: mysql:8.0
+    #command:
+      #- "--default-authentication-plugin=mysql_native_password"
+      #- "mysql -u root -p tigersut < createDB.sql"
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: "12345678"
+      MYSQL_ROOT_PASSWORD: "12345678"
+      MYSQL_DATABASE: cc4_maid_pro
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - /var/lib/mysql
+    networks:
+      - bridges
+  server:
+    build:
+      context: ./backend-maid-pro
+    command: node index.js
+    environment:
+      NODE_ENV: production
+    volumes:
+      - ./backend-maid-pro:/usr/src/app:delegated
+      - ./backend-maid-pro/package.json:/usr/src/package.json
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    networks:
+      - bridges
+  client:
+    build:
+      context: ./frontend-maid-pro
+    command: npm start
+    volumes:
+      - ./frontend-maid-pro:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      - server
+      - mysql
+    ports:
+      - "3000:3000"
+
+networks:
+  bridges:
+    driver: bridge
