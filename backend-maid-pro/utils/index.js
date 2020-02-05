@@ -1,4 +1,4 @@
-const numberOfUser = 10
+const numberOfUser = 30;
 
 module.exports = {
   numberOfUser

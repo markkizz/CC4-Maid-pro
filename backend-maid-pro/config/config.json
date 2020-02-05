@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": "12345678",
+    "password": "develop",
     "database": "cc4_maid_pro",
-    "host": "127.0.0.1",
+    "host": "mysql-db",
     "dialect": "mysql",
     "salt_length": 12,
     "timezone": "Asia/Bangkok"
@@ -18,9 +18,9 @@
   },
   "production": {
     "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "password": "12345678",
+    "database": "cc4_maid_pro",
+    "host": "mysql",
     "dialect": "mysql",
     "operatorsAliases": false
   }

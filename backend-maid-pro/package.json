@@ -5,8 +5,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon",
-    "start:server": "nodemon index.js",
+    "start": "node index.js",
+    "start:dev": "nodemon index.js",
     "seed": "npx sequelize db:seed:all",
     "seed:y": "yarn sequelize db:seed:all"
   },
