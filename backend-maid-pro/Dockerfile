@@ -1,18 +1,17 @@
-FROM node:12.14-alpine
+FROM node:12.14
 
-RUN mkdir -p /usr/src/app
+RUN mkdir -p /opt/app
 
 RUN apt-get -q update && apt-get -qy install netcat
 RUN npm i npm@latest -g
 
-WORKDIR /usr/src
+WORKDIR /opt
 COPY package.json .
 RUN npm install && npm cache clean --force
-RUN npm run seed
-ENV PATH /usr/src/node_modules/.bin:$PATH
+ENV PATH /opt/node_modules/.bin:$PATH
 
-WORKDIR /usr/src/app
-COPY . /usr/src/app
+WORKDIR /opt/app
+COPY . /opt/app
 RUN chmod +x ./wait-for.sh
 CMD sh -c './wait-for.sh mysql:3306 -- sequelize db:create && node index.js'
 

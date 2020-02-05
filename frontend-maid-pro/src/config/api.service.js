@@ -2,7 +2,7 @@ import axios from "axios";
 import { logout } from "../redux/actions/actions";
 import store from "../redux/store/store";
 
-axios.defaults.baseURL = "http://localhost:3333";
+axios.defaults.baseURL = "http://103.74.255.221:8080";
 
 const TOKEN = "ACCESS_TOKEN";
 const PROTECTED_PATHS = [
